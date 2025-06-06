@@ -9,6 +9,7 @@ import { Home } from 'lucide-react';
 import Login from './pages/login/Login';
 import ListPassagens from './components/passagens/listpassagens/ListPassagens';
 import Cadastro from './pages/cadastro/Cadastro';
+import Sobre from './pages/sobre/Sobre';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/listpassagens" element={<ListPassagens />} />
+              <Route path="/sobre" element={<Sobre />} />
             </Routes>
           </div>
           <Footer />
