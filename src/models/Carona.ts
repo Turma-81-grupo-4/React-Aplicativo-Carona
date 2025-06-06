@@ -1,5 +1,5 @@
-import type Passagem from "./passagem";
-import type usuario from "./usuario";
+import type Passagem from "./Passagem";
+import type usuario from "./Usuario";
 
 export default interface Carona {
   id: number;

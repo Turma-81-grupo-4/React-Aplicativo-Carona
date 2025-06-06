@@ -17,9 +17,19 @@ interface AuthProviderProps {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [usuario, setUsuario] = useState<UsuarioLogin>({} as UsuarioLogin);
+  //const [usuario, setUsuario] = useState<UsuarioLogin>({} as UsuarioLogin);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [usuario, setUsuario] = useState<UsuarioLogin>({
+        id: 0,
+        nome: "",
+        email: "",
+        senha: "",
+        foto: "",
+        token: "",
+        tipo: ""
+    })
 
   async function handleLogin(usuarioLogin: UsuarioLogin) {
     setIsLoading(true);
@@ -36,10 +46,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUsuario({
       id: 0,
       nome: "",
-      usuario: "",
+      email: "",
       senha: "",
       foto: "",
       token: "",
+      tipo: "",
     });
   }
 
