@@ -8,6 +8,7 @@ import Footer from './components/footer/Footer';
 import { Home } from 'lucide-react';
 import Login from './pages/login/Login';
 import ListPassagens from './components/passagens/listpassagens/ListPassagens';
+import Cadastro from './pages/cadastro/Cadastro';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/listpassagens" element={<ListPassagens />} />
             </Routes>
           </div>

@@ -1,8 +1,8 @@
-.fundoLogin {
-    background-image: url("../../assets/img/carroestradalogin.jpg");
+.fundoCadastro {
+    background-image: url("../../assets/img/estradapaginafundo.jpg");
     background-repeat: no-repeat;
-    min-height: 70vh;
     width: 70%;
+    min-height: 70vh;
     background-size: cover;
     background-position: center;
     border: 4px solid black;
