@@ -1,3 +1,4 @@
+import DeletarPassagem from "./components/passagens/deletarpassagem/DeletarPassagem";
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/navbar/Navbar'
@@ -10,6 +11,7 @@ import Login from './pages/login/Login';
 import ListPassagens from './components/passagens/listpassagens/ListPassagens';
 import Cadastro from './pages/cadastro/Cadastro';
 import Sobre from './pages/sobre/Sobre';
+
 
 function App() {
   return (
@@ -26,13 +28,14 @@ function App() {
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/listpassagens" element={<ListPassagens />} />
               <Route path="/sobre" element={<Sobre />} />
+              <Route path="/deletarpassagem/:id" element={<DeletarPassagem />} />
             </Routes>
           </div>
           <Footer />
         </BrowserRouter>
       </AuthProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
