@@ -58,11 +58,15 @@ function ListPassagens() {
           />
         )}
       </div>
-      <div className="flex justify-center w-full my-4">
-        <div className="container flex flex-col mx-2">
+      <div className="flex flex-col justify-center w-1/3 my-4">
+        <div>
+          <h2 className="text-center text-3xl">Minhas passagens</h2>
+          <div className="text-center">Fazer menu de pesquisa</div>
+        </div>
+        <div className="container flex mx-2">
           <div
             className="container mx-auto my-4 
-                        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                        grid grid-rows-1 md:grid-rows-2 lg:grid-rows-3 gap-4"
           >
             {passagens.map((passagem) => {
               return <CardPassagem key={passagem.id} passagem={passagem} />;

@@ -2,8 +2,9 @@
     background-image: url("../../assets/img/carroestradalogin.jpg");
     background-repeat: no-repeat;
     min-height: 70vh;
-    width: 70%;
+    width: 100%;
     background-size: cover;
     background-position: center;
     border: 4px solid black;
+    margin-left: 48px;
 }

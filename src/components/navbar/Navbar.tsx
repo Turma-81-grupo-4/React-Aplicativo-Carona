@@ -80,6 +80,7 @@ function Navbar() {
     );
   }
 
+
   return <>{component}</>;
 }
 
