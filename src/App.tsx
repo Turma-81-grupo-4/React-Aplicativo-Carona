@@ -7,7 +7,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import Footer from './components/footer/Footer';
-import Home from './pages/home/Home'; 
+import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import ListPassagens from './components/passagens/listpassagens/ListPassagens';
 import Cadastro from './pages/cadastro/Cadastro';
@@ -22,16 +22,13 @@ function App() {
           <Navbar />
           <div className="min-h-[80vh]">
             <Routes>
-              <Route path="/" element={<Home />} /> 
+              <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/listpassagens" element={<ListPassagens />} />
               <Route path="/sobre" element={<Sobre />} />
-              <Route
-                path="/deletarpassagem/:id"
-                element={<DeletarPassagem />}
-              />
+              <Route path="/deletarpassagem/:id" element={<DeletarPassagem />} />
               <Route path="/perfil" element={<Perfil />} />
             </Routes>
           </div>
