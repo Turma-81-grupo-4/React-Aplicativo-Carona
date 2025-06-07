@@ -2,6 +2,7 @@ import { createContext, type ReactNode, useState } from "react";
 
 import type UsuarioLogin from "../models/UsuarioLogin";
 import { login } from "../services/Service";
+import { ToastAlerta } from "../utils/ToastAlerta";
 
 interface AuthContextProps {
   usuario: UsuarioLogin;
@@ -44,9 +45,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       )) as UsuarioLogin;
       setUsuario(loggedUser);
       localStorage.setItem("usuario", JSON.stringify(loggedUser)); // Salva o usuário com token no localStorage
-      alert("O Usuário foi autenticado com sucesso!");
+      ToastAlerta("O Usuário foi autenticado com sucesso!" , "sucesso");
     } catch (error) {
-      alert("Os Dados do usuário estão inconsistentes!");
+      ToastAlerta("Os Dados do usuário estão inconsistentes!", "erro");
       console.error(error);
     }
     setIsLoading(false);
