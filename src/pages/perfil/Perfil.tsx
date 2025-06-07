@@ -14,11 +14,9 @@ import {
 
 function Perfil() {
   const navigate = useNavigate();
-
   const { usuario, handleUpdateUser } = useContext(AuthContext);
 
   const [isEditing, setIsEditing] = useState(false);
-
   const [formData, setFormData] = useState<UsuarioLogin>({ ...usuario });
 
   useEffect(() => {
@@ -37,9 +35,15 @@ function Perfil() {
     }
 
     try {
+      const dadosParaAtualizarDTO = {
+        nome: formData.nome,
+        foto: formData.foto,
+        tipo: formData.tipo,
+      };
+
       const usuarioAtualizado = await atualizar(
         `/usuarios/atualizar`,
-        formData,
+        dadosParaAtualizarDTO,
         { headers: { Authorization: usuario.token } }
       );
 
@@ -62,12 +66,16 @@ function Perfil() {
       return;
     }
 
-    const dadosParaAtualizar = { ...formData, tipo: novoTipo };
-
     try {
+      const dadosParaAtualizarDTO = {
+        nome: formData.nome,
+        foto: formData.foto,
+        tipo: novoTipo,
+      };
+
       const usuarioAtualizado = await atualizar(
         `/usuarios/atualizar`,
-        dadosParaAtualizar,
+        dadosParaAtualizarDTO,
         { headers: { Authorization: usuario.token } }
       );
 
@@ -93,16 +101,13 @@ function Perfil() {
           <div className="absolute left-1/2 w-full flex justify-center -translate-x-1/2 -translate-y-1/2">
             <img
               alt="Foto de perfil"
-              src={formData.foto}
+              src={formData.foto || "https://i.imgur.com/KO6k1gA.png"}
               className="shadow-xl rounded-full h-[150px] w-[150px] object-cover border-4 border-slate-50"
             />
           </div>
-
           <div className="px-6">
             <div className="text-center pt-20 pb-10">
-              {/* --- ÁREA DE EDIÇÃO DE NOME E FOTO --- */}
               {isEditing ? (
-                // MODO DE EDIÇÃO
                 <div className="px-4">
                   <input
                     type="text"
@@ -138,7 +143,6 @@ function Perfil() {
                   </div>
                 </div>
               ) : (
-                // MODO DE VISUALIZAÇÃO
                 <div>
                   <div className="flex justify-center items-center gap-2">
                     <h3 className="text-2xl font-semibold leading-normal text-slate-700 mb-1">
@@ -161,8 +165,6 @@ function Perfil() {
                 </div>
               )}
             </div>
-
-            {/* --- ÁREA DE BOTÕES DE AÇÃO --- */}
             <div className="py-10 border-t border-slate-300 text-center">
               <div className="flex flex-col items-center gap-4">
                 <h2 className="text-xl font-semibold leading-normal text-slate-700">
@@ -189,5 +191,4 @@ function Perfil() {
     </div>
   );
 }
-
 export default Perfil;
