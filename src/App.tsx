@@ -1,17 +1,17 @@
 import DeletarPassagem from "./components/passagens/deletarpassagem/DeletarPassagem";
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import Navbar from './components/navbar/Navbar'
-import { AuthProvider } from './contexts/AuthContext'
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify'
-import Footer from './components/footer/Footer';
-import { Home } from 'lucide-react';
-import Login from './pages/login/Login';
-import ListPassagens from './components/passagens/listpassagens/ListPassagens';
-import Cadastro from './pages/cadastro/Cadastro';
-import Sobre from './pages/sobre/Sobre';
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/navbar/Navbar";
+import { AuthProvider } from "./contexts/AuthContext";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import Footer from "./components/footer/Footer";
+import { Home } from "lucide-react";
+import Login from "./pages/login/Login";
+import ListPassagens from "./components/passagens/listpassagens/ListPassagens";
+import Cadastro from "./pages/cadastro/Cadastro";
+import Sobre from "./pages/sobre/Sobre";
+import Perfil from "./pages/perfil/Perfil";
 
 function App() {
   return (
@@ -28,7 +28,11 @@ function App() {
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/listpassagens" element={<ListPassagens />} />
               <Route path="/sobre" element={<Sobre />} />
-              <Route path="/deletarpassagem/:id" element={<DeletarPassagem />} />
+              <Route
+                path="/deletarpassagem/:id"
+                element={<DeletarPassagem />}
+              />
+              <Route path="/perfil" element={<Perfil />} />
             </Routes>
           </div>
           <Footer />
