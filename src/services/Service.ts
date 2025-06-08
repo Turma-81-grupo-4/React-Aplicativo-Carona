@@ -1,26 +1,27 @@
 import axios from "axios";
-import type UsuarioLogin from "../models/UsuarioLogin";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
+  baseURL: import.meta.env.VITE_API_URL
+})
 
 export const cadastrarUsuario = async (
   url: string,
   dados: Object,
-  setDados: Function
+  setDados: Function // Esta função ainda recebe setDados
 ) => {
   const resposta = await api.post(url, dados);
   setDados(resposta.data);
 };
 
-export const login = async (
-  url: string,
-  dados: Object
-): Promise<UsuarioLogin> => {
+// ⭐⭐⭐ CORREÇÃO AQUI NA FUNÇÃO LOGIN ⭐⭐⭐
+export const login = async (url: string, dados: Object) => { // Removido 'setDados: Function'
   const resposta = await api.post(url, dados);
-  return resposta.data;
+  if (resposta.data.token) {
+    resposta.data.token = resposta.data.token.trim(); 
+  }
+  return resposta.data; // ⭐ Retorna os dados do usuário logado
 };
+// ⭐⭐⭐ FIM DA CORREÇÃO NA FUNÇÃO LOGIN ⭐⭐⭐
 
 export const buscar = async (
   url: string,
@@ -29,6 +30,11 @@ export const buscar = async (
 ) => {
   const resposta = await api.get(url, header);
   setDados(resposta.data);
+};
+
+export const buscarComRetorno = async (url: string, header: Object) => {
+  const response = await api.get(url, header);
+  return response;
 };
 
 export const cadastrar = async (
@@ -40,9 +46,14 @@ export const cadastrar = async (
   const resposta = await api.post(url, dados, header);
   setDados(resposta.data);
 };
-export const atualizar = async (url: string, dados: Object, header: Object) => {
+export const atualizar = async (
+  url: string,
+  dados: Object,
+  setDados: Function, // Mantenha setDados para outras funções se necessário
+  header: Object
+) => {
   const resposta = await api.put(url, dados, header);
-  return resposta.data;
+  setDados(resposta.data);
 };
 export const deletar = async (url: string, header: Object) => {
   await api.delete(url, header);
