@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import CardPassagem from "../cardpassagem/CardPassagem";
 import type Passagem from "../../../models/Passagem";
@@ -8,6 +8,7 @@ import axios from "axios";
 
 function ListPassagens() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [passagensFuturas, setPassagensFuturas] = useState<Passagem[]>([]);
   const [passagensPassadas, setPassagensPassadas] = useState<Passagem[]>([]);
@@ -89,7 +90,7 @@ function ListPassagens() {
       alert("Você precisa estar logado para ver suas passagens.");
       navigate("/");
     }
-  }, [token]);
+  }, [token, location]);
 
   useEffect(() => {
     if (token) {
@@ -115,7 +116,6 @@ function ListPassagens() {
       {!isLoading && (
         <div className="container mx-auto px-4 max-w-6xl pt-24 ">
           <div className="mb-16">
-            <button>Entrar na carona</button>
             <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
               Próximas Caronas
             </h2>

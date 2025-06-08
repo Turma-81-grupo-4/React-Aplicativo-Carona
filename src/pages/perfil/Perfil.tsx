@@ -11,6 +11,8 @@ import {
   PencilSimpleLineIcon,
   XCircleIcon,
 } from "@phosphor-icons/react";
+import { ToastAlerta } from "../../utils/ToastAlerta";
+import { toast } from "react-toastify";
 
 function Perfil() {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ function Perfil() {
 
   async function handleSaveChanges() {
     if (formData.nome.trim().length < 3) {
-      alert("O nome deve ter pelo menos 3 caracteres.");
+      ToastAlerta("O nome deve ter pelo menos 3 caracteres.", "erro");
       return;
     }
 
@@ -52,9 +54,7 @@ function Perfil() {
       alert("Perfil atualizado com sucesso!");
       setIsEditing(false);
     } catch (error) {
-      alert(
-        "Erro ao atualizar o perfil. Verifique o console para mais detalhes."
-      );
+      ToastAlerta("Erro ao atualizar o perfil. Verifique o console.", "erro");
       console.error("Erro na atualização:", error);
     }
   }
@@ -80,16 +80,16 @@ function Perfil() {
       );
 
       handleUpdateUser(usuarioAtualizado);
-      alert(`Perfil alterado para ${novoTipo} com sucesso!`);
+      ToastAlerta(`Perfil alterado para ${novoTipo} com sucesso!`, "sucesso");
     } catch (error) {
-      alert("Erro ao tentar alterar o tipo do perfil.");
+      ToastAlerta("Erro ao tentar alterar o tipo do perfil.", "erro");
       console.error("Erro na alteração de tipo:", error);
     }
   }
 
   useEffect(() => {
     if (usuario.token === "") {
-      alert("Você precisa estar logado");
+      ToastAlerta("Você precisa estar logado", "info");
       navigate("/");
     }
   }, [usuario.token, navigate]);
