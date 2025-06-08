@@ -154,7 +154,7 @@ const Sobre = () => {
                                 <Heart className="w-8 h-8 text-green-600" />
                             </div>
                             <h3 className="text-2xl font-bold text-center mb-4">Nossos Valores</h3>
-                            <p className="text-black text-center leading-relaxed">
+                            <p className="text-gray-700 text-center leading-relaxed">
                                 Os princípios que guiam cada decisão e ação em nossa jornada por uma mobilidade mais consciente.
                             </p>
                         </div>

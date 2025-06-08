@@ -61,7 +61,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {rides.map((ride) => (
-              <div key={ride.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer">
+              <div key={ride.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
                 <div className="flex items-center mb-4 space-x-3">
                   <User className="w-7 h-7 text-blue-600" />
                   <p className="font-semibold text-lg text-blue-900">{ride.driver}</p>
