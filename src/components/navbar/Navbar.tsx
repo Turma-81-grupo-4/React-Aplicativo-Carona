@@ -1,6 +1,7 @@
 import { type ReactNode, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ToastAlerta } from "../../utils/ToastAlerta";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ function Navbar() {
 
   function logout() {
     handleLogout();
-    alert("O Usuário foi desconectado com sucesso!");
+    ToastAlerta("O Usuário foi desconectado com sucesso!", "sucesso");
     navigate("/");
   }
 
@@ -55,12 +56,6 @@ function Navbar() {
     component = (
       <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            to="/passagens"
-            className="text-3xl font-extrabold tracking-tight text-blue-900 hover:text-yellow-400 transition duration-300"
-          >
-            Passagens
-          </Link>
           <Link
             to="/"
             className="text-3xl font-extrabold tracking-tight text-blue-900 hover:text-yellow-400 transition duration-300"

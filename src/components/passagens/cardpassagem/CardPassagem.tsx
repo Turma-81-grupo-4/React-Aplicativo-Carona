@@ -1,107 +1,122 @@
 import { CarProfileIcon } from "@phosphor-icons/react";
-import type Passagem from "../../../models/Passagem";
 import { Link } from "react-router-dom";
-import { deletar } from "../../../services/Service";
+import type Passagem from "../../../models/Passagem";
 
 interface CardPassagemProps {
   passagem: Passagem;
 }
-function CardPassagem({ passagem }: CardPassagemProps) {
-  return (
-    <div className="flex items-center justify-center h-auto bg-center bg-cover">
-      <div className="max-w-2x1 w-full h-auto mx-auto z-10 bg-blue-900 rounded-3xl">
-        <div className="flex">
-          <div className="bg-white relative drop-shadow-2xl rounded-3xl p-4 m-4 flex-1 w-full">
-            <div className="flex-none sm:flex">
-              <div className="flex-auto justify-evenly">
-                <div className="flex-auto justify-evenly">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <h2 className="font-medium">Caronas</h2>
-                    </div>
-                    <div className="ml-auto text-blue-800">A380</div>
-                  </div>
-                  <div className="border-b-2 border-dashed my-5"></div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <div className="flex-auto text-xs text-gray-400 my-1">
-                        <span className="mr-1 ">Origem</span>
-                      </div>
-                      <div className="w-full flex-none text-lg text-blue-800 font-bold leading-none">
-                        {passagem.carona?.origem}
-                      </div>
-                      <div className="text-xs">Cochi</div>
-                    </div>
-                    <div className="flex flex-col">
-                      <CarProfileIcon size={32} />
-                    </div>
-                    <div className="flex flex-col text-right">
-                      <div className="flex-auto text-xs text-gray-400 my-1">
-                        <span className="mr-1">Destino</span>
-                      </div>
-                      <div className="w-full flex-none text-lg text-blue-800 font-bold leading-none">
-                        {passagem.carona?.destino}
-                      </div>
-                      <div className="text-xs">Dubai</div>
-                    </div>
-                  </div>
-                  <div className="border-b-2 border-dashed my-5 pt-5">
-                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
-                    <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
-                  </div>
-                  <div className="flex items-center px-5 justify-between">
-                    <div className="flex flex-col text-sm">
-                      <span>Data da partida</span>
-                      <div className="font-semibold">
-                        {passagem.carona?.dataViagem}
-                      </div>
-                    </div>
-                    <div className="flex flex-col text-sm">
-                      <span>Vagas</span>
-                      <div className="font-semibold">
-                        {passagem.carona?.vagas}
-                      </div>
-                    </div>
-                    <div className="flex flex-col text-sm">
-                      <span>Distância</span>
-                      <div className="font-semibold">
-                        {passagem.carona?.distancia} km
-                      </div>
-                    </div>
-                    <div className="flex flex-col text-sm">
-                      <span>Tempo previsto</span>
-                      <div className="font-semibold">
-                        {passagem.carona?.tempoViagem} horas
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="border-b-2 border-dashed my-3 pt-5">
-                  <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
-                  <div className="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
-                </div>
-                <div className="flex items-center px-5 text-sm">
-                  <div className="flex flex-col">
-                    <span>Passageiro</span>
-                    <div className="font-semibold">
-                      {passagem.passageiro?.nome}
-                    </div>
-                  </div>
-                  <div className="flex flex-col mx-auto">
-                    <span></span>
-                    <div className="font-semibold"></div>
-                  </div>
-                  <div className="flex flex-col">
-                    <Link to={`/deletarpassagem/${passagem.id}`}>
-                      <button className="bg-red-800 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
-                        Desistir da carona
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
+function CardPassagem({ passagem }: CardPassagemProps) {
+  const { carona, passageiro } = passagem;
+
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  const dataViagem = new Date(carona?.dataViagem || "");
+
+  const isFutureRide = dataViagem >= hoje;
+
+  const outerBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
+  const accentBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
+  const textColorClass = isFutureRide ? "text-blue-800" : "text-slate-600";
+
+  if (!carona) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center justify-center p-4">
+      <div
+        className={`w-full max-w-2xl mx-auto rounded-3xl transition-colors duration-300 ${outerBgClass}`}
+      >
+        <div className="bg-white relative drop-shadow-2xl rounded-3xl p-6 m-4">
+          {/* Seção Cabeçalho */}
+          <div className="flex items-center justify-between">
+            <h2 className="font-medium">Sua Carona</h2>
+            <div className="ml-auto text-blue-800 font-bold"></div>
+          </div>
+
+          <div className="border-b-2 border-dashed my-5"></div>
+
+          {/* Seção Origem e Destino */}
+          <div className="flex items-center justify-between">
+            <div className="text-center w-40">
+              <p className="text-sm text-gray-500">Origem</p>
+              <p className={`text-xl font-bold ${textColorClass}`}>
+                {carona.origem}
+              </p>
             </div>
+            <CarProfileIcon size={40} className={`${textColorClass}`} />
+            <div className="text-center w-40">
+              <p className="text-xs text-gray-500">Destino</p>
+              <p className={`text-xl font-bold ${textColorClass}`}>
+                {carona.destino}
+              </p>
+            </div>
+          </div>
+
+          <div className="relative border-b-2 border-dashed my-5">
+            <div
+              className={`absolute rounded-full w-5 h-5 -mt-2.5 -left-4 transform -translate-x-1/2 ${accentBgClass}`}
+            ></div>
+            <div
+              className={`absolute rounded-full w-5 h-5 -mt-2.5 -right-4 transform translate-x-1/2 ${accentBgClass}`}
+            ></div>
+          </div>
+
+          {/* Seção Detalhes da Viagem */}
+          <div className="flex justify-around items-start text-center">
+            <div className="flex flex-col text-sm w-24">
+              <span>Data</span>
+              <span className="font-semibold mt-1">
+                {new Date(carona.dataViagem).toLocaleDateString()}
+              </span>
+            </div>
+            <div className="flex flex-col text-sm w-24">
+              <span>Vagas</span>
+              <span className="font-semibold mt-1">{carona.vagas}</span>
+            </div>
+            <div className="flex flex-col text-sm w-24">
+              <span>Distância</span>
+              <span className="font-semibold mt-1">{carona.distancia} km</span>
+            </div>
+            <div className="flex flex-col text-sm w-24">
+              <span>Tempo</span>
+              <span className="font-semibold mt-1">
+                {carona.tempoViagem} horas
+              </span>
+            </div>
+          </div>
+
+          <div className="relative border-b-2 border-dashed my-5">
+            <div
+              className={`border-0 absolute rounded-full w-5 h-5 -mt-2.5 -left-4 transform -translate-x-1/2 ${accentBgClass}`}
+            ></div>
+            <div
+              className={`absolute rounded-full w-5 h-5 -mt-2.5 -right-4 transform translate-x-1/2 ${accentBgClass}`}
+            ></div>
+          </div>
+
+          {/* Seção Passageiro e Ações (com renderização condicional) */}
+          <div className="flex items-center justify-between pt-2 text-sm">
+            <div>
+              <span>Passageiro</span>
+              <p className="font-semibold text-base">{passageiro?.nome}</p>
+            </div>
+
+            {isFutureRide ? (
+              <Link to={`/deletarpassagem/${passagem.id}`}>
+                <button className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                  Desistir da carona
+                </button>
+              </Link>
+            ) : (
+              <div className="text-center">
+                <p className="font-semibold text-gray-600 bg-gray-300 px-3 py-2 rounded-lg">
+                  Viagem Finalizada
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

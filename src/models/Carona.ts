@@ -1,14 +1,14 @@
 import type Passagem from "./Passagem";
-import type usuario from "./Usuario";
+import type Usuario from "./Usuario";
 
 export default interface Carona {
   id: number;
-  dataViagem: string; // Data da viagem no formato ISO 8601
-  origem: string; // Cidade de origem
-  destino: string; // Cidade de destino
-  distancia: number; // Distância em quilômetros
-  vagas: number; // Número de vagas disponíveis
-  tempoViagem: number; // Tempo estimado de viagem em minutos
-  motoristaId: usuario | null; // ID do motorista que oferece a carona
-  passagemVendidaNessaCarona: Passagem | null; // ID da passagem vendida nessa carona
+  dataViagem: string;
+  origem: string;
+  destino: string;
+  distancia: number;
+  vagas: number;
+  tempoViagem: number;
+  motoristaId: Usuario | null;
+  passagemVendidaNessaCarona: Passagem[];
 }

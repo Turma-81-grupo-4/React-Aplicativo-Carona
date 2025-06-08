@@ -11,7 +11,7 @@ function ListPassagens() {
 
   const [passagensFuturas, setPassagensFuturas] = useState<Passagem[]>([]);
   const [passagensPassadas, setPassagensPassadas] = useState<Passagem[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // Controla o spinner
+  const [isLoading, setIsLoading] = useState(true);
 
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
@@ -21,10 +21,10 @@ function ListPassagens() {
 
     try {
       const resposta = await axios.get(
-        `${import.meta.env.VITE_API_URL}/passagens`, // URL completa da API
+        `${import.meta.env.VITE_API_URL}/passagens`,
         {
           headers: {
-            Authorization: token, // Enviando o token no cabeçalho
+            Authorization: token,
           },
         }
       );
@@ -36,17 +36,25 @@ function ListPassagens() {
       const todasAsPassagens: Passagem[] = resposta.data;
 
       todasAsPassagens.forEach((passagem) => {
-        const dataPassagem = new Date(passagem.data);
-        if (dataPassagem >= agora) {
-          futuras.push(passagem);
-        } else {
-          passadas.push(passagem);
+        if (passagem.carona && passagem.carona.dataViagem) {
+          const dataPassagem = new Date(passagem.carona.dataViagem);
+          if (dataPassagem >= agora) {
+            futuras.push(passagem);
+          } else {
+            passadas.push(passagem);
+          }
         }
       });
 
-      futuras.sort(
-        (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime()
-      );
+      futuras.sort((a, b) => {
+        const aDataViagem = a.carona?.dataViagem
+          ? new Date(a.carona.dataViagem).getTime()
+          : 0;
+        const bDataViagem = b.carona?.dataViagem
+          ? new Date(b.carona.dataViagem).getTime()
+          : 0;
+        return aDataViagem - bDataViagem;
+      });
       passadas.sort(
         (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime()
       );
@@ -105,8 +113,9 @@ function ListPassagens() {
       )}
 
       {!isLoading && (
-        <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container mx-auto px-4 max-w-6xl pt-24 ">
           <div className="mb-16">
+            <button>Entrar na carona</button>
             <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
               Próximas Caronas
             </h2>
