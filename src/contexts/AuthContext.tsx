@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useState } from "react";
+import { createContext, type ReactNode, useEffect, useState } from "react";
 
 import type UsuarioLogin from "../models/UsuarioLogin";
 import { login } from "../services/Service";
@@ -35,6 +35,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       tipo: "",
     };
   });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("usuario");
+    if (storedUser) {
+      const parsed = JSON.parse(storedUser);
+      console.log('🧪 Token do localStorage:', `"${parsed.token}"`);
+    }
+  }, []);
 
   async function handleLogin(usuarioLogin: UsuarioLogin) {
     setIsLoading(true);

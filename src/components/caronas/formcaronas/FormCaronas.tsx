@@ -7,6 +7,7 @@ import { cadastrar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
 import { CalendarDays } from "lucide-react";
 import backgroundImage from '../../../assets/img/paisagemforms.jpeg';
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 
 function FormCaronas() {
@@ -40,12 +41,13 @@ function FormCaronas() {
             caronaOferecida: null,
             passagens: null
         },
-        passagensVendidasNestaCarona: [] as unknown as Passagem, 
+        passagemVendidaNessaCarona: [] as Passagem[],
+
       });
 
         useEffect(() => {
             if (token === '') {
-              alert('Você precisa estar logado para cadastrar uma carona!');
+              ToastAlerta('Você precisa estar logado para cadastrar uma carona!', 'info');
               navigate('/login');
             }
           }, [token, navigate]);
@@ -95,14 +97,14 @@ function FormCaronas() {
             Authorization: token,
           },
         });
-        alert('Carona cadastrada com sucesso!');
+        ToastAlerta('Carona cadastrada com sucesso!', 'sucesso');
         navigate('/caronas');
 
     } catch (error: any) {
-        alert('Erro ao cadastrar carona. Verifique os dados e tente novamente.');
+        ToastAlerta('Erro ao cadastrar carona. Verifique os dados e tente novamente.', 'erro');
     
         if (error.response && error.response.status === 403) {
-          alert("Sessão expirada. Faça login novamente.");
+          ToastAlerta('Sessão expirada. Faça login novamente.', 'info');
           handleLogout();
           navigate('/login');
         } 
@@ -218,7 +220,7 @@ function FormCaronas() {
                   />
                 </div>
               </div>
-      
+             <div> </div>
               <div className="flex flex-col gap-2 relative">
                 <label htmlFor="velocidade" className="sr-only">Velocidade Média (km/h):</label>
                 <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">

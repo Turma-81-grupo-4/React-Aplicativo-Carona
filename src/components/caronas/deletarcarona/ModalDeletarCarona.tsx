@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { buscar, deletar } from "../../../services/Service";
-import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { deletar } from "../../../services/Service";
 import { AuthContext } from "../../../contexts/AuthContext";
-import type Carona from "../../../models/Carona";
-import Popup from "reactjs-popup"; // Certifique-se de que reactjs-popup está instalado
+import Popup from "reactjs-popup"; 
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 interface ModalDeletarCaronaProps {
     onDeleteSuccess?: () => void;
@@ -36,7 +35,7 @@ function ModalDeletarCarona({ onDeleteSuccess }: ModalDeletarCaronaProps) {
                     'Authorization': token
                 }
             });
-            ToastAlerta('Carona apagada com sucesso!', 'sucesso');
+            
             if (onDeleteSuccess) {
                 onDeleteSuccess();
             }
@@ -71,7 +70,7 @@ function ModalDeletarCarona({ onDeleteSuccess }: ModalDeletarCaronaProps) {
             modal
             nested
         >
-            {/* ⭐ AQUI ESTÁ A MUDANÇA: ADICIONAMOS 'as React.ReactNode' ⭐ */}
+
             {((close: () => void) => (
                 <div className="modal p-6 bg-white rounded-lg shadow-xl text-center">
                     <button className="close absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl" onClick={close}>

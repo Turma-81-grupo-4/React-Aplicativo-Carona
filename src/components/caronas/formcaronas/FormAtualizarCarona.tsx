@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState, type ChangeEvent, type FormEvent } from 'react'; // Adicionado FormEvent
+import React, { useContext, useEffect, useState, type ChangeEvent, type FormEvent } from 'react'; 
 import type Carona from '../../../models/Carona';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { atualizar } from '../../../services/Service';
+import { ToastAlerta } from '../../../utils/ToastAlerta';
 
 interface FormAtualizarCaronaProps {
     caronaToUpdate: Carona;
@@ -10,7 +11,7 @@ interface FormAtualizarCaronaProps {
     onCancel?: () => void; 
 }
 
-function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: FormAtualizarCaronaProps) {
+function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess }: FormAtualizarCaronaProps) {
 
     const navigate = useNavigate();
     const { usuario, handleLogout } = useContext(AuthContext);
@@ -19,10 +20,10 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
     const [formData, setFormData] = useState<Carona>(caronaToUpdate);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    // const [message, setMessage] = useState<string | null>(null); // Se você precisar de mensagens de sucesso, declare aqui
+
 
     if (token) {
-        token = token.trim(); // Garante que o token está limpo
+        token = token.trim(); 
     }
 
     useEffect(() => {
@@ -31,7 +32,7 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado para atualizar caronas.');
+            ToastAlerta('Você precisa estar logado para atualizar caronas.', 'info');
             handleLogout();
             navigate('/login');
         }
@@ -42,7 +43,7 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
         setFormData(prev => ({
             ...prev,
             [name]: name === 'distancia' || name === 'velocidade' || name === 'vagas' || name === 'tempoViagem'
-                ? parseFloat(value) || 0 // Use parseFloat para tempoViagem (que pode ser decimal)
+                ? parseFloat(value) || 0 
                 : value,
         }));
     };
@@ -50,11 +51,11 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         console.log('Submit chamado')
-        // setMessage(null); // Descomente se 'message' for usado para sucesso
+        
         setError(null);
         setLoading(true);
 
-        // Validações básicas de frontend
+        
         if (!formData.dataViagem || !formData.origem || !formData.destino ||
             formData.vagas <= 0 || formData.distancia <= 0 || (typeof formData.velocidade === 'number' && formData.velocidade <= 0) ||
             formData.origem.length < 10 || formData.destino.length < 10) {
@@ -64,21 +65,33 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
         }
 
         try {
-            const caronaParaAtualizar = {
-                id: formData.id,
-                dataViagem: formData.dataViagem,
-                origem: formData.origem,
-                destino: formData.destino,
-                distancia: formData.distancia,
-                velocidade: formData.velocidade,
-                vagas: formData.vagas,
-                tempoViagem: formData.tempoViagem,
+            const {
+                id,
+                dataViagem,
+                origem,
+                destino,
+                distancia,
+                velocidade,
+                vagas,
+                tempoViagem,
+              } = formData;
+              
+              const caronaParaAtualizar = {
+                id,
+                dataViagem,
+                origem,
+                destino,
+                distancia,
+                velocidade,
+                vagas,
+                tempoViagem,
                 motorista: {
-                    id: usuario.id
+                  id: usuario.id,
                 },
-            };
+              };
+              
 
-            // Certifique-se de que o ID do motorista existe antes de enviar
+            
             if (!usuario.id) {
                  setError("ID do usuário não encontrado. Não é possível atualizar a carona.");
                  setLoading(false);
@@ -124,7 +137,6 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
                         type="date"
                         id="dataViagem"
                         name="dataViagem"
-                        // Garante que o formato da data esteja correto para o input type="date"
                         value={formData.dataViagem ? new Date(formData.dataViagem).toISOString().split('T')[0] : ''}
                         onChange={handleChange}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
@@ -199,7 +211,7 @@ function FormAtualizarCarona({ caronaToUpdate, onUpdateSuccess, onCancel }: Form
                 
 
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-                {/* {message && <p className="text-green-500 text-sm mt-2">{message}</p>} */} {/* Descomente se 'message' for usado */}
+               
 
                 <div className="flex gap-4 justify-center">
                     <button

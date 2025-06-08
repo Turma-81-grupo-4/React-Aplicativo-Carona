@@ -27,7 +27,7 @@ function DetalhesCarona() {
     const formattedDate = carona && carona.dataViagem ? new Date(carona.dataViagem).toLocaleDateString('pt-BR') : "N/A";
     const formattedTime = carona && carona.tempoViagem ? `${carona.tempoViagem.toFixed(1)}h` : "N/A";
 
-    if (token) { // Verifica se o token não é nulo/vazio antes de tentar limpar
+    if (token) { 
         token = token.trim(); 
     }
 
@@ -35,9 +35,9 @@ function DetalhesCarona() {
         if (id !== undefined && token !== '') { 
             buscarCaronas();
         } else if (token === '') { 
-            if (!localStorage.getItem('alertShown')) { 
-                alert("Você precisa estar logado para ver os detalhes da carona.");
-                localStorage.setItem('alertShown', 'true');
+            if (!localStorage.getItem('ToastAlertaShown')) { 
+                ToastAlerta("Você precisa estar logado para ver os detalhes da carona.", "info");
+                localStorage.setItem('ToastAlertaShown', 'true');
                 return;
             }
             handleLogout(); 
@@ -48,7 +48,7 @@ function DetalhesCarona() {
         }
 
         return () => {
-            localStorage.removeItem('alertShown');
+            localStorage.removeItem('ToastAlertaShown');
         };
          
     }, [id, token, navigate, handleLogout]);
@@ -65,9 +65,9 @@ function DetalhesCarona() {
                 });
                 setCarona(response.data);
             } catch (error: any) {
-                    alert("Erro ao buscar detalhes da carona:");
+                    ToastAlerta("Erro ao buscar detalhes da carona:", "erro");
                 if (error.toString().includes('403')) {
-                    alert("Sessão expirada. Faça login novamente.");
+                    ToastAlerta("Sessão expirada. Faça login novamente.", "info");
                     handleLogout();
                     navigate('/login');
                 } else if (error.response && error.response.status === 404) {
@@ -87,7 +87,7 @@ function DetalhesCarona() {
           const handleSucessoAtualizacao = () => {
             setMostrarFormAtualizacao(false); 
             buscarCaronas(); 
-            alert("Carona atualizada com sucesso!");
+            ToastAlerta("Carona atualizada com sucesso!", "sucesso");
           };
 
     
@@ -163,21 +163,21 @@ function DetalhesCarona() {
                             <strong>Distância:</strong> {carona.distancia} km
                         </p>
                         <p className="flex items-center space-x-2">
-                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">~</span> {/* Ícone improvisado para velocidade */}
+                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">~</span> 
                             <strong>Velocidade Média:</strong> {carona.velocidade} km/h
                         </p>
                         
                         <p className="flex items-center space-x-2">
-                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">💺</span> {/* Ícone de assento */}
+                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">💺</span> 
                             <strong>Vagas Disponíveis:</strong> {carona.vagas}
                         </p>
                         <p className="flex items-center space-x-2">
-                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">🕗</span> {/* Ícone de ticket */}
+                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">🕗</span> 
                             <strong>Tempo de viagem:</strong>{" "}
-                           {carona.tempoViagem ? `${carona.tempoViagem.toFixed(1)}h` : "N/A"}
+                           {formattedTime}
                         </p>
                         <p className="flex items-center space-x-2">
-                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">🎟️</span> {/* Ícone de ticket */}
+                            <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">🎟️</span> 
                             <strong>Passagens Vendidas:</strong>{" "}
                             {carona.passagemVendidaNessaCarona ? carona.passagemVendidaNessaCarona.length : 0}
                         </p>
@@ -227,12 +227,12 @@ function DetalhesCarona() {
                             <ModalDeletarCarona onDeleteSuccess={handleSucessoDelecao} />
                         </div>
                     ) : (
-                        // Se NÃO for o motorista, mostra botão de Comprar Passagem
+                        
                         <div className="mt-8 text-center flex justify-center p-4 m-10">
                             <button
-                                onClick='' // Chama a função para comprar passagem
+                                onClick='' 
                                 className="py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
-                                // Opcional: Desabilitar se não houver vagas
+                               
                                 disabled={carona.vagas <= 0}
                             >
                                 {carona.vagas <= 0 ? "Vagas Esgotadas" : "Comprar Passagem"}

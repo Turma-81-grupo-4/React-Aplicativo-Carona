@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import type Passagem from "../../../models/Passagem";
 import { buscar, deletar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function DeletarPassagem() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function DeletarPassagem() {
 
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado");
+      ToastAlerta("Você precisa estar logado", "info");
       navigate("/");
     }
   }, [token]);
@@ -53,12 +54,12 @@ function DeletarPassagem() {
         },
       });
 
-      alert("Passagem apagada com sucesso");
+      ToastAlerta("Passagem apagada com sucesso", "sucesso");
     } catch (error: any) {
       if (error.toString().includes("403")) {
         handleLogout();
       } else {
-        alert("Erro ao deletar a passagem.");
+        ToastAlerta("Erro ao deletar a passagem.", "erro");
       }
     }
 

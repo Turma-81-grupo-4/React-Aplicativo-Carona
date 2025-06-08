@@ -5,6 +5,7 @@ import { buscar } from "../../../services/Service";
 import { useNavigate } from "react-router-dom";
 import CardCarona from "../cardcaronas/CardCaronas";
 import { RotatingLines } from "react-loader-spinner";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 
 function ListaCaronas() {
@@ -40,7 +41,7 @@ function ListaCaronas() {
 
     useEffect(() => {
         if (token === '') {
-            alert ('Voce precisa estar logado.')
+            ToastAlerta('Voce precisa estar logado.', 'info')
             navigate('/')
         }
     }, [token])
