@@ -20,6 +20,7 @@ function Cadastro() {
         email: '',
         senha: '',
         tipo: '',
+        foto: ''
     })
 
     useEffect(() => {
@@ -131,10 +132,34 @@ function Cadastro() {
                                         placeholder="Seu nome completo"
                                         className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl
                                              text-white placeholder-gray-400 backdrop-blur-sm
-                                             focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50
+                                             focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50
                                              hover:border-white/30 transition-all duration-300
                                              group-hover:bg-white/10"
                                         value={usuario.nome}
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+                                    />
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-orange-500/20 
+                                              opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                            </div>
+
+                            {/* Foto Field */}
+                            <div className="space-y-2">
+                                <label htmlFor="foto" className="block text-gray-200 font-medium text-sm">
+                                    Foto
+                                </label>
+                                <div className="relative group">
+                                    <input
+                                        type="text"
+                                        id="foto"
+                                        name="foto"
+                                        placeholder="(Url da foto)"
+                                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl
+                                             text-white placeholder-gray-400 backdrop-blur-sm
+                                             focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50
+                                             hover:border-white/30 transition-all duration-300
+                                             group-hover:bg-white/10"
+                                        value={usuario.foto}
                                         onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                                     />
                                     <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-orange-500/20 to-blue-500/20 
@@ -168,18 +193,35 @@ function Cadastro() {
 
                             {/* Tipo Field */}
                             <div className="space-y-2">
-                                <label htmlFor="tipo" className="block text-gray-200 font-medium text-sm">
+                                <label htmlFor="tipo" className="text-gray-200 font-medium text-sm flex items-center gap-1">
                                     Tipo do usuário
+                                    <div className="relative group cursor-pointer">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5 text-orange-400"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
+                                            <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                                                d="M12 16h.01M12 12a2 2 0 1 0-2-2" />
+                                        </svg>
+                                        {/* Tooltip */}
+                                        <span className="absolute left-8 top-1/2 -translate-y-1/2 w-64 bg-gray-900 text-gray-100 text-xs rounded px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 shadow-lg pointer-events-none">
+                                            Você pode alterar o tipo de usuário sempre que quiser acessando o Perfil
+                                        </span>
+                                    </div>
                                 </label>
                                 <div className="relative group">
                                     <select
                                         id="tipo"
                                         name="tipo"
                                         className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl
-                                             text-white backdrop-blur-sm cursor-pointer
-                                             focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50
-                                             hover:border-white/30 transition-all duration-300
-                                             group-hover:bg-white/10 appearance-none"
+                                         text-white backdrop-blur-sm cursor-pointer
+                                          focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50
+                                         hover:border-white/30 transition-all duration-300
+                                         group-hover:bg-white/10 appearance-none"
                                         value={usuario.tipo}
                                         onChange={(e: ChangeEvent<HTMLSelectElement>) => atualizarEstado(e as any)}
                                         required
@@ -194,8 +236,7 @@ function Cadastro() {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </div>
-                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-orange-500/20 to-blue-500/20 
-                                              opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-orange-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                                 </div>
                             </div>
 

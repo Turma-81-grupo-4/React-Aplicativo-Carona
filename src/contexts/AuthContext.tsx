@@ -33,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       senha: "",
       token: "",
       tipo: "",
+      foto: ""
     };
   });
 

@@ -44,7 +44,7 @@ function Navbar() {
 
             <button
               onClick={logout}
-              className="ml-4 px-5 py-2 rounded-full bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 transition duration-300"
+              className="cursor-pointer ml-4 px-5 py-2 rounded-full bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 transition duration-300"
             >
               Sair
             </button>
