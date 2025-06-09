@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Save,  Delete } from 'lucide-react';
+import { Save, Delete } from 'lucide-react';
 import { AuthContext } from "../../contexts/AuthContext";
 import type UsuarioLogin from "../../models/UsuarioLogin";
 import { atualizar } from "../../services/Service";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import "./Perfil.css";
 import {
@@ -18,6 +19,8 @@ function Perfil() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<UsuarioLogin>({ ...usuario });
+
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     setFormData({ ...usuario });
@@ -58,10 +61,19 @@ function Perfil() {
 
   async function handleTipoChange() {
     const novoTipo = usuario.tipo === "motorista" ? "passageiro" : "motorista";
+    const result = await MySwal.fire({
+      title: `Tem certeza?`,
+      text: `Deseja mudar seu perfil para ${novoTipo}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: "#f59e42",
+      cancelButtonColor: '#6b7280',
+    });
 
-    if (!confirm(`Tem certeza que deseja mudar seu perfil para ${novoTipo}?`)) {
-      return;
-    }
+    if (!result.isConfirmed) return;
+
 
     try {
       const dadosParaAtualizarDTO = {

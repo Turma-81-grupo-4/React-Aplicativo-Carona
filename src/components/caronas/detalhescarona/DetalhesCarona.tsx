@@ -25,14 +25,14 @@ function DetalhesCarona() {
         return usuario.id === carona?.motorista?.id;
     }, [usuario.id, carona?.motorista?.id]);
 
-   /*  const isPassageiro = useMemo(() => {
-        if (!carona?.passagemVendidaNessaCarona || !usuario?.id) {
-            return false;
-        }
-        return carona.passagemVendidaNessaCarona.some(
-            (passagem) => passagem.passageiro?.id === usuario.id
-        );
-    }, [usuario.id, carona?.passagemVendidaNessaCarona]); */
+    /*  const isPassageiro = useMemo(() => {
+         if (!carona?.passagemVendidaNessaCarona || !usuario?.id) {
+             return false;
+         }
+         return carona.passagemVendidaNessaCarona.some(
+             (passagem) => passagem.passageiro?.id === usuario.id
+         );
+     }, [usuario.id, carona?.passagemVendidaNessaCarona]); */
 
     const formattedDate = useMemo(() => {
         if (!carona?.dataViagem) return "";
@@ -164,11 +164,7 @@ function DetalhesCarona() {
                 );
                 handleLogout();
             } else {
-                const errorMessage =
-                    error.response?.data?.message ||
-                    "Erro ao comprar a passagem. Tente novamente.";
-                alert(errorMessage);
-                console.error(error);
+                ToastAlerta("Erro ao comprar a passagem. Tente novamente.", "erro");
             }
         }
     }
@@ -299,7 +295,7 @@ function DetalhesCarona() {
                         ) : (
                             <div className="mt-8 text-center flex justify-center p-4 m-10">
                                 <button
-                                    className="py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                                    className="text-white py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
                                     disabled={carona.vagas <= 0}
                                     onClick={comprarPassagem}
                                 >
@@ -309,7 +305,7 @@ function DetalhesCarona() {
                         )}
                         <Link
                             to="/caronas"
-                            className=" cursor-pointer col-span-full mt-6 py-3 px-8 bg-gray-500 hover:bg-gray-600 text-gray-900 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                            className=" cursor-pointer col-span-full mt-6 py-3 px-8 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
                         >
                             Voltar
                         </Link>

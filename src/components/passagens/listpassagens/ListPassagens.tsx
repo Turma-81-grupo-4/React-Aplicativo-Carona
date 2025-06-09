@@ -5,6 +5,7 @@ import CardPassagem from "../cardpassagem/CardPassagem";
 import type Passagem from "../../../models/Passagem";
 import { RotatingLines } from "react-loader-spinner";
 import axios from "axios";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function ListPassagens() {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ function ListPassagens() {
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
       ) {
-        alert("O token expirou, por favor, faça login novamente.");
+        ToastAlerta("O token expirou, por favor, faça login novamente.","erro");
         handleLogout();
       }
     } finally {
@@ -96,7 +97,7 @@ function ListPassagens() {
 
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado para ver suas passagens.");
+      ToastAlerta("Você precisa estar logado para ver suas passagens.","erro");
       navigate("/");
     }
   }, [token, location]);
