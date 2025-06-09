@@ -7,8 +7,12 @@ function Navbar() {
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
   const isSobrePage = window.location.pathname.includes("/sobre");
-  const navTextColor = isSobrePage ? "text-white" : "text-blue-900";
-  const linkHoverColor = isSobrePage ? "hover:text-yellow-400" : "hover:text-yellow-400";
+  const isLogin = window.location.pathname.includes("/login");
+  const isCadastrar = window.location.pathname.includes("/cadastro");
+  const isCadastrarCarona = window.location.pathname.includes("/cadastrarcarona");
+  const navTextColor = isSobrePage || isCadastrar || isLogin || isCadastrarCarona? "text-blue-600" : "text-blue-900";
+  const linkHoverColor = isSobrePage || isCadastrar || isLogin || isCadastrarCarona? "hover:text-yellow-400" : "hover:text-yellow-400";
+
 
   function logout() {
     handleLogout();
@@ -71,7 +75,7 @@ function Navbar() {
           >
             Carona
           </Link>
-          <nav className={`flex gap-4 items-center text-blue-900 ${navTextColor} font-semibold`}>
+          <nav className={`flex gap-4 items-center ${navTextColor} font-semibold`}>
             <Link
               to="/login"
               className="px-3 py-2 rounded-md hover:text-yellow-400 transition duration-200"

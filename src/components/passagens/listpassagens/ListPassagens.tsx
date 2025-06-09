@@ -101,7 +101,7 @@ function ListPassagens() {
   return (
     <>
       {isLoading && (
-        <div className="flex justify-center w-full my-4">
+        <div className="flex justify-center w-full my-4 bg-gray-50">
           <CirclesWithBar
             height="200"
             width="200"
@@ -114,7 +114,7 @@ function ListPassagens() {
       )}
 
       {!isLoading && (
-        <div className="container mx-auto px-4 max-w-6xl pt-24 ">
+        <div className="bg-gray-50 container mx-auto px-4 max-w-6xl pt-24 ">
           <div className="mb-16">
             <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
               Próximas Caronas
@@ -144,7 +144,7 @@ function ListPassagens() {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-xl text-gray-600">
+              <p className=" py-6 text-center text-xl text-gray-600">
                 Nenhuma carona anterior encontrada.
               </p>
             )}

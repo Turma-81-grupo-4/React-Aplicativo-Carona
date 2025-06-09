@@ -49,7 +49,7 @@ function Perfil() {
 
       handleUpdateUser(usuarioAtualizado);
 
-      alert("Perfil atualizado com sucesso!");
+      ToastAlerta("Perfil atualizado com sucesso!", "sucesso");
       setIsEditing(false);
     } catch (error) {
       ToastAlerta("Erro ao atualizar o perfil. Verifique o console.", "erro");
@@ -95,14 +95,17 @@ function Perfil() {
     <div className="min-h-screen pt-16 bg-cover bg-center bg-no-repeat perfil-bg">
       <div className="w-full lg:w-4/12 px-4 mx-auto">
         <div className="relative flex flex-col min-w-0 break-words bg-gray-300/50 w-full mb-6 shadow-xl rounded-lg mt-24">
-          <div className="absolute left-1/2 w-full flex justify-center -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute left-1/2 w-full flex justify-center -translate-x-1/2 -translate-y-1/2 z-10">
             <img
               alt="Foto de perfil"
               src={formData.foto || "https://i.imgur.com/KO6k1gA.png"}
-              className="shadow-xl rounded-full h-[150px] w-[150px] object-cover border-4 border-slate-50"
+              className="z-10 shadow-xl rounded-full h-[150px] w-[150px] object-cover border-4 border-slate-50"
             />
           </div>
-          <div className="px-6">
+          <div className="z-5 px-6 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl
+                               before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br 
+                               before:from-white/10 before:to-transparent before:pointer-events-none
+                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
             <div className="text-center pt-20 pb-10">
               {isEditing ? (
                 <div className="px-4">
@@ -147,7 +150,7 @@ function Perfil() {
                     </h3>
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="text-slate-600 hover:text-slate-800"
+                      className="text-slate-600 hover:text-slate-800 cursor-pointer"
                       title="Editar Nome e Foto"
                     >
                       <PencilSimpleLineIcon size={20} />
@@ -156,7 +159,7 @@ function Perfil() {
                   <div className="text-sm font-bold uppercase text-slate-500">
                     {usuario.email}
                   </div>
-                  <div className="mt-4 text-xs font-bold uppercase text-white bg-orange-600 inline-block px-2 py-1 rounded">
+                  <div className="mt-4 text-xs font-bold uppercase text-blue-900 bg-yellow-500 inline-block px-2 py-1 rounded">
                     {usuario.tipo}
                   </div>
                 </div>
@@ -170,13 +173,13 @@ function Perfil() {
                 <div className="flex flex-col w-full items-center gap-2 px-4">
                   <button
                     onClick={handleTipoChange}
-                    className="w-full bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+                    className="cursor-pointer text-md w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors"
                   >
                     {usuario.tipo === "motorista"
                       ? "Mudar para perfil Passageiro"
                       : "Quero ser Motorista!"}
                   </button>
-                  <button className="w-full bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-950 transition-colors">
+                  <button className="cursor-pointer text-md w-full bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-950 transition-colors">
                     Alterar senha
                   </button>
                 </div>

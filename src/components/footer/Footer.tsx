@@ -6,6 +6,9 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
         {/* Link adicional */}
         <Link to={"/sobre"} className='hover:text-gray-500'>Sobre</Link>
+        <Link to={""} className='hover:text-gray-500'>Fale conosco</Link>
+        <Link to={""} className='hover:text-gray-500'>Ajuda e suporte</Link>
+        <Link to={""} className='hover:text-gray-500'>Termos</Link>
         {/* Logo + texto */}
         <div className="flex flex-col items-center mb-1 md:mb-0">
           <img

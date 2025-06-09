@@ -176,7 +176,7 @@ const Sobre = () => {
             </section>
 
             <h2 className="bg-gray-300 text-4xl font-bold text-gray-900 mb-8 text-center" >Nosso Time</h2>
-            <div className="bg-gray-300 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-7xl w-full px-4 mb-12" >
+            <div className="m-auto bg-gray-300 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-7xl w-full mb-12 justify-center items-center" >
                 {integrantes.map(({ nome, papel, github, linkedin, img }) => (
                     <div
                         key={nome}

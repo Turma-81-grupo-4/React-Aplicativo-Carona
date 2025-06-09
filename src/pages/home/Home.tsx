@@ -76,7 +76,7 @@ const Home: React.FC = () => {
                   <p><strong>Vagas disponíveis:</strong> {ride.seatsAvailable}</p>
                 </div>
                 <Link
-                  to="/viagens"
+                  to="/caronas"
                   className="mt-4 block text-center w-full bg-blue-900 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition"
                 >
                   Solicitar Carona
