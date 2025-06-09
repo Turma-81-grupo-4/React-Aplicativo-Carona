@@ -118,7 +118,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
             {!isDeletando &&
               (isFutureRide ? (
                 <Link to={`/deletarpassagem/${passagem.id}`}>
-                  <button className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                  <button className="cursor-pointer bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
                     Desistir da carona
                   </button>
                 </Link>

@@ -1,15 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Save,  Delete } from 'lucide-react';
 import { AuthContext } from "../../contexts/AuthContext";
 import type UsuarioLogin from "../../models/UsuarioLogin";
 import { atualizar } from "../../services/Service";
 
+
 import "./Perfil.css";
 import {
-  FloppyDiskIcon,
-  PencilSimpleLineIcon,
-  XCircleIcon,
+  PencilSimpleLineIcon
 } from "@phosphor-icons/react";
 import { ToastAlerta } from "../../utils/ToastAlerta";
 
@@ -106,7 +105,7 @@ function Perfil() {
                                before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br 
                                before:from-white/10 before:to-transparent before:pointer-events-none
                                hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
-            <div className="text-center pt-20 pb-10">
+            <div className="text-center pt-20">
               {isEditing ? (
                 <div className="px-4">
                   <input
@@ -125,20 +124,20 @@ function Perfil() {
                     placeholder="URL da sua foto"
                     className="text-sm p-2 border rounded w-full mb-4"
                   />
-                  <div className="flex justify-center gap-4">
+                  <div className=" flex justify-center gap-4">
                     <button
                       onClick={handleSaveChanges}
-                      className="text-green-600 hover:text-green-800"
+                      className="mb-4 cursor-pointer text-green-600 hover:text-green-800"
                       title="Salvar"
                     >
-                      <FloppyDiskIcon size={32} />
+                      <Save size={25} />
                     </button>
                     <button
                       onClick={() => setIsEditing(false)}
-                      className="text-red-600 hover:text-red-800"
+                      className="mb-4 cursor-pointer text-red-600 hover:text-red-800"
                       title="Cancelar"
                     >
-                      <XCircleIcon size={32} />
+                      <Delete size={25} />
                     </button>
                   </div>
                 </div>
@@ -159,7 +158,7 @@ function Perfil() {
                   <div className="text-sm font-bold uppercase text-slate-500">
                     {usuario.email}
                   </div>
-                  <div className="mt-4 text-xs font-bold uppercase text-blue-900 bg-yellow-500 inline-block px-2 py-1 rounded">
+                  <div className="mt-4 mb-4 text-xs font-bold uppercase text-blue-900 bg-yellow-500 inline-block px-2 py-1 rounded">
                     {usuario.tipo}
                   </div>
                 </div>

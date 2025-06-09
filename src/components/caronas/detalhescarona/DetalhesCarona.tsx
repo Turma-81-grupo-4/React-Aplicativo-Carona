@@ -290,7 +290,7 @@ function DetalhesCarona() {
                             <div className="mt-8 text-center flex flex-col sm:flex-row justify-center gap-4 p-4 m-10">
                                 <button
                                     onClick={alternarFormularioAtualizacao}
-                                    className="py-3 px-8 bg-blue-900 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                                    className="cursor-pointer py-3 px-8 bg-blue-900 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
                                 >
                                     {mostrarFormAtualizacao ? "Cancelar Edição" : "Editar Carona"}
                                 </button>

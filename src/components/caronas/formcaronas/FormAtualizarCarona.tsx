@@ -245,7 +245,7 @@ function FormAtualizarCarona({
         <div className="flex gap-4 justify-center">
           <button
             type="submit"
-            className="py-3 px-8 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+            className="cursor-pointer py-3 px-8 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
             disabled={loading}
           >
             {loading ? "Atualizando..." : "Atualizar Carona"}

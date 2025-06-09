@@ -253,7 +253,7 @@ function FormCaronas() {
 
             <button
               type="submit"
-              className="col-span-full mt-6 py-3 px-8 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="cursor-pointer col-span-full mt-6 py-3 px-8 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
               disabled={loading}
             >
               {loading ? "Cadastrando..." : "Cadastrar Carona"}

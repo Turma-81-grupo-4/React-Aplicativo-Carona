@@ -121,14 +121,14 @@ function DeletarPassagem() {
 
           <div className="flex flex-col md:flex-row gap-6 w-full max-w-md">
             <button
-              className="flex-1 text-slate-800 bg-gray-300 hover:bg-gray-400 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
+              className="cursor-pointer flex-1 text-slate-800 bg-gray-300 hover:bg-gray-400 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
               onClick={retornar}
             >
               <ArrowUUpLeftIcon size={20} />
               Não, voltar
             </button>
             <button
-              className="flex-1 text-white bg-red-600 hover:bg-red-800 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
+              className="cursor-pointer flex-1 text-white bg-red-600 hover:bg-red-800 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
               onClick={deletarPassagem}
               disabled={deleteIsLoading}
             >
