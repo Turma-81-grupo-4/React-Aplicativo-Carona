@@ -9,6 +9,7 @@ interface CardPassagemProps {
 }
 
 function CardPassagem({ passagem }: CardPassagemProps) {
+  console.log("Dados recebidos no CardPassagem:", passagem);
   const { usuario, handleLogout } = useContext(AuthContext);
   const { carona, passageiro } = passagem;
   const token = usuario.token;
@@ -16,7 +17,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
 
-  const dataViagem = new Date(carona?.dataViagem || "");
+  const dataViagem = new Date(`${carona?.dataViagem}T00:00:00`);
 
   const isDeletando = window.location.pathname.includes("deletarpassagem");
   const isFutureRide = dataViagem >= hoje;

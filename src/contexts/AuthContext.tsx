@@ -40,14 +40,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const resposta = await login(`/usuarios/logar`, usuarioLogin);
 
-      console.log("LOGIN | Resposta da API de login:", resposta);
-      console.log("LOGIN | Token recebido do backend:", resposta.token);
-
       localStorage.setItem("token", resposta.token);
 
-      console.log("LOGIN | Token foi salvo no localStorage.");
-
-      setUsuario({
+      const dadosUsuario = {
         id: resposta.id,
         nome: resposta.nome,
         email: resposta.email ?? "",
@@ -55,7 +50,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         foto: resposta.foto ?? "",
         token: resposta.token,
         tipo: resposta.tipo ?? "",
-      });
+      };
+      localStorage.setItem("usuario", JSON.stringify(dadosUsuario));
+      setUsuario(dadosUsuario);
       setIsLoading(false);
     } catch (error) {
       console.error("Erro no login:", error);

@@ -39,22 +39,17 @@ function DetalhesCarona() {
     const date = new Date(carona.dataViagem);
     return date.toLocaleDateString("pt-BR");
   }, [carona?.dataViagem]);
+
   const formattedTime = useMemo(() => {
-    if (!carona?.tempoViagem) return "";
-    if (typeof carona.tempoViagem === "string") {
-      return carona.tempoViagem;
+    if (typeof carona?.tempoViagem === "number") {
+      const horas = Math.floor(carona.tempoViagem);
+      const minutos = Math.round((carona.tempoViagem - horas) * 60);
+      if (minutos > 0) {
+        return `${horas}h ${minutos}min`;
+      }
+      return `${horas}h`;
     }
-    if (
-      carona.tempoViagem &&
-      typeof carona.tempoViagem === "object" &&
-      (carona.tempoViagem as Object) instanceof Date
-    ) {
-      return (carona.tempoViagem as Date).toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    }
-    return "";
+    return carona?.tempoViagem || "N/A";
   }, [carona?.tempoViagem]);
 
   const buscarCaronas = useCallback(async () => {
