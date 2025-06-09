@@ -59,7 +59,7 @@ function ModalDeletarCarona({ onDeleteSuccess }: ModalDeletarCaronaProps) {
     <Popup
       trigger={
         <button
-          className="py-3 px-8 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+          className="cursor-pointer py-3 px-8 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
           disabled={isLoading}
         >
           {isLoading ? "Excluindo..." : "Excluir Carona"}
@@ -72,12 +72,12 @@ function ModalDeletarCarona({ onDeleteSuccess }: ModalDeletarCaronaProps) {
         ((close: () => void) => (
           <div className="modal p-6 bg-white rounded-lg shadow-xl text-center">
             <button
-              className="close absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+              className="cursor-pointer close absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
               onClick={close}
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
+            <h2 className="cursor-pointer text-xl font-bold text-gray-800 mb-4">
               Confirmar Exclusão
             </h2>
             <p className="text-gray-600 mb-6">
@@ -89,14 +89,14 @@ function ModalDeletarCarona({ onDeleteSuccess }: ModalDeletarCaronaProps) {
                   confirmarDelecao();
                   close();
                 }}
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                className="cursor-pointer bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
                 disabled={isLoading}
               >
                 {isLoading ? "Excluindo..." : "Sim, Excluir"}
               </button>
               <button
                 onClick={close}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                className="cursor-pointer bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200"
               >
                 Não
               </button>

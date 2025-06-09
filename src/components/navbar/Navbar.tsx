@@ -70,7 +70,7 @@ function Navbar() {
                                hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
-            to="/caronas"
+            to="/"
             className="text-3xl font-extrabold tracking-tight text-blue-900 hover:text-yellow-400 transition duration-300"
           >
             Carona
