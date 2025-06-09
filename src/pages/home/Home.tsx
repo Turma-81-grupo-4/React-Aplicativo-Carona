@@ -45,10 +45,10 @@ const Home: React.FC = () => {
             Conecte-se com motoristas e passageiros próximos.
           </p>
           <div className="flex justify-center space-x-4">
-            <Link to="/buscar" className="bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-semibold px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg">
+            <Link to="/caronas" className="bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-semibold px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg">
               Buscar Carona
             </Link>
-            <Link to="/oferecer" className="bg-transparent border-2 border-yellow-400 hover:border-yellow-300 text-yellow-400 hover:text-yellow-300 font-semibold px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg">
+            <Link to="/cadastrarcarona" className="bg-transparent border-2 border-yellow-400 hover:border-yellow-300 text-yellow-400 hover:text-yellow-300 font-semibold px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg">
               Oferecer Carona
             </Link>
           </div>
@@ -61,7 +61,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {rides.map((ride) => (
-              <div key={ride.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer">
+              <div key={ride.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
                 <div className="flex items-center mb-4 space-x-3">
                   <User className="w-7 h-7 text-blue-600" />
                   <p className="font-semibold text-lg text-blue-900">{ride.driver}</p>

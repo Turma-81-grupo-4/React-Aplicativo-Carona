@@ -1,10 +1,45 @@
 .fundoCadastro {
     background-image: url("../../assets/img/estradapaginafundo.jpg");
-    background-repeat: no-repeat;
-    width: 100%;
-    min-height: 70vh;
     background-size: cover;
     background-position: center;
-    border: 4px solid black;
-    margin-left: 48px;
+    background-repeat: no-repeat;
+}
+
+/* Estilização customizada para o select */
+select option {
+    background-color: rgb(31, 41, 55);
+    /* gray-800 */
+    color: white;
+    padding: 8px;
+}
+
+select option:hover {
+    background-color: rgb(55, 65, 81);
+    /* gray-700 */
+}
+
+/* Melhoria para a aparência do select no Firefox */
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Scrollbar personalizada para o select (webkit) */
+select::-webkit-scrollbar {
+    width: 8px;
+}
+
+select::-webkit-scrollbar-track {
+    background: rgb(31, 41, 55);
+    border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #f97316, #3b82f6);
+    border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ea580c, #2563eb);
 }

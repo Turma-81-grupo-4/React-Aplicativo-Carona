@@ -7,6 +7,7 @@ export default interface usuario {
   email: string;
   senha: string;
   tipo: string; // 'passageiro' | 'motorista'
+  foto: string;
   caronaOferecida?: Carona | null;
   passagens?: Passagem | null; // ID da carona oferecida, se for motorista
 }

@@ -8,6 +8,8 @@ import { ToastAlerta } from "../../../utils/ToastAlerta";
 import CardPassagem from "../cardpassagem/CardPassagem";
 import { ArrowUUpLeftIcon, TrashSimpleIcon } from "@phosphor-icons/react";
 
+
+
 function DeletarPassagem() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -40,7 +42,9 @@ function DeletarPassagem() {
 
   useEffect(() => {
     if (token === "") {
+
       ToastAlerta("Você precisa estar logado.", "info");
+
       navigate("/");
     }
   }, [token]);
@@ -67,6 +71,7 @@ function DeletarPassagem() {
       setTimeout(() => {
         navigate("/passagens");
       }, 2000);
+
     } catch (error: any) {
       if (
         error.response &&
@@ -78,10 +83,12 @@ function DeletarPassagem() {
         );
         handleLogout();
       } else {
+
         ToastAlerta(
           "Erro ao cancelar a passagem. Verifique se ela ainda existe.",
           "erro"
         );
+
       }
       setDeleteIsLoading(false);
     }

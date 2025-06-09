@@ -1,10 +1,53 @@
 .fundoLogin {
     background-image: url("../../assets/img/carroestradalogin.jpg");
-    background-repeat: no-repeat;
-    min-height: 70vh;
-    width: 100%;
+
+
+    /* Sua imagem de fundo existente será aplicada aqui */
     background-size: cover;
     background-position: center;
-    border: 4px solid black;
-    margin-left: 48px;
+    background-repeat: no-repeat;
+}
+
+/* Efeito de sombra personalizada */
+.shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Animação suave para elementos hover */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Efeito de blur personalizado para melhor performance */
+.backdrop-blur-xl {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* Gradiente animado para o botão */
+@keyframes gradient-shift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Responsividade adicional */
+@media (max-width: 640px) {
+    .backdrop-blur-xl {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
 }

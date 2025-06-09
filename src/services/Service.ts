@@ -1,22 +1,25 @@
+
 import api from "./api";
 import type UsuarioLogin from "../models/UsuarioLogin";
 
 export const cadastrarUsuario = async (
   url: string,
   dados: Object,
-  setDados: Function
+  setDados: Function 
 ) => {
   const resposta = await api.post(url, dados);
   setDados(resposta.data);
 };
 
-export const login = async (
-  url: string,
-  dados: Object
-): Promise<UsuarioLogin> => {
+
+export const login = async (url: string, dados: Object) => { 
   const resposta = await api.post(url, dados);
-  return resposta.data;
+  if (resposta.data.token) {
+    resposta.data.token = resposta.data.token.trim(); 
+  }
+  return resposta.data; 
 };
+
 
 export const buscar = async (url: string) => {
   const resposta = await api.get(url);
@@ -34,3 +37,4 @@ export const atualizar = async (url: string, dados: Object) => {
 export const deletar = async (url: string) => {
   await api.delete(url);
 };
+

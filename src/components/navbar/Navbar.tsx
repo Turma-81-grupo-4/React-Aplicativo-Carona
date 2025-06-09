@@ -45,7 +45,7 @@ function Navbar() {
 
             <button
               onClick={logout}
-              className="ml-4 px-5 py-2 rounded-full bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 transition duration-300"
+              className="cursor-pointer ml-4 px-5 py-2 rounded-full bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 transition duration-300"
             >
               Sair
             </button>
@@ -58,7 +58,7 @@ function Navbar() {
       <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
-            to="/"
+            to="/caronas"
             className="text-3xl font-extrabold tracking-tight text-blue-900 hover:text-yellow-400 transition duration-300"
           >
             Carona
