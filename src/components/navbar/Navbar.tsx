@@ -29,7 +29,8 @@ function Navbar() {
           <nav className="flex gap-4 items-center text-blue-900 font-semibold">
             {[
               { to: "/home", label: "Home" },
-              { to: "/passagens", label: "Viagem" },
+              { to: "/passagens", label: "Passagens" },
+              { to: "/caronas", label: "Caronas" },
               { to: "/perfil", label: "Perfil" },
               { to: "/sobre", label: "Sobre" },
             ].map((item, index) => (
@@ -80,7 +81,6 @@ function Navbar() {
       </header>
     );
   }
-
 
   return <>{component}</>;
 }

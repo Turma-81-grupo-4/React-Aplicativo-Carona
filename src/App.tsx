@@ -1,5 +1,6 @@
 import DeletarPassagem from "./components/passagens/deletarpassagem/DeletarPassagem";
 import Perfil from "./pages/perfil/Perfil";
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/navbar/Navbar'
@@ -30,7 +31,9 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
-              <Route path="/listpassagens" element={<ListPassagens />} />
+              <Route path="/passagens" element={<ListPassagens />} />
+              <Route path="/caronas" element={<ListaCaronas />} />
+              <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="/sobre" element={<Sobre />} />
               <Route path="/deletarpassagem/:id" element={<DeletarPassagem />} />
               <Route path="/perfil" element={<Perfil />} />

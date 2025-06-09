@@ -1,37 +1,31 @@
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useContext, useState, type ChangeEvent, useEffect } from 'react';
-import type UsuarioLogin from '../../models/UsuarioLogin';
-import { RotatingLines } from 'react-loader-spinner';
+import { Link, useNavigate } from "react-router-dom";
+import "./Login.css";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext, useState, type ChangeEvent, useEffect } from "react";
+import type UsuarioLogin from "../../models/UsuarioLogin";
+import { RotatingLines } from "react-loader-spinner";
 
 function Login() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const { usuario, handleLogin, isLoading } = useContext(AuthContext);
 
-    const { usuario, handleLogin, isLoading } = useContext(AuthContext)
+  const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>({
+    id: 0,
+    nome: "",
+    email: "",
+    senha: "",
+    foto: "",
+    token: "",
+    tipo: "",
+  });
 
-    const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>(
-        {} as UsuarioLogin
-    )
-
-    useEffect(() => {
-        if (usuario.token !== "") {
-            navigate('/home')
-        }
-    }, [usuario])
-
-    function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
-        setUsuarioLogin({
-            ...usuarioLogin,
-            [e.target.name]: e.target.value
-        })
+  useEffect(() => {
+    if (usuario.token !== "") {
+      navigate("/home");
     }
+  }, [usuario]);
 
-    function login(e: ChangeEvent<HTMLFormElement>) {
-        e.preventDefault()
-        handleLogin(usuarioLogin)
-    }
 
     return (
         <>

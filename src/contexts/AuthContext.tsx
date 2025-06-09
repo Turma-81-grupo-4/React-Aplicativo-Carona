@@ -30,6 +30,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       id: 0,
       nome: "",
       email: "",
+      foto: "",
       senha: "",
       token: "",
       tipo: "",
@@ -46,20 +47,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   async function handleLogin(usuarioLogin: UsuarioLogin) {
-    setIsLoading(true);
     try {
-      const loggedUser = (await login(
-        `/usuarios/logar`,
-        usuarioLogin
-      )) as UsuarioLogin;
-      setUsuario(loggedUser);
-      localStorage.setItem("usuario", JSON.stringify(loggedUser)); // Salva o usuário com token no localStorage
-      ToastAlerta("O Usuário foi autenticado com sucesso!" , "sucesso");
+      const resposta = await login(`/usuarios/logar`, usuarioLogin);
+
+      localStorage.setItem("token", resposta.token);
+
+      const dadosUsuario = {
+        id: resposta.id,
+        nome: resposta.nome,
+        email: resposta.email ?? "",
+        senha: resposta.senha ?? "",
+        foto: resposta.foto ?? "",
+        token: resposta.token,
+        tipo: resposta.tipo ?? "",
+      };
+      localStorage.setItem("usuario", JSON.stringify(dadosUsuario));
+      setUsuario(dadosUsuario);
+      setIsLoading(false);
     } catch (error) {
-      ToastAlerta("Os Dados do usuário estão inconsistentes!", "erro");
-      console.error(error);
+      console.error("Erro no login:", error);
+      setIsLoading(false);
+
     }
-    setIsLoading(false);
   }
   function handleUpdateUser(dadosAtualizados: Partial<UsuarioLogin>) {
     setUsuario((usuarioAnterior) => {
