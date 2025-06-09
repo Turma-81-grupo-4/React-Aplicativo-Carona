@@ -24,9 +24,7 @@ function DeletarPassagem() {
   async function buscarPorId(id: string) {
     setPageIsLoading(true);
     try {
-      await buscar(`/passagens/${id}`, {
-        headers: { Authorization: token },
-      });
+      await buscar(`/passagens/${id}`);
     } catch (error: any) {
       if (error.toString().includes("403")) {
         ToastAlerta(
@@ -60,11 +58,7 @@ function DeletarPassagem() {
     setDeleteIsLoading(true);
 
     try {
-      await deletar(`/passagens/${id}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      await deletar(`/passagens/${id}`);
 
       ToastAlerta("Passagem cancelada com sucesso!", "sucesso");
 

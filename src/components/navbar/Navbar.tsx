@@ -6,6 +6,9 @@ import { ToastAlerta } from "../../utils/ToastAlerta";
 function Navbar() {
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
+  const isSobrePage = window.location.pathname.includes("/sobre");
+  const navTextColor = isSobrePage ? "text-white" : "text-blue-900";
+  const linkHoverColor = isSobrePage ? "hover:text-yellow-400" : "hover:text-yellow-400";
 
   function logout() {
     handleLogout();
@@ -16,8 +19,11 @@ function Navbar() {
   let component: ReactNode;
 
   if (usuario.token !== "") {
-    component = (
-      <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md">
+    component =
+      (<header className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/5 border border-white/10 rounded-b-2xl shadow-2xl
+                               before:absolute before:inset-0 before:rounded-b-2xl before:bg-gradient-to-br 
+                               before:from-white/10 before:to-transparent before:pointer-events-none
+                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             to="/home"
@@ -26,7 +32,7 @@ function Navbar() {
             Carona
           </Link>
 
-          <nav className="flex gap-4 items-center text-blue-900 font-semibold">
+          <nav className={`flex gap-4 items-center font-semibold`}>
             {[
               { to: "/home", label: "Home" },
               { to: "/passagens", label: "Passagens" },
@@ -37,12 +43,11 @@ function Navbar() {
               <Link
                 key={index}
                 to={item.to}
-                className="px-3 py-2 rounded-md hover:text-yellow-400 transition duration-200"
+                className={`px-3 py-2 rounded-md transition duration-200 ${navTextColor} ${linkHoverColor}`}
               >
                 {item.label}
               </Link>
             ))}
-
             <button
               onClick={logout}
               className="cursor-pointer ml-4 px-5 py-2 rounded-full bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 transition duration-300"
@@ -52,10 +57,13 @@ function Navbar() {
           </nav>
         </div>
       </header>
-    );
+      );
   } else {
     component = (
-      <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md">
+      <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/5 border border-white/10 rounded-b-2xl shadow-2xl
+                               before:absolute before:inset-0 before:rounded-b-2xl before:bg-gradient-to-br 
+                               before:from-white/10 before:to-transparent before:pointer-events-none
+                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             to="/caronas"
@@ -63,7 +71,7 @@ function Navbar() {
           >
             Carona
           </Link>
-          <nav className="flex gap-4 items-center text-blue-900 font-semibold">
+          <nav className={`flex gap-4 items-center text-blue-900 ${navTextColor} font-semibold`}>
             <Link
               to="/login"
               className="px-3 py-2 rounded-md hover:text-yellow-400 transition duration-200"

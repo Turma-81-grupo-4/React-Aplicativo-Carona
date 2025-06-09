@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 const Footer: React.FC = () => {
     return (
-    <footer className="bg-black text-white py-1">     
+    <footer className="bg-black text-white py-3">     
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
         {/* Link adicional */}
         <Link to={"/sobre"} className='hover:text-gray-500'>Sobre</Link>

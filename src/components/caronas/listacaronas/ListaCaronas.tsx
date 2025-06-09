@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { RotatingLines } from "react-loader-spinner";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
-import CardCarona from "../cardcaronas/CardCarona";
+import CardCaronas from "../cardcaronas/CardCaronas";
 import axios from "axios";
 
 function ListaCaronas() {
@@ -90,7 +90,7 @@ function ListaCaronas() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {caronas.map((carona) => (
-              <CardCarona key={carona.id} carona={carona} />
+              <CardCaronas key={carona.id} carona={carona} />
             ))}
           </div>
         )}

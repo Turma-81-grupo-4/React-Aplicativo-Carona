@@ -44,8 +44,7 @@ function Perfil() {
 
       const usuarioAtualizado = await atualizar(
         `/usuarios/atualizar`,
-        dadosParaAtualizarDTO,
-        { headers: { Authorization: usuario.token } }
+        dadosParaAtualizarDTO
       );
 
       handleUpdateUser(usuarioAtualizado);
@@ -74,8 +73,7 @@ function Perfil() {
 
       const usuarioAtualizado = await atualizar(
         `/usuarios/atualizar`,
-        dadosParaAtualizarDTO,
-        { headers: { Authorization: usuario.token } }
+        dadosParaAtualizarDTO
       );
 
       handleUpdateUser(usuarioAtualizado);

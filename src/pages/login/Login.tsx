@@ -1,31 +1,41 @@
-import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { AuthContext } from "../../contexts/AuthContext";
-import { useContext, useState, type ChangeEvent, useEffect } from "react";
-import type UsuarioLogin from "../../models/UsuarioLogin";
-import { RotatingLines } from "react-loader-spinner";
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useContext, useState, type ChangeEvent, useEffect } from 'react';
+import type UsuarioLogin from '../../models/UsuarioLogin';
+import { RotatingLines } from 'react-loader-spinner';
+import { ToastAlerta } from '../../utils/ToastAlerta';
 
 function Login() {
-  const navigate = useNavigate();
 
-  const { usuario, handleLogin, isLoading } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-  const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>({
-    id: 0,
-    nome: "",
-    email: "",
-    senha: "",
-    foto: "",
-    token: "",
-    tipo: "",
-  });
+    const { usuario, handleLogin, isLoading } = useContext(AuthContext)
 
-  useEffect(() => {
-    if (usuario.token !== "") {
-      navigate("/home");
+    const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>(
+        {} as UsuarioLogin
+    )
+
+    useEffect(() => {
+        if (usuario.token !== "") {
+            navigate('/home')
+            ToastAlerta("Usuário logado com sucesso!", "sucesso")
+        }
+    }, [usuario])
+
+    function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
+        setUsuarioLogin({
+            ...usuarioLogin,
+            [e.target.name]: e.target.value
+        })
     }
-  }, [usuario]);
 
+    function login(e: ChangeEvent<HTMLFormElement>) {
+        e.preventDefault()
+        handleLogin(usuarioLogin).catch(() => {
+            ToastAlerta("Falha ao fazer login. Verifique suas credenciais.", "erro");
+        });
+    }
 
     return (
         <>

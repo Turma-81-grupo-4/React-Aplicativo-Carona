@@ -1,4 +1,3 @@
-import type { JSX } from "react/jsx-runtime";
 import type Carona from "./Carona";
 import type usuario from "./Usuario";
 

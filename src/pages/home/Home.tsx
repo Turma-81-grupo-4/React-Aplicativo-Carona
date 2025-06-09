@@ -37,9 +37,9 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <section id="welcome" className="py-20 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-center">
+      <section id="welcome" className="py-20 bg-gradient-to-b from-cyan-500 via-cyan-500 to-blue-800 text-white text-center">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-5xl font-extrabold mb-4">Bem-vindo ao <span className="text-yellow-400">Carona Fácil</span></h1>
+          <h1 className="text-5xl font-extrabold mb-4">Bem-vindo ao <span className="text-yellow-400">Carona</span></h1>
           <p className="text-xl mb-8 max-w-xl mx-auto">
             Encontre caronas seguras e práticas para sua próxima viagem.
             Conecte-se com motoristas e passageiros próximos.
@@ -77,7 +77,7 @@ const Home: React.FC = () => {
                 </div>
                 <Link
                   to="/viagens"
-                  className="mt-4 block text-center w-full bg-blue-600 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition"
+                  className="mt-4 block text-center w-full bg-blue-900 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition"
                 >
                   Solicitar Carona
                 </Link>

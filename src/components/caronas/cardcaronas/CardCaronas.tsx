@@ -6,7 +6,7 @@ interface CardCaronasProps {
   carona: Carona; 
 }
 
-function CardCarona({carona}: CardCaronasProps) {
+function CardCaronas({carona}: CardCaronasProps) {
 
   const formattedDate = carona.dataViagem ? new Date(carona.dataViagem).toLocaleDateString('pt-BR') : "N/A";
 
@@ -36,4 +36,4 @@ function CardCarona({carona}: CardCaronasProps) {
   )
 }
 
-export default CardCarona
+export default CardCaronas;
