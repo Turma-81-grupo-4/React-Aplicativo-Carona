@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MapPin, Phone, Clock, User, Car } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  
+  useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    
   const rides = [
     {
       id: 1,

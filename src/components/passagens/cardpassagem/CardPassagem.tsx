@@ -43,7 +43,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
           {/* Seção Cabeçalho */}
           <div className="flex items-center justify-between">
             <h2 className="font-medium">
-              Carona com:
+              Carona com: {" "}
               {carona?.motorista?.nome ?? "Desconhecido"}
             </h2>
             <div className="ml-auto text-blue-800 font-bold"></div>

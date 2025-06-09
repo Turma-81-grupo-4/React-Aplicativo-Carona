@@ -191,49 +191,49 @@ function DetalhesCarona() {
                         <div className="space-y-3 text-gray-700">
                             <p className="flex items-center space-x-2">
                                 <User className="w-5 h-5 text-blue-600" />
-                                <strong>Motorista:</strong>{" "}
+                                <strong>Motorista:</strong>&nbsp;
                                 {carona.motorista ? carona.motorista.nome : "N/A"}
                             </p>
                             <p className="flex items-center space-x-2">
                                 <Clock className="w-5 h-5 text-blue-600" />
-                                <strong>Data da Viagem:</strong> {formattedDate}
+                                <strong>Data da Viagem: {" "}</strong>&nbsp; {formattedDate}
                             </p>
                             <p className="flex items-center space-x-2">
                                 <MapPin className="w-5 h-5 text-blue-600" />
-                                <strong>Origem:</strong> {carona.origem}
+                                <strong>Origem:</strong>&nbsp; {carona.origem}
                             </p>
                             <p className="flex items-center space-x-2">
                                 <MapPin className="w-5 h-5 text-blue-600 transform rotate-180" />
-                                <strong>Destino:</strong> {carona.destino}
+                                <strong>Destino:</strong>&nbsp; {carona.destino}
                             </p>
                             <p className="flex items-center space-x-2">
                                 <Car className="w-5 h-5 text-blue-600" />
-                                <strong>Distância:</strong> {carona.distancia} km
+                                <strong>Distância:</strong>&nbsp; {carona.distancia} km
                             </p>
                             <p className="flex items-center space-x-2">
                                 <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
                                     ~
                                 </span>
-                                <strong>Velocidade Média:</strong> {carona.velocidade} km/h
+                                <strong>Velocidade Média:</strong>&nbsp; {carona.velocidade} km/h
                             </p>
 
                             <p className="flex items-center space-x-2">
                                 <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
                                     💺
                                 </span>
-                                <strong>Vagas Disponíveis:</strong> {carona.vagas}
+                                <strong>Vagas Disponíveis:</strong>&nbsp; {carona.vagas}
                             </p>
                             <p className="flex items-center space-x-2">
                                 <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
                                     🕗
                                 </span>
-                                <strong>Tempo de viagem:</strong> {formattedTime}
+                                <strong>Tempo de viagem:</strong>&nbsp; {formattedTime}
                             </p>
                             <p className="flex items-center space-x-2">
                                 <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
                                     🎟️
                                 </span>
-                                <strong>Passagens Vendidas:</strong>{" "}
+                                <strong>Passagens Vendidas:</strong>&nbsp;
                                 {carona.passagemVendidaNessaCarona
                                     ? carona.passagemVendidaNessaCarona.length
                                     : 0}

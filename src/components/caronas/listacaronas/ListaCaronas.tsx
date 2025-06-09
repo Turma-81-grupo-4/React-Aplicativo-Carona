@@ -39,12 +39,12 @@ function ListaCaronas() {
       setIsLoading(false);
     }
   }
-  // useEffect(() => {
-  //   if (token === "") {
-  //     ToastAlerta("Voce precisa estar logado.", "info");
-  //     navigate("/");
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (token === "") {
+      ToastAlerta("Voce precisa estar logado.", "info");
+      navigate("/");
+    }
+  }, [token]);
 
   useEffect(() => {
     buscarCaronas();

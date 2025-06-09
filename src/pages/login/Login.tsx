@@ -8,6 +8,10 @@ import { ToastAlerta } from '../../utils/ToastAlerta';
 
 function Login() {
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const navigate = useNavigate();
 
     const { usuario, handleLogin, isLoading } = useContext(AuthContext)

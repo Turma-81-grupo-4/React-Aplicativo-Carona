@@ -1,7 +1,11 @@
 import { Users, Target, Heart, Sparkles, Leaf, Shield, Lightbulb, HandHeart } from 'lucide-react';
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react';
+import { useEffect } from 'react';
 
 const Sobre = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const integrantes = [{
         nome: "Camille Tarine",
         papel: "Desenvolvedora",

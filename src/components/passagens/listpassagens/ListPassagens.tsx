@@ -110,7 +110,7 @@ function ListPassagens() {
   return (
     <>
       {isLoading && (
-        <div className="flex justify-center w-full my-4 bg-gray-50">
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
           <RotatingLines
             strokeColor="grey"
             strokeWidth="5"
@@ -118,6 +118,7 @@ function ListPassagens() {
             width="96"
             visible={true}
           />
+          <p className="text-gray-700 text-lg mt-4">Carregando...</p>
         </div>
       )}
 

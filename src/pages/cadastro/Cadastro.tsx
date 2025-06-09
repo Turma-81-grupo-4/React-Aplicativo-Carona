@@ -8,6 +8,10 @@ import { ToastAlerta } from '../../utils/ToastAlerta'
 
 function Cadastro() {
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -60,6 +64,7 @@ function Cadastro() {
                         email: usuario.email,
                         senha: usuario.senha,
                         tipo: usuario.tipo,
+                        foto: usuario.foto,
                     },
                     setUsuario
                 );
@@ -320,7 +325,7 @@ function Cadastro() {
                                 {/* Cancel Button */}
                                 <button
                                     type="reset"
-                                    className="cursor-pointer flex-1 py-3 px-6 bg-gradient-to-r from-red-500 to-red-600 
+                                    className="cursor-pointer flex-1 py-3 px-6 bg-gradient-to-r from-red-600 to-red-500 
                                          hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-xl
                                          transform hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/25
                                          transition-all duration-300 flex items-center justify-center
