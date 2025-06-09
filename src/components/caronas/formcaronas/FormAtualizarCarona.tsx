@@ -57,6 +57,17 @@ function FormAtualizarCarona({
           : value,
     }));
   };
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const dataSelecionada = new Date(`${formData.dataViagem}T00:00:00`);
+
+  if (dataSelecionada < hoje) {
+    setError(
+      "A data da viagem não pode ser no passado. Por favor, escolha uma data futura."
+    );
+    setLoading(false);
+    return;
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
