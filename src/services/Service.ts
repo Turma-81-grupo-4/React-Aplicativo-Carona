@@ -1,9 +1,5 @@
-import axios from "axios";
+import api from "./api";
 import type UsuarioLogin from "../models/UsuarioLogin";
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
 
 export const cadastrarUsuario = async (
   url: string,
@@ -22,23 +18,19 @@ export const login = async (
   return resposta.data;
 };
 
-export const buscar = async (
-  url: string,
-  setDados: Function,
-  header: Object
-) => {
-  const resposta = await api.get(url, header);
-  setDados(resposta.data);
+export const buscar = async (url: string) => {
+  const resposta = await api.get(url);
+  return resposta.data;
 };
 
-export const cadastrar = async (url: string, dados: Object, header: Object) => {
-  const resposta = await api.post(url, dados, header);
+export const cadastrar = async (url: string, dados: Object) => {
+  const resposta = await api.post(url, dados);
   return resposta.data;
 };
-export const atualizar = async (url: string, dados: Object, header: Object) => {
-  const resposta = await api.put(url, dados, header);
+export const atualizar = async (url: string, dados: Object) => {
+  const resposta = await api.put(url, dados);
   return resposta.data;
 };
-export const deletar = async (url: string, header: Object) => {
-  await api.delete(url, header);
+export const deletar = async (url: string) => {
+  await api.delete(url);
 };

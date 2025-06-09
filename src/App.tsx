@@ -12,6 +12,8 @@ import Login from "./pages/login/Login";
 import ListPassagens from "./components/passagens/listpassagens/ListPassagens";
 import Cadastro from "./pages/cadastro/Cadastro";
 import Sobre from "./pages/sobre/Sobre";
+import ListaCaronas from "./components/caronas/listacaronas/ListaCaronas";
+import DetalhesCarona from "./components/caronas/detalhescarona/DetalhesCarona";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/passagens" element={<ListPassagens />} />
+              <Route path="/caronas" element={<ListaCaronas />} />
+              <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="/sobre" element={<Sobre />} />
               <Route
                 path="/deletarpassagem/:id"

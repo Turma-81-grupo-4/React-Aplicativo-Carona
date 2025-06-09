@@ -14,7 +14,7 @@ function DeletarPassagem() {
 
   const [pageIsLoading, setPageIsLoading] = useState<boolean>(true);
   const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
-  const [passagem, setPassagem] = useState<Passagem>({} as Passagem);
+  const [passagem] = useState<Passagem>({} as Passagem);
 
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
@@ -22,7 +22,7 @@ function DeletarPassagem() {
   async function buscarPorId(id: string) {
     setPageIsLoading(true);
     try {
-      await buscar(`/passagens/${id}`, setPassagem, {
+      await buscar(`/passagens/${id}`, {
         headers: { Authorization: token },
       });
     } catch (error: any) {
@@ -53,11 +53,6 @@ function DeletarPassagem() {
   }, [id]);
 
   async function deletarPassagem() {
-    console.log(
-      "%c FRONTEND: Tentando deletar passagem com ID:",
-      "color: blue; font-weight: bold;",
-      id
-    );
     setDeleteIsLoading(true);
 
     try {

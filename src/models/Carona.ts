@@ -8,7 +8,8 @@ export default interface Carona {
   destino: string;
   distancia: number;
   vagas: number;
+  velocidade: number;
   tempoViagem: number;
-  motoristaId: Usuario | null;
+  motorista: Usuario | null;
   passagemVendidaNessaCarona: Passagem[];
 }

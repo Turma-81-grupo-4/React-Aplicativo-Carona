@@ -37,20 +37,30 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   async function handleLogin(usuarioLogin: UsuarioLogin) {
-    setIsLoading(true);
     try {
-      const loggedUser = (await login(
-        `/usuarios/logar`,
-        usuarioLogin
-      )) as UsuarioLogin;
-      setUsuario(loggedUser);
-      localStorage.setItem("usuario", JSON.stringify(loggedUser)); // Salva o usuário com token no localStorage
-      alert("O Usuário foi autenticado com sucesso!");
+      const resposta = await login(`/usuarios/logar`, usuarioLogin);
+
+      console.log("LOGIN | Resposta da API de login:", resposta);
+      console.log("LOGIN | Token recebido do backend:", resposta.token);
+
+      localStorage.setItem("token", resposta.token);
+
+      console.log("LOGIN | Token foi salvo no localStorage.");
+
+      setUsuario({
+        id: resposta.id,
+        nome: resposta.nome,
+        email: resposta.email ?? "",
+        senha: resposta.senha ?? "",
+        foto: resposta.foto ?? "",
+        token: resposta.token,
+        tipo: resposta.tipo ?? "",
+      });
+      setIsLoading(false);
     } catch (error) {
-      alert("Os Dados do usuário estão inconsistentes!");
-      console.error(error);
+      console.error("Erro no login:", error);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
   function handleUpdateUser(dadosAtualizados: Partial<UsuarioLogin>) {
     setUsuario((usuarioAnterior) => {

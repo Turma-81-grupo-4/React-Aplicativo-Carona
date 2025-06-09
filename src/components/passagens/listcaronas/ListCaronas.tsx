@@ -16,7 +16,7 @@ function ListCaronas() {
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
 
-  async function buscarPassagens() {
+  async function buscarCaronas() {
     setIsLoading(true);
 
     try {
@@ -29,8 +29,8 @@ function ListCaronas() {
         }
       );
 
-      const todasAsPassagens: Carona[] = resposta.data;
-      setCaronas(todasAsPassagens);
+      const todasAsCaronas: Carona[] = resposta.data;
+      setCaronas(todasAsCaronas);
     } catch (error) {
       console.error("Erro ao buscar caronas:", error);
     } finally {
@@ -47,7 +47,7 @@ function ListCaronas() {
 
   useEffect(() => {
     if (token) {
-      buscarPassagens();
+      buscarCaronas();
     }
   }, [token]);
 

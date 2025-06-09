@@ -12,7 +12,6 @@ import {
   XCircleIcon,
 } from "@phosphor-icons/react";
 import { ToastAlerta } from "../../utils/ToastAlerta";
-import { toast } from "react-toastify";
 
 function Perfil() {
   const navigate = useNavigate();
