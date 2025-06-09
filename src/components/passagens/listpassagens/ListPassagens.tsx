@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import CardPassagem from "../cardpassagem/CardPassagem";
 import type Passagem from "../../../models/Passagem";
-import { CirclesWithBar } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import axios from "axios";
 
 function ListPassagens() {
@@ -30,7 +30,8 @@ function ListPassagens() {
         }
       );
 
-      const agora = new Date();
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
       const futuras: Passagem[] = [];
       const passadas: Passagem[] = [];
 
@@ -38,8 +39,9 @@ function ListPassagens() {
 
       todasAsPassagens.forEach((passagem) => {
         if (passagem.carona && passagem.carona.dataViagem) {
-          const dataPassagem = new Date(passagem.carona.dataViagem);
-          if (dataPassagem >= agora) {
+          const dataViagem = new Date(`${passagem.carona.dataViagem}T00:00:00`);
+
+          if (dataViagem >= hoje) {
             futuras.push(passagem);
           } else {
             passadas.push(passagem);
@@ -48,17 +50,24 @@ function ListPassagens() {
       });
 
       futuras.sort((a, b) => {
-        const aDataViagem = a.carona?.dataViagem
-          ? new Date(a.carona.dataViagem).getTime()
-          : 0;
-        const bDataViagem = b.carona?.dataViagem
-          ? new Date(b.carona.dataViagem).getTime()
-          : 0;
+        const aDataViagem = new Date(
+          `${a.carona?.dataViagem}T00:00:00`
+        ).getTime();
+        const bDataViagem = new Date(
+          `${b.carona?.dataViagem}T00:00:00`
+        ).getTime();
         return aDataViagem - bDataViagem;
       });
-      passadas.sort(
-        (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime()
-      );
+
+      passadas.sort((a, b) => {
+        const aDataViagem = new Date(
+          `${a.carona?.dataViagem}T00:00:00`
+        ).getTime();
+        const bDataViagem = new Date(
+          `${b.carona?.dataViagem}T00:00:00`
+        ).getTime();
+        return bDataViagem - aDataViagem;
+      });
 
       setPassagensFuturas(futuras);
       setPassagensPassadas(passadas);
@@ -102,19 +111,18 @@ function ListPassagens() {
     <>
       {isLoading && (
         <div className="flex justify-center w-full my-4 bg-gray-50">
-          <CirclesWithBar
-            height="200"
-            width="200"
-            color="#4fa94d"
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
             visible={true}
-            ariaLabel="circles-with-bar-loading"
-            wrapperClass="mx-auto"
           />
         </div>
       )}
 
       {!isLoading && (
-        <div className="bg-gray-50 container mx-auto px-4 max-w-6xl pt-24 ">
+        <div className="bg-gray-50 container mx-auto px-4 max-w-6xl py-24">
           <div className="mb-16">
             <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
               Próximas Caronas

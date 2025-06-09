@@ -3,12 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Passagem from "../../../models/Passagem";
 import { buscar, deletar } from "../../../services/Service";
-import { CirclesWithBar, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import CardPassagem from "../cardpassagem/CardPassagem";
 import { ArrowUUpLeftIcon, TrashSimpleIcon } from "@phosphor-icons/react";
-
-
 
 function DeletarPassagem() {
   const navigate = useNavigate();
@@ -40,7 +38,6 @@ function DeletarPassagem() {
 
   useEffect(() => {
     if (token === "") {
-
       ToastAlerta("Você precisa estar logado.", "info");
 
       navigate("/");
@@ -65,7 +62,6 @@ function DeletarPassagem() {
       setTimeout(() => {
         navigate("/passagens");
       }, 2000);
-
     } catch (error: any) {
       if (
         error.response &&
@@ -77,12 +73,10 @@ function DeletarPassagem() {
         );
         handleLogout();
       } else {
-
         ToastAlerta(
           "Erro ao cancelar a passagem. Verifique se ela ainda existe.",
           "erro"
         );
-
       }
       setDeleteIsLoading(false);
     }
@@ -95,12 +89,12 @@ function DeletarPassagem() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center pt-24 pb-12 px-4">
       {pageIsLoading ? (
-        <CirclesWithBar
-          height="200"
-          width="200"
-          color="#1e3a8a"
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          width="96"
           visible={true}
-          ariaLabel="circles-with-bar-loading"
         />
       ) : (
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">

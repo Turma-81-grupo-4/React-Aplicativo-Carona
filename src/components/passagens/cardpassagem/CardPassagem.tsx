@@ -1,7 +1,7 @@
 import { CarProfileIcon } from "@phosphor-icons/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import type Passagem from "../../../models/Passagem";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 interface CardPassagemProps {
@@ -9,8 +9,7 @@ interface CardPassagemProps {
 }
 
 function CardPassagem({ passagem }: CardPassagemProps) {
-  console.log("Dados recebidos no CardPassagem:", passagem);
-  const { usuario, handleLogout } = useContext(AuthContext);
+  const { usuario } = useContext(AuthContext);
   const { carona, passageiro } = passagem;
   const token = usuario.token;
 
@@ -18,6 +17,15 @@ function CardPassagem({ passagem }: CardPassagemProps) {
   hoje.setHours(0, 0, 0, 0);
 
   const dataViagem = new Date(`${carona?.dataViagem}T00:00:00`);
+  // const stringDataOriginal = carona?.dataViagem;
+
+  // const dataParaExibirObjeto = stringDataOriginal
+  //   ? new Date(`${stringDataOriginal}T00:00:00`)
+  //   : null;
+
+  // const stringDataFinalFormatada = dataParaExibirObjeto
+  //   ? dataParaExibirObjeto.toLocaleDateString("pt-BR")
+  //   : "N/A";
 
   const isDeletando = window.location.pathname.includes("deletarpassagem");
   const isFutureRide = dataViagem >= hoje;
@@ -34,7 +42,10 @@ function CardPassagem({ passagem }: CardPassagemProps) {
         <div className="bg-white relative drop-shadow-2xl rounded-3xl p-6 m-4">
           {/* Seção Cabeçalho */}
           <div className="flex items-center justify-between">
-            <h2 className="font-medium">Sua Carona</h2>
+            <h2 className="font-medium">
+              Carona com:
+              {carona?.motorista?.nome ?? "Desconhecido"}
+            </h2>
             <div className="ml-auto text-blue-800 font-bold"></div>
           </div>
 
@@ -48,7 +59,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
           </div>
 
           {/* Seção Origem e Destino */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-5">
             <div className="text-center w-40">
               <p className="text-sm text-gray-500">Origem</p>
               <p className={`text-xl font-bold ${textColorClass}`}>
@@ -74,12 +85,14 @@ function CardPassagem({ passagem }: CardPassagemProps) {
           </div>
 
           {/* Seção Detalhes da Viagem */}
-          <div className="flex justify-around items-start text-center">
+          <div className="flex justify-around gap-4 items-start text-center">
             <div className="flex flex-col text-sm w-24">
               <span>Data</span>
               <span className="font-semibold mt-1">
                 {carona?.dataViagem
-                  ? new Date(carona.dataViagem).toLocaleDateString()
+                  ? new Date(
+                      `${carona.dataViagem}T00:00:00`
+                    ).toLocaleDateString()
                   : "N/A"}
               </span>
             </div>

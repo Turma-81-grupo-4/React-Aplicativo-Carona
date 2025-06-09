@@ -2,7 +2,6 @@ import { createContext, type ReactNode, useEffect, useState } from "react";
 
 import type UsuarioLogin from "../models/UsuarioLogin";
 import { login } from "../services/Service";
-import { ToastAlerta } from "../utils/ToastAlerta";
 
 interface AuthContextProps {
   usuario: UsuarioLogin;
@@ -33,24 +32,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       foto: "",
       senha: "",
       token: "",
-      tipo: ""
+      tipo: "",
     };
   });
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("usuario");
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      console.log('🧪 Token do localStorage:', `"${parsed.token}"`);
-    }
-  }, []);
-
   async function handleLogin(usuarioLogin: UsuarioLogin) {
-    setIsLoading(true);
     try {
       const resposta = await login(`/usuarios/logar`, usuarioLogin);
-
-      localStorage.setItem("token", resposta.token);
 
       const dadosUsuario = {
         id: resposta.id,
@@ -67,7 +55,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } catch (error) {
       console.error("Erro no login:", error);
       setIsLoading(false);
-      throw error;
     }
   }
   function handleUpdateUser(dadosAtualizados: Partial<UsuarioLogin>) {
