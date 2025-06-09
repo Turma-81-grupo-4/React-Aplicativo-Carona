@@ -1,10 +1,7 @@
-
 import { useContext, useEffect, useState } from "react";
-
 
 import type Carona from "../../../models/Carona";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { buscar } from "../../../services/Service";
 import { useNavigate } from "react-router-dom";
 
 import { RotatingLines } from "react-loader-spinner";
@@ -15,11 +12,11 @@ import axios from "axios";
 function ListaCaronas() {
   const navigate = useNavigate();
   const [caronas, setCaronas] = useState<Carona[]>([]);
-  const { usuario, handleLogout } = useContext(AuthContext);
+  const { usuario } = useContext(AuthContext);
   const token = usuario.token;
 
   const [loading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   async function buscarCaronas() {
     setIsLoading(true);
@@ -42,12 +39,12 @@ function ListaCaronas() {
       setIsLoading(false);
     }
   }
-  useEffect(() => {
-    if (token === "") {
-      ToastAlerta("Voce precisa estar logado.", "info");
-      navigate("/");
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token === "") {
+  //     ToastAlerta("Voce precisa estar logado.", "info");
+  //     navigate("/");
+  //   }
+  // }, [token]);
 
   useEffect(() => {
     buscarCaronas();
