@@ -1,54 +1,94 @@
-# React + TypeScript + Vite
+# 🚗 Carona - Mobilidade Colaborativa
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📘 Introdução
 
-Currently, two official plugins are available:
+O Carona nasceu com a missão de transformar o transporte urbano por meio da mobilidade colaborativa. Conectamos pessoas que compartilham trajetos semelhantes, reduzindo o número de carros nas ruas, economizando tempo e promovendo um futuro mais sustentável.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Objetivo
 
-## Expanding the ESLint configuration
+Criar uma plataforma acessível onde usuários possam se cadastrar como motoristas ou passageiros, criar e encontrar caronas com segurança, praticidade e consciência ambiental.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 💻 Tecnologias Utilizadas
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 🛠️ Back-End:
+- Java
+- Spring Boot
+- Spring Tools Suite (STS)
+- MySQL
+- PostgreSQL
+- Render (deploy)
+- Insomnia
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 💅 Front-End:
+- HTML, CSS
+- React
+- Tailwind CSS
+- TypeScript
+- Axios
+- React Router
+- Vercel (deploy)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
+
+## 🌐 Link do Projeto (Deploy)
+
+**Back-End (Swagger):** [Clique aqui pra conferir o swagger](https://aplicativo-carona-2.onrender.com)  
+**Front-End (Vercel):** [Em breve...]
+
+---
+
+## 🖼️ Imagens do Projeto
+
+- ![Login](./src/assets/readmeimg/logincarona.png)
+- ![Home](./src/assets/readmeimg/homecarona.png)
+- ![Caronas](./src/assets/readmeimg/caronas.png)
+- ![Perfil](./src/assets/readmeimg/perfilcarona.png)
+- ![Time](./src/assets/readmeimg/timecarona.png)
+
+---
+
+## 💡 Missão, Visão e Valores
+
+**Missão:**  
+Promover uma mobilidade mais inteligente, conectando pessoas que compartilham caminhos e valores, reduzindo o impacto ambiental.
+
+**Visão:**  
+Ser referência em mobilidade colaborativa no Brasil, tornando o ato de se locomover mais consciente, sustentável e acessível.
+
+**Valores:**
+- ♻️ Sustentabilidade
+- 🤝 Colaboração
+- 💡 Inovação
+- 🛡️ Segurança
+- 💖 Compromisso Social
+
+---
+
+## 🤝 Contribuições
+
+Contribuições são super bem-vindas!  
+Feedbacks e sugestões podem ser enviados pelas redes sociais do nosso time abaixo.
+
+---
+
+## 👥 Nosso Time
+
+| Nome | Papel | GitHub | LinkedIn |
+|------|-------|--------|----------|
+| Camille Tarine | Desenvolvedora | [GitHub](https://github.com/CahTarine) | [LinkedIn](https://www.linkedin.com/in/camille-tarine/) |
+| Carlos Henrique | Product Owner | [GitHub](https://github.com/Henrykeeh) | [LinkedIn](https://www.linkedin.com/in/carlos-henrique-da-silva-barbosa-no-linked-in/) |
+| Henrique Machado | Desenvolvedor | [GitHub](https://github.com/scottineo) | [LinkedIn](https://www.linkedin.com/in/luiz-henrique-machado/) |
+| Beatriz Bueno | Desenvolvedora | [GitHub](https://github.com/BeaKaylanee) | [LinkedIn](https://www.linkedin.com/in/beatriz-kailane-3513b5248/) |
+| Guilherme Dino | Tester | [GitHub](https://github.com/meDinoo) | [LinkedIn](https://www.linkedin.com/in/guilherme-dino-pereira/) |
+
+---
+
+## 📄 Documentação Adicional
+
+📑 [Clique aqui para baixar o escopo do projeto (PDF)](https://drive.google.com/uc?export=download&id=16LRie7NVny_rfNj46r5s-CV2IiII50Ju)
+
+---
+
+> 🌍 Cada carona importa. Conecte, compartilhe e transforme o mundo com a gente!
