@@ -37,6 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   async function handleLogin(usuarioLogin: UsuarioLogin) {
+    setIsLoading(true);
     try {
       const resposta = await login(`/usuarios/logar`, usuarioLogin);
 
@@ -55,6 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } catch (error) {
       console.error("Erro no login:", error);
       setIsLoading(false);
+      throw error;
     }
   }
   function handleUpdateUser(dadosAtualizados: Partial<UsuarioLogin>) {

@@ -1,6 +1,6 @@
 
 import api from "./api";
-import type UsuarioLogin from "../models/UsuarioLogin";
+
 
 export const cadastrarUsuario = async (
   url: string,
