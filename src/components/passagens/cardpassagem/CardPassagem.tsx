@@ -1,7 +1,7 @@
 import { CarProfileIcon } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import type Passagem from "../../../models/Passagem";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 interface CardPassagemProps {
@@ -34,6 +34,18 @@ function CardPassagem({ passagem }: CardPassagemProps) {
   const accentBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const textColorClass = isFutureRide ? "text-blue-800" : "text-slate-600";
 
+  const formattedTime = useMemo(() => {
+    if (typeof carona?.tempoViagem === "number") {
+      const horas = Math.floor(carona.tempoViagem);
+      const minutos = Math.round((carona.tempoViagem - horas) * 60);
+      if (minutos > 0) {
+        return `${horas}h ${minutos}min`;
+      }
+      return `${horas}h`;
+    }
+    return carona?.tempoViagem || "N/A";
+  }, [carona?.tempoViagem]);
+
   return (
     <div className="flex items-center justify-center p-4">
       <div
@@ -43,8 +55,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
           {/* Seção Cabeçalho */}
           <div className="flex items-center justify-between">
             <h2 className="font-medium">
-              Carona com: {" "}
-              {carona?.motorista?.nome ?? "Desconhecido"}
+              Carona com: {carona?.motorista?.nome ?? "Desconhecido"}
             </h2>
             <div className="ml-auto text-blue-800 font-bold"></div>
           </div>
@@ -60,16 +71,16 @@ function CardPassagem({ passagem }: CardPassagemProps) {
 
           {/* Seção Origem e Destino */}
           <div className="flex items-center justify-between gap-5">
-            <div className="text-center w-40">
-              <p className="text-sm text-gray-500">Origem</p>
-              <p className={`text-xl font-bold ${textColorClass}`}>
+            <div className="w-2/5">
+              <p className="text- text-gray-500">Origem</p>
+              <p className={`text-lg font-bold ${textColorClass} break-words`}>
                 {carona?.origem}
               </p>
             </div>
-            <CarProfileIcon size={40} className={`${textColorClass}`} />
-            <div className="text-center w-40">
+            <div className="text-xl font-bold text-blue-800">→</div>
+            <div className="w-2/5">
               <p className="text-xs text-gray-500">Destino</p>
-              <p className={`text-xl font-bold ${textColorClass}`}>
+              <p className={`text-lg font-bold ${textColorClass} break-words`}>
                 {carona?.destino}
               </p>
             </div>
@@ -106,9 +117,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
             </div>
             <div className="flex flex-col text-sm w-24">
               <span>Tempo</span>
-              <span className="font-semibold mt-1">
-                {carona?.tempoViagem} horas
-              </span>
+              <span className="font-semibold mt-1">{formattedTime}</span>
             </div>
           </div>
 
