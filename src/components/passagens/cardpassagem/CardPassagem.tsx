@@ -42,10 +42,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
         <div className="bg-white relative drop-shadow-2xl rounded-3xl p-6 m-4">
           {/* Seção Cabeçalho */}
           <div className="flex items-center justify-between">
-            <h2 className="font-medium">
-              Carona com:
-              {carona?.motorista?.nome ?? "Desconhecido"}
-            </h2>
+            <h2 className="font-medium">Carona com:</h2>
             <div className="ml-auto text-blue-800 font-bold"></div>
           </div>
 
