@@ -34,7 +34,6 @@ Criar uma plataforma acessível onde usuários possam se cadastrar como motorist
 
 ## 🌐 Link do Projeto (Deploy)
 
-**Back-End (Swagger):** [Clique aqui pra conferir o swagger](https://aplicativo-carona-2.onrender.com)  
 **Front-End (Vercel):** [Em breve...]
 
 ---
