@@ -83,11 +83,6 @@ Feedbacks e sugestões podem ser enviados pelas redes sociais do nosso time abai
 | Beatriz Bueno | Desenvolvedora | [GitHub](https://github.com/BeaKaylanee) | [LinkedIn](https://www.linkedin.com/in/beatriz-kailane-3513b5248/) |
 | Guilherme Dino | Tester | [GitHub](https://github.com/meDinoo) | [LinkedIn](https://www.linkedin.com/in/guilherme-dino-pereira/) |
 
----
-
-## 📄 Documentação Adicional
-
-📑 [Clique aqui para baixar o escopo do projeto (PDF)](https://drive.google.com/uc?export=download&id=16LRie7NVny_rfNj46r5s-CV2IiII50Ju)
 
 ---
 
