@@ -41,11 +41,28 @@ Criar uma plataforma acessível onde usuários possam se cadastrar como motorist
 
 ## 🖼️ Imagens do Projeto
 
-- ![Login](./src/assets/readmeimg/logincarona.png)
-- ![Home](./src/assets/readmeimg/homecarona.png)
-- ![Caronas](./src/assets/readmeimg/caronas.png)
-- ![Perfil](./src/assets/readmeimg/perfilcarona.png)
-- ![Time](./src/assets/readmeimg/timecarona.png)
+### 🔐 Tela de Login
+![Login](./src/assets/readmeimg/logincarona.png)
+
+---
+
+### 🏠 Página Inicial (Home)
+![Home](./src/assets/readmeimg/homecarona.png)
+
+---
+
+### 🚘 Listagem de Caronas
+![Caronas](./src/assets/readmeimg/caronas.png)
+
+---
+
+### 👤 Página de Perfil
+![Perfil](./src/assets/readmeimg/perfilcarona.png)
+
+---
+
+### 👥 Equipe do Projeto
+![Time](./src/assets/readmeimg/timecarona.png)
 
 ---
 
