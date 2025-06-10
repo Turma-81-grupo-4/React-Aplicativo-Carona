@@ -1,7 +1,7 @@
 import { CarProfileIcon } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import type Passagem from "../../../models/Passagem";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 interface CardPassagemProps {
@@ -33,7 +33,7 @@ function CardPassagem({
   const outerBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const accentBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const textColorClass = isFutureRide ? "text-blue-800" : "text-slate-600";
-
+  const [buttonText, setButtonText] = useState("Viagem Finalizada");
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
       const horas = Math.floor(carona.tempoViagem);
@@ -69,14 +69,14 @@ function CardPassagem({
           {/* Seção Origem e Destino */}
           <div className="flex items-center justify-between gap-5">
             <div className="w-2/5">
-              <p className="text- text-gray-500">Origem</p>
+              <p className="text-gray-500">Origem</p>
               <p className={`text-lg font-bold ${textColorClass} break-words`}>
                 {carona?.origem}
               </p>
             </div>
             <div className="text-xl font-bold text-blue-800">→</div>
             <div className="w-2/5">
-              <p className="text-xs text-gray-500">Destino</p>
+              <p className="text-gray-500">Destino</p>
               <p className={`text-lg font-bold ${textColorClass} break-words`}>
                 {carona?.destino}
               </p>
@@ -144,9 +144,14 @@ function CardPassagem({
                 </button>
               ) : (
                 <div className="text-center">
-                  <p className="font-semibold text-gray-600 bg-gray-200 px-3 py-2 rounded-lg">
-                    Viagem Finalizada
-                  </p>
+                  <button
+                    className="min-w-32 cursor-pointer font-semibold text-gray-600 hover:bg-gray-300
+                   bg-gray-200 px-3 py-2 rounded-lg"
+                    onMouseEnter={() => setButtonText("Veja os detalhes")}
+                    onMouseLeave={() => setButtonText("Finalizada")}
+                  >
+                    {buttonText}
+                  </button>
                 </div>
               ))}
           </div>

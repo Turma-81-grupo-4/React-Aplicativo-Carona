@@ -29,7 +29,7 @@ function ModalDeletarPassagem({
   const { usuario, handleLogout } = useContext(AuthContext);
 
   async function deletarPassagem() {
-    if (!passagem) return; // Guarda de segurança
+    if (!passagem) return;
 
     setDeleteIsLoading(true);
 
@@ -109,7 +109,7 @@ function ModalDeletarPassagem({
               Não, voltar
             </button>
             <button
-              className="cursor-pointer flex-1 text-white bg-red-600 hover:bg-red-800 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
+              className="cursor-pointer flex-1 text-white bg-red-700 hover:bg-red-800 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
               onClick={deletarPassagem}
               disabled={deleteIsLoading}
             >
