@@ -23,6 +23,10 @@ function Perfil() {
   const MySwal = withReactContent(Swal);
 
   useEffect(() => {
+          window.scrollTo(0, 0);
+      }, []);
+
+  useEffect(() => {
     setFormData({ ...usuario });
   }, [usuario]);
 

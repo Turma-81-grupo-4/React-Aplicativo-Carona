@@ -18,6 +18,10 @@ function ListPassagens() {
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
 
+  useEffect(() => {
+          window.scrollTo(0, 0);
+      }, []);
+
   async function buscarPassagens() {
     setIsLoading(true);
 
