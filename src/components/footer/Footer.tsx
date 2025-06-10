@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
         {/* Logo + texto */}
         <div className="flex flex-col items-center mb-1 md:mb-0">
           <img
-            src="./src/assets/logocarona.png"
+            src="/logocarona.png"
             alt="Logo da Empresa"
             className="h-15"
           />
