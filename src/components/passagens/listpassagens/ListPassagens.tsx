@@ -6,6 +6,7 @@ import type Passagem from "../../../models/Passagem";
 import { RotatingLines } from "react-loader-spinner";
 import axios from "axios";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
+import ModalDeletarPassagem from "../deletarpassagem/ModalDeletarPassagem";
 
 function ListPassagens() {
   const navigate = useNavigate();
@@ -14,6 +15,9 @@ function ListPassagens() {
   const [passagensFuturas, setPassagensFuturas] = useState<Passagem[]>([]);
   const [passagensPassadas, setPassagensPassadas] = useState<Passagem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [passagemParaDeletar, setPassagemParaDeletar] =
+    useState<Passagem | null>(null);
 
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
@@ -87,17 +91,36 @@ function ListPassagens() {
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
       ) {
-        ToastAlerta("O token expirou, por favor, faça login novamente.","erro");
+        ToastAlerta(
+          "O token expirou, por favor, faça login novamente.",
+          "erro"
+        );
         handleLogout();
       }
     } finally {
       setIsLoading(false);
     }
   }
+  const handleOpenModal = (passagem: Passagem) => {
+    setPassagemParaDeletar(passagem);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setPassagemParaDeletar(null);
+  };
+
+  const handleDeleteSuccess = () => {
+    setPassagensFuturas((prevPassagens) =>
+      prevPassagens.filter((p) => p.id !== passagemParaDeletar?.id)
+    );
+    handleCloseModal();
+  };
 
   useEffect(() => {
     if (token === "") {
-      ToastAlerta("Você precisa estar logado para ver suas passagens.","erro");
+      ToastAlerta("Você precisa estar logado para ver suas passagens.", "erro");
       navigate("/");
     }
   }, [token, location]);
@@ -132,7 +155,11 @@ function ListPassagens() {
             {passagensFuturas.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {passagensFuturas.map((passagem) => (
-                  <CardPassagem key={passagem.id} passagem={passagem} />
+                  <CardPassagem
+                    key={passagem.id}
+                    passagem={passagem}
+                    onDeleteClick={() => handleOpenModal(passagem)}
+                  />
                 ))}
               </div>
             ) : (
@@ -161,6 +188,12 @@ function ListPassagens() {
           </div>
         </div>
       )}
+      <ModalDeletarPassagem
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirmDelete={handleDeleteSuccess}
+        passagem={passagemParaDeletar}
+      />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import DeletarPassagem from "./components/passagens/deletarpassagem/DeletarPassagem";
+import DeletarPassagem from "./components/passagens/deletarpassagem/ModalDeletarPassagem";
 import Perfil from "./pages/perfil/Perfil";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -16,6 +16,7 @@ import Sobre from "./pages/sobre/Sobre";
 import ListaCaronas from "./components/caronas/listacaronas/ListaCaronas";
 import DetalhesCarona from "./components/caronas/detalhescarona/DetalhesCarona";
 import FormCaronas from "./components/caronas/formcaronas/FormCaronas";
+import ModalDeletarPassagem from "./components/passagens/deletarpassagem/ModalDeletarPassagem";
 
 function App() {
   return (
@@ -34,7 +35,6 @@ function App() {
               <Route path="/caronas" element={<ListaCaronas />} />
               <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="/sobre" element={<Sobre />} />
-              <Route path="/deletarpassagem/:id" element={<DeletarPassagem />} />
               <Route path="/perfil" element={<Perfil />} />
               <Route path="/caronas" element={<ListaCaronas />} />
               <Route path="/caronas/:id" element={<DetalhesCarona />} />

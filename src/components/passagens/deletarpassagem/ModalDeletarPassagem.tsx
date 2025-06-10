@@ -1,67 +1,42 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Passagem from "../../../models/Passagem";
-import { buscar, deletar } from "../../../services/Service";
+import { deletar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import CardPassagem from "../cardpassagem/CardPassagem";
-import { ArrowUUpLeftIcon, TrashSimpleIcon } from "@phosphor-icons/react";
+import {
+  ArrowUUpLeftIcon,
+  TrashSimpleIcon,
+  XIcon,
+} from "@phosphor-icons/react";
 
-function DeletarPassagem() {
-  const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+interface ModalDeletarPassagemProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirmDelete: () => void;
+  passagem: Passagem | null;
+}
 
-  const [pageIsLoading, setPageIsLoading] = useState<boolean>(true);
+function ModalDeletarPassagem({
+  isOpen,
+  onClose,
+  onConfirmDelete,
+  passagem,
+}: ModalDeletarPassagemProps) {
   const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
-  const [passagem] = useState<Passagem>({} as Passagem);
 
   const { usuario, handleLogout } = useContext(AuthContext);
-  const token = usuario.token;
-
-  async function buscarPorId(id: string) {
-    setPageIsLoading(true);
-    try {
-      await buscar(`/passagens/${id}`);
-    } catch (error: any) {
-      if (error.toString().includes("403")) {
-        ToastAlerta(
-          "O token expirou, por favor, faça login novamente.",
-          "info"
-        );
-        handleLogout();
-      }
-    } finally {
-      setPageIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    if (token === "") {
-      ToastAlerta("Você precisa estar logado.", "info");
-
-      navigate("/");
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (id !== undefined) {
-      console.log("PÁGINA DE DELEÇÃO: buscando dados para o ID:", id);
-      buscarPorId(id);
-    }
-  }, [id]);
 
   async function deletarPassagem() {
+    if (!passagem) return; // Guarda de segurança
+
     setDeleteIsLoading(true);
 
     try {
-      await deletar(`/passagens/${id}`);
-
+      await deletar(`/passagens/${passagem.id}`);
       ToastAlerta("Passagem cancelada com sucesso!", "sucesso");
-
-      setTimeout(() => {
-        navigate("/passagens");
-      }, 2000);
+      onConfirmDelete();
     } catch (error: any) {
       if (
         error.response &&
@@ -73,31 +48,41 @@ function DeletarPassagem() {
         );
         handleLogout();
       } else {
-        ToastAlerta(
-          "Erro ao cancelar a passagem. Verifique se ela ainda existe.",
-          "erro"
-        );
+        ToastAlerta("Erro ao cancelar a passagem.", "erro");
       }
+    } finally {
       setDeleteIsLoading(false);
+      onClose();
     }
   }
 
-  function retornar() {
-    navigate("/passagens");
-  }
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center pt-24 pb-12 px-4">
-      {pageIsLoading ? (
-        <RotatingLines
-          strokeColor="grey"
-          strokeWidth="5"
-          animationDuration="0.75"
-          width="96"
-          visible={true}
-        />
-      ) : (
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
+    <div
+      className={`
+        fixed inset-0 z-50 flex items-center justify-center 
+        transition-opacity duration-300 ease-in-out
+        ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"} 
+        bg-black/30 backdrop-blur-sm
+      `}
+    >
+      {/* Conteúdo do Modal */}
+      <div
+        className={`
+          relative w-full max-w-2xl mx-auto bg-gray-100 rounded-lg shadow-lg p-8 m-4
+          transition-transform duration-300 ease-in-out
+          ${isOpen ? "scale-100" : "scale-95"}
+        `}
+      >
+        {/* Botão de Fechar no canto */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+        >
+          .
+          <XIcon size={24} />
+        </button>
+
+        <div className="flex flex-col items-center">
           <h1 className="text-4xl font-bold text-red-700 mb-4 text-center">
             Cancelar Passagem
           </h1>
@@ -110,13 +95,15 @@ function DeletarPassagem() {
           </p>
 
           <div className="w-full mb-8">
-            {passagem.id && <CardPassagem passagem={passagem} />}
+            {passagem && (
+              <CardPassagem passagem={passagem} hideActions={true} />
+            )}
           </div>
 
           <div className="flex flex-col md:flex-row gap-6 w-full max-w-md">
             <button
               className="cursor-pointer flex-1 text-slate-800 bg-gray-300 hover:bg-gray-400 font-bold w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300"
-              onClick={retornar}
+              onClick={onClose}
             >
               <ArrowUUpLeftIcon size={20} />
               Não, voltar
@@ -143,9 +130,9 @@ function DeletarPassagem() {
             </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
-export default DeletarPassagem;
+export default ModalDeletarPassagem;

@@ -6,28 +6,28 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 interface CardPassagemProps {
   passagem: Passagem;
+  onDeleteClick?: () => void;
+  hideActions?: boolean;
 }
 
-function CardPassagem({ passagem }: CardPassagemProps) {
-  const { usuario } = useContext(AuthContext);
-  const { carona, passageiro } = passagem;
-  const token = usuario.token;
+function CardPassagem({
+  passagem,
+  onDeleteClick,
+  hideActions = false,
+}: CardPassagemProps) {
+  const { passageiro, carona } = passagem;
 
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
+  const hoje = useMemo(() => {
+    const data = new Date();
+    data.setHours(0, 0, 0, 0);
+    return data;
+  }, []);
 
-  const dataViagem = new Date(`${carona?.dataViagem}T00:00:00`);
-  // const stringDataOriginal = carona?.dataViagem;
+  const dataViagem = useMemo(
+    () => new Date(`${carona?.dataViagem}T00:00:00`),
+    [carona?.dataViagem]
+  );
 
-  // const dataParaExibirObjeto = stringDataOriginal
-  //   ? new Date(`${stringDataOriginal}T00:00:00`)
-  //   : null;
-
-  // const stringDataFinalFormatada = dataParaExibirObjeto
-  //   ? dataParaExibirObjeto.toLocaleDateString("pt-BR")
-  //   : "N/A";
-
-  const isDeletando = window.location.pathname.includes("deletarpassagem");
   const isFutureRide = dataViagem >= hoje;
 
   const outerBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
@@ -38,10 +38,7 @@ function CardPassagem({ passagem }: CardPassagemProps) {
     if (typeof carona?.tempoViagem === "number") {
       const horas = Math.floor(carona.tempoViagem);
       const minutos = Math.round((carona.tempoViagem - horas) * 60);
-      if (minutos > 0) {
-        return `${horas}h ${minutos}min`;
-      }
-      return `${horas}h`;
+      return minutos > 0 ? `${horas}h ${minutos}min` : `${horas}h`;
     }
     return carona?.tempoViagem || "N/A";
   }, [carona?.tempoViagem]);
@@ -137,16 +134,17 @@ function CardPassagem({ passagem }: CardPassagemProps) {
               <p className="font-semibold text-base">{passageiro?.nome}</p>
             </div>
 
-            {!isDeletando &&
+            {!hideActions &&
               (isFutureRide ? (
-                <Link to={`/deletarpassagem/${passagem.id}`}>
-                  <button className="cursor-pointer bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                    Desistir da carona
-                  </button>
-                </Link>
+                <button
+                  onClick={onDeleteClick}
+                  className="cursor-pointer bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors"
+                >
+                  Desistir da carona
+                </button>
               ) : (
                 <div className="text-center">
-                  <p className="font-semibold text-gray-600 bg-gray-300 px-3 py-2 rounded-lg">
+                  <p className="font-semibold text-gray-600 bg-gray-200 px-3 py-2 rounded-lg">
                     Viagem Finalizada
                   </p>
                 </div>
