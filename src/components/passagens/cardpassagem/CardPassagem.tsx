@@ -1,8 +1,5 @@
-import { CarProfileIcon } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
 import type Passagem from "../../../models/Passagem";
-import { useContext, useMemo, useState } from "react";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useMemo, useState } from "react";
 
 interface CardPassagemProps {
   passagem: Passagem;
@@ -33,7 +30,7 @@ function CardPassagem({
   const outerBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const accentBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const textColorClass = isFutureRide ? "text-blue-800" : "text-slate-600";
-  const [buttonText, setButtonText] = useState("Viagem Finalizada");
+  const [buttonText, setButtonText] = useState("Finalizada");
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
       const horas = Math.floor(carona.tempoViagem);
@@ -149,6 +146,7 @@ function CardPassagem({
                    bg-gray-200 px-3 py-2 rounded-lg"
                     onMouseEnter={() => setButtonText("Veja os detalhes")}
                     onMouseLeave={() => setButtonText("Finalizada")}
+                    onClick={() => {}}
                   >
                     {buttonText}
                   </button>

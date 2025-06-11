@@ -7,8 +7,12 @@ import { RotatingLines } from "react-loader-spinner";
 import axios from "axios";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import ModalDeletarPassagem from "../deletarpassagem/ModalDeletarPassagem";
+import Perfil from "../../../pages/perfil/Perfil";
 
 function ListPassagens() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -147,44 +151,49 @@ function ListPassagens() {
       )}
 
       {!isLoading && (
-        <div className="bg-gray-50 container mx-auto px-4 max-w-6xl py-24">
+        <div className="bg-gray-50 flex container mx-auto px-4 max-w-7xl py-24 gap-8">
           <div className="mb-16">
-            <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
-              Próximas Caronas
-            </h2>
-            {passagensFuturas.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {passagensFuturas.map((passagem) => (
-                  <CardPassagem
-                    key={passagem.id}
-                    passagem={passagem}
-                    onDeleteClick={() => handleOpenModal(passagem)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-xl text-gray-600">
-                Você não possui nenhuma carona futura agendada.
-              </p>
-            )}
+            <Perfil variant="resumido" />
           </div>
+          <div className="mb-16 flex flex-col w-full flex-wrap items-center">
+            <div className="mb-16 items-center">
+              <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
+                Próximas Passagens
+              </h2>
+              {passagensFuturas.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                  {passagensFuturas.map((passagem) => (
+                    <CardPassagem
+                      key={passagem.id}
+                      passagem={passagem}
+                      onDeleteClick={() => handleOpenModal(passagem)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-xl text-gray-600">
+                  Você não possui nenhuma carona futura agendada.
+                </p>
+              )}
+            </div>
 
-          {/* Seção de Passagens Passadas */}
-          <div>
-            <h2 className="text-4xl font-bold text-gray-700 mb-8 text-center">
-              Caronas Anteriores
-            </h2>
-            {passagensPassadas.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {passagensPassadas.map((passagem) => (
-                  <CardPassagem key={passagem.id} passagem={passagem} />
-                ))}
-              </div>
-            ) : (
-              <p className=" py-6 text-center text-xl text-gray-600">
-                Nenhuma carona anterior encontrada.
-              </p>
-            )}
+            {/* Seção de Passagens Passadas */}
+            <div>
+              <h2 className="text-4xl font-bold text-gray-700 mb-8 text-center">
+                Passagens Anteriores
+              </h2>
+              {passagensPassadas.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                  {passagensPassadas.map((passagem) => (
+                    <CardPassagem key={passagem.id} passagem={passagem} />
+                  ))}
+                </div>
+              ) : (
+                <p className=" py-6 text-center text-xl text-gray-600">
+                  Nenhuma carona anterior encontrada.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       )}
