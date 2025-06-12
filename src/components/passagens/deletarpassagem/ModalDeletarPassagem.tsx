@@ -26,7 +26,7 @@ function ModalDeletarPassagem({
 }: ModalDeletarPassagemProps) {
   const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
 
-  const { usuario, handleLogout } = useContext(AuthContext);
+  const { handleLogout } = useContext(AuthContext);
 
   async function deletarPassagem() {
     if (!passagem) return;

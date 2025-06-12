@@ -151,48 +151,50 @@ function ListPassagens() {
       )}
 
       {!isLoading && (
-        <div className="bg-gray-50 flex container mx-auto px-4 max-w-7xl py-24 gap-8">
-          <div className="mb-16">
-            <Perfil variant="resumido" />
-          </div>
-          <div className="mb-16 flex flex-col w-full flex-wrap items-center">
-            <div className="mb-16 items-center">
-              <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
-                Próximas Passagens
-              </h2>
-              {passagensFuturas.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                  {passagensFuturas.map((passagem) => (
-                    <CardPassagem
-                      key={passagem.id}
-                      passagem={passagem}
-                      onDeleteClick={() => handleOpenModal(passagem)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-xl text-gray-600">
-                  Você não possui nenhuma carona futura agendada.
-                </p>
-              )}
+        <div>
+          <div className=" flex container mx-auto px-4 max-w-7xl py-24 gap-8">
+            <div className="mb-16">
+              <Perfil variant="resumido" />
             </div>
+            <div className="mb-16 flex flex-col w-full flex-wrap items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl">
+              <div className="mb-16 items-center py-10">
+                <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
+                  Próximas Passagens
+                </h2>
+                {passagensFuturas.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                    {passagensFuturas.map((passagem) => (
+                      <CardPassagem
+                        key={passagem.id}
+                        passagem={passagem}
+                        onDeleteClick={() => handleOpenModal(passagem)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-xl text-gray-600">
+                    Você não possui nenhuma carona futura agendada.
+                  </p>
+                )}
+              </div>
 
-            {/* Seção de Passagens Passadas */}
-            <div>
-              <h2 className="text-4xl font-bold text-gray-700 mb-8 text-center">
-                Passagens Anteriores
-              </h2>
-              {passagensPassadas.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                  {passagensPassadas.map((passagem) => (
-                    <CardPassagem key={passagem.id} passagem={passagem} />
-                  ))}
-                </div>
-              ) : (
-                <p className=" py-6 text-center text-xl text-gray-600">
-                  Nenhuma carona anterior encontrada.
-                </p>
-              )}
+              {/* Seção de Passagens Passadas */}
+              <div>
+                <h2 className="text-4xl font-bold text-gray-700 mb-8 text-center">
+                  Passagens Anteriores
+                </h2>
+                {passagensPassadas.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                    {passagensPassadas.map((passagem) => (
+                      <CardPassagem key={passagem.id} passagem={passagem} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className=" py-6 text-center text-xl text-gray-600">
+                    Nenhuma carona anterior encontrada.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
