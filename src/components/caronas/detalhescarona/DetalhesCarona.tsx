@@ -2,13 +2,15 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type Carona from "../../../models/Carona";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { Clock, Car, MapPin, User } from "lucide-react";
+import { Clock, Car, MapPin, User, Clock1, Clock10, Calendar1, Calendar1Icon, Armchair, TicketCheckIcon, RailSymbolIcon, FlashlightIcon } from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
 import FormAtualizarCarona from "../formcaronas/FormAtualizarCarona";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import ModalDeletarCarona from "../deletarcarona/ModalDeletarCarona";
 import { buscar, cadastrar } from "../../../services/Service";
 import type { AxiosError } from "axios";
+import { formatFullDateTime } from "../../../utils/DateUtils";
+import { ChairIcon, ChalkboardIcon, MoneyIcon, SpeedometerIcon, StrategyIcon } from "@phosphor-icons/react";
 
 function DetalhesCarona() {
   useEffect(() => {
@@ -37,23 +39,25 @@ function DetalhesCarona() {
          );
      }, [usuario.id, carona?.passagemVendidaNessaCarona]); */
 
-  const formattedDate = useMemo(() => {
-    if (!carona?.dataViagem) return "";
-    const date = new Date(carona.dataViagem);
-    return date.toLocaleDateString("pt-BR");
-  }, [carona?.dataViagem]);
-
-  const formattedTime = useMemo(() => {
-    if (typeof carona?.tempoViagem === "number") {
-      const horas = Math.floor(carona.tempoViagem);
-      const minutos = Math.round((carona.tempoViagem - horas) * 60);
-      if (minutos > 0) {
-        return `${horas}h ${minutos}min`;
+     const formattedTime = useMemo(() => {
+      if (typeof carona?.tempoViagem === "number") {
+          const horas = Math.floor(carona.tempoViagem);
+          const minutos = Math.round((carona.tempoViagem - horas) * 60);
+          if (minutos > 0) {
+              return `${horas}h ${minutos}min`;
+          }
+          return `${horas}h`;
       }
-      return `${horas}h`;
-    }
-    return carona?.tempoViagem || "N/A";
+      return carona?.tempoViagem || "N/A";
   }, [carona?.tempoViagem]);
+
+  const formattedDateTimePartida = useMemo(() => {
+    return formatFullDateTime(carona?.dataHoraPartida);
+  }, [carona?.dataHoraPartida, formatFullDateTime]);
+
+  const formattedDateTimeChegada = useMemo(() => {
+    return formatFullDateTime(carona?.dataHoraChegada);
+  }, [carona?.dataHoraChegada, formatFullDateTime]);
 
   const buscarCaronas = useCallback(async () => {
     setLoading(true);
@@ -193,10 +197,7 @@ function DetalhesCarona() {
                 <strong>Motorista:</strong>&nbsp;
                 {carona.motorista ? carona.motorista.nome : "N/A"}
               </p>
-              <p className="flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-blue-600" />
-                <strong>Data da Viagem: </strong>&nbsp; {formattedDate}
-              </p>
+             
               <p className="flex items-center space-x-2">
                 <MapPin className="w-5 h-5 text-blue-600" />
                 <strong>Origem:</strong>&nbsp; {carona.origem}
@@ -207,36 +208,48 @@ function DetalhesCarona() {
               </p>
               <p className="flex items-center space-x-2">
                 <Car className="w-5 h-5 text-blue-600" />
-                <strong>Distância:</strong>&nbsp; {carona.distancia} km
+                <strong>Distância:</strong>&nbsp; {carona.distanciaKm} km
               </p>
               <p className="flex items-center space-x-2">
-                <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
-                  ~
-                </span>
-                <strong>Velocidade Média:</strong>&nbsp; {carona.velocidade}{" "}
+              <SpeedometerIcon className="w-5 h-5 text-blue-600" />
+                <strong>Velocidade média:</strong>&nbsp; {carona.velocidade}{" "}
                 km/h
               </p>
-
               <p className="flex items-center space-x-2">
-                <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
-                  💺
-                </span>
-                <strong>Vagas Disponíveis:</strong>&nbsp; {carona.vagas}
-              </p>
-              <p className="flex items-center space-x-2">
-                <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
-                  🕗
-                </span>
+              <Clock className="w-5 h-5 text-blue-600" />
                 <strong>Tempo de viagem:</strong>&nbsp; {formattedTime}
               </p>
               <p className="flex items-center space-x-2">
-                <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
-                  🎟️
-                </span>
-                <strong>Passagens Vendidas:</strong>&nbsp;
-                {carona.passagemVendidaNessaCarona
-                  ? carona.passagemVendidaNessaCarona.length
+                <Calendar1 className="w-5 h-5 text-blue-600" />
+                <strong>Data de saída: </strong>&nbsp; {formattedDateTimePartida}
+              </p>
+              
+              <p className="flex items-center space-x-2">
+                <Calendar1 className="w-5 h-5 text-blue-600" />
+                <strong>Data de chegada: </strong>&nbsp; {formattedDateTimeChegada}
+              </p>
+
+              <p className="flex items-center space-x-2">
+                <MoneyIcon className="w-5 h-5 text-blue-600" />
+                <strong>Valor por passageiro: </strong>&nbsp; R$ {carona.valorPorPassageiro}
+              </p>
+
+              <p className="flex items-center space-x-2">
+              <Armchair className="w-5 h-5 text-blue-600" />
+                <strong>Vagas disponíveis:</strong>&nbsp; {carona.vagas}
+              </p>
+              
+              
+              <p className="flex items-center space-x-2">
+              <TicketCheckIcon className="w-5 h-5 text-blue-600" />
+                <strong>Passagens vendidas:</strong>&nbsp;
+                {carona.passagensVendidas
+                  ? carona.passagensVendidas.length
                   : 0}
+              </p>
+              <p className="flex items-center space-x-2">
+                <StrategyIcon className="w-5 h-5 text-blue-600" />
+                <strong>Status da carona: </strong>&nbsp; {carona.statusCarona}
               </p>
             </div>
           </section>
@@ -244,15 +257,15 @@ function DetalhesCarona() {
           <section id="tickets_sold">
             <h2 className="text-3xl font-bold text-blue-900 mb-5 text-center">
               Passagens Vendidas (
-              {carona.passagemVendidaNessaCarona
-                ? carona.passagemVendidaNessaCarona.length
+              {carona.passagensVendidas
+                ? carona.passagensVendidas.length
                 : 0}
               )
             </h2>
-            {carona.passagemVendidaNessaCarona &&
-            carona.passagemVendidaNessaCarona.length > 0 ? (
+            {carona.passagensVendidas &&
+            carona.passagensVendidas.length > 0 ? (
               <ul className="space-y-4">
-                {carona.passagemVendidaNessaCarona.map((passagem) => (
+                {carona.passagensVendidas.map((passagem) => (
                   <li
                     key={passagem.id}
                     className="bg-gray-100 rounded-md p-4 shadow-sm border border-gray-200"

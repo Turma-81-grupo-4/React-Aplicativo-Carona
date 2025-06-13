@@ -14,7 +14,6 @@ function ListaCaronas() {
     window.scrollTo(0, 0);
   }, []);
   const navigate = useNavigate();
-  const [caronas, setCaronas] = useState<Carona[]>([]);
   const [caronasFuturas, setCaronasFuturas] = useState<Carona[]>([]);
   const [caronasPassadas, setCaronasPassadas] = useState<Carona[]>([]);
   const { usuario } = useContext(AuthContext);
@@ -112,8 +111,8 @@ function ListaCaronas() {
   }
 
   return (
-    <div className="py-22 min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="py-22 min-h-screen bg-gray-50 b-16 flex flex-col w-full flex-wrap items-center backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
+      <div className="container mx-auto px-4 max-w-6xl my-4 p-8 bbg-white/5 border border-white/10 rounded-2xl shadow-2xl">
         <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
           Caronas Disponíveis
         </h2>
@@ -129,8 +128,7 @@ function ListaCaronas() {
             ))}
           </div>
         )}
-      </div>
-      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container mx-auto px-4 max-w-6xl m-10">
         <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
           Caronas Passadas
         </h2>
@@ -147,6 +145,8 @@ function ListaCaronas() {
           </div>
         )}
       </div>
+      </div>
+      
     </div>
   );
 }

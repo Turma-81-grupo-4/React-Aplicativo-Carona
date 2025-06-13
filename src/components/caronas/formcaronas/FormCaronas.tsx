@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Carona from "../../../models/Carona";
 import { cadastrar } from "../../../services/Service";
 import { RotatingLines } from "react-loader-spinner";
 import { CalendarDays } from "lucide-react";
-import backgroundImage from "../../../assets/img/estradapaginafundo.jpg";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { MoneyIcon } from "@phosphor-icons/react";
 
 function FormCaronas() {
   const navigate = useNavigate();
@@ -19,17 +19,25 @@ function FormCaronas() {
 
   type CaronaForm = Omit<
     Carona,
-    "id" | "tempoViagem" | "motorista" | "passagemVendidaNessaCarona"
-  >;
+    "id" | "tempoViagem" | "motorista" | "passagensVendidas" | "dataHoraChegada" | "statusCarona"
+  > & {
+    // Adicionando de volta as propriedades que você usa, mas que foram omitidas
+    // ou que precisam de um tipo diferente no formulário (como dataHoraPartida)
+    dataHoraPartida: string; // O input datetime-local lida com strings
+    valorPorPassageiro: number; // Precisamos dela como número para cálculos
+  };
+
 
   const [formData, setFormData] = useState<CaronaForm>({
-    dataViagem: "",
+    dataHoraPartida: "",
     origem: "",
     destino: "",
-    distancia: 0,
+    distanciaKm: 0,
     velocidade: 0,
     vagas: 0,
+    valorPorPassageiro: 0,
   });
+
   useEffect(() => {
     if (token === "") {
       ToastAlerta(
@@ -40,12 +48,33 @@ function FormCaronas() {
     }
   }, [token, navigate]);
 
+
+
+  const formatCurrency = (value: number | undefined | null): string => {
+    if (value === undefined || value === null) {
+      return ""; 
+    }
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  };
+
+
+  
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
 
-    if (["distancia", "velocidade", "vagas"].includes(name)) {
+    if (name === "valorPorPassageiro") {
+      const cleanedValue = value.replace(/[^0-9,-]/g, '').replace(',', '.');
+      const numericValue = parseFloat(cleanedValue);
+      setFormData({ ...formData, [name]: isNaN(numericValue) ? 0 : numericValue });
+    } else if (["distanciaKm", "velocidade", "vagas"].includes(name)) { 
       setFormData({ ...formData, [name]: parseInt(value, 10) || 0 });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -58,18 +87,25 @@ function FormCaronas() {
     setLoading(true);
 
     if (
-      !formData.dataViagem ||
+      !formData.dataHoraPartida ||
       !formData.origem ||
       !formData.destino ||
-      formData.vagas <= 0
+      formData.vagas <= 0 ||
+      formData.distanciaKm <= 0 || 
+      formData.velocidade <= 0 || 
+      formData.valorPorPassageiro <= 0 
     ) {
+      ToastAlerta("Por favor, preencha todos os campos obrigatórios corretamente!", "info");
       setLoading(false);
       return;
     }
 
+    const dataHoraParaBackend = formData.dataHoraPartida + ':00';
+
     try {
       const caronaParaCadastrar = {
         ...formData,
+        dataHoraPartida: dataHoraParaBackend,
         motorista: {
           id: usuarioId,
         },
@@ -134,20 +170,19 @@ function FormCaronas() {
             )}
 
             <div className="flex flex-col gap-2 relative">
-              <label htmlFor="dataViagem" className="sr-only">
+              <label htmlFor="dataHoraPartida" className="sr-only">
                 Data da Viagem:
               </label>
               <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
                 <CalendarDays className="w-5 h-5 mr-3 text-white" />
                 <input
-                  type="date"
-                  id="dataViagem"
-                  name="dataViagem"
-                  placeholder="Data viagem"
-                  value={formData.dataViagem}
+                  type="datetime-local"
+                  id="dataHoraPartida"
+                  name="dataHoraPartida"
+                  value={formData.dataHoraPartida}
                   onChange={handleChange}
                   required
-                  className="flex-grow bg-transparent outline-none placeholder-white text-white text-lg"
+                  className="flex-grow bg-transparent outline-none text-lg"
                 />
               </div>
             </div>
@@ -200,9 +235,9 @@ function FormCaronas() {
                 <input
                   type="number"
                   id="distancia"
-                  name="distancia"
+                  name="distanciaKm"
                   placeholder="Distancia"
-                  value={formData.distancia === 0 ? "" : formData.distancia}
+                  value={formData.distanciaKm || ""}
                   onChange={handleChange}
                   required
                   min={1}
@@ -210,7 +245,6 @@ function FormCaronas() {
                 />
               </div>
             </div>
-            <div> </div>
             <div className="flex flex-col gap-2 relative">
               <label htmlFor="velocidade" className="sr-only">
                 Velocidade Média (km/h):
@@ -250,6 +284,31 @@ function FormCaronas() {
                 />
               </div>
             </div>
+            <div className="flex flex-col gap-2 relative">
+              <label htmlFor="valorPorPassageiro" className="sr-only">
+                Valor por Passageiro:
+              </label>
+              <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
+                <MoneyIcon className="w-5 h-5 mr-3 text-white" />
+                <input
+                  type="text" 
+                  id="valorPorPassageiro"
+                  name="valorPorPassageiro"
+                  value={formatCurrency(formData.valorPorPassageiro)}
+                  onChange={handleChange}
+                  onBlur={(e) => {
+                      const numericValue = parseFloat(e.target.value.replace(/[^0-9,-]/g, '').replace(',', '.'));
+                      setFormData(prevFormData => ({
+                          ...prevFormData,
+                          valorPorPassageiro: isNaN(numericValue) ? 0 : numericValue
+                      }));
+                  }}
+                  required
+                  className="flex-grow bg-transparent outline-none text-lg placeholder-white" 
+                />
+              </div>
+            </div>
+            
 
             <button
               type="submit"
@@ -266,3 +325,4 @@ function FormCaronas() {
 }
 
 export default FormCaronas;
+

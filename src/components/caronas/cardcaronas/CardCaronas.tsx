@@ -1,17 +1,20 @@
-import { User } from "lucide-react";
+import { Armchair, Calendar1, User } from "lucide-react";
 import type Carona from "../../../models/Carona";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { formatFullDateTime } from "../../../utils/DateUtils";
+import { MoneyIcon, StrategyIcon } from "@phosphor-icons/react";
 
 interface CardCaronasProps {
   carona: Carona;
 }
 
 function CardCaronas({ carona }: CardCaronasProps) {
-  const dataViagem = useMemo(
-    () => new Date(`${carona?.dataViagem}T00:00:00`),
-    [carona?.dataViagem]
-  );
+  
+  const formattedDateTimePartida = useMemo(() => {
+      return formatFullDateTime(carona?.dataHoraPartida);
+    }, [carona?.dataHoraPartida, formatFullDateTime]);
+
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer">
@@ -30,16 +33,22 @@ function CardCaronas({ carona }: CardCaronasProps) {
         </p>
       </div>
       <div className="mb-2 text-sm text-gray-600">
-        <p>
-          <strong>Data:</strong>{" "}
-          {dataViagem.toLocaleDateString("pt-BR", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })}
+        <p className="flex items-center space-x-2">
+          <Calendar1 className="w-5 h-5 text-blue-600" />
+          <strong>Data:</strong>{" "}&nbsp;
+          {formattedDateTimePartida}
         </p>
-        <p>
-          <strong>Vagas disponíveis:</strong> {carona.vagas}
+        <p className="flex items-center space-x-2">
+           <MoneyIcon className="w-5 h-5 text-blue-600" />
+          <strong>Valor: </strong>&nbsp; R$ {carona.valorPorPassageiro}
+        </p>
+        <p className="flex items-center space-x-2">
+          <Armchair className="w-5 h-5 text-blue-600" />
+          <strong>Vagas disponíveis:</strong>&nbsp; {carona.vagas}
+        </p>
+        <p className="flex items-center space-x-2">
+            <StrategyIcon className="w-5 h-5 text-blue-600" />
+            <strong>Status da carona: </strong>&nbsp; {carona.statusCarona}
         </p>
       </div>
       <Link
