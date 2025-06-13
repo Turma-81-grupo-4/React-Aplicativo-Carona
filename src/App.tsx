@@ -29,7 +29,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/passagens" element={<ListPassagens />} />
-              <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="/sobre" element={<Sobre />} />
               <Route path="/perfil" element={<PaginaPerfil />} />
               <Route path="/caronas">
