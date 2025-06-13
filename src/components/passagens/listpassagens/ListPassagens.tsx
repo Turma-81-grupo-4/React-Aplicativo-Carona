@@ -47,8 +47,8 @@ function ListPassagens() {
       const todasAsPassagens: Passagem[] = resposta.data;
 
       todasAsPassagens.forEach((passagem) => {
-        if (passagem.carona && passagem.carona.dataViagem) {
-          const dataViagem = new Date(`${passagem.carona.dataViagem}T00:00:00`);
+        if (passagem.carona && passagem.carona.dataHoraPartida) {
+          const dataViagem = new Date(passagem.carona.dataHoraPartida);
 
           if (dataViagem >= hoje) {
             futuras.push(passagem);
@@ -58,25 +58,17 @@ function ListPassagens() {
         }
       });
 
-      futuras.sort((a, b) => {
-        const aDataViagem = new Date(
-          `${a.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        const bDataViagem = new Date(
-          `${b.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        return aDataViagem - bDataViagem;
-      });
+      futuras.sort(
+        (a, b) =>
+          new Date(a.carona?.dataHoraPartida ?? "").getTime() -
+          new Date(b.carona?.dataHoraPartida ?? "").getTime()
+      );
 
-      passadas.sort((a, b) => {
-        const aDataViagem = new Date(
-          `${a.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        const bDataViagem = new Date(
-          `${b.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        return bDataViagem - aDataViagem;
-      });
+      passadas.sort(
+        (a, b) =>
+          new Date(b.carona?.dataHoraPartida ?? "").getTime() -
+          new Date(a.carona?.dataHoraPartida ?? "").getTime()
+      );
 
       setPassagensFuturas(futuras);
       setPassagensPassadas(passadas);
