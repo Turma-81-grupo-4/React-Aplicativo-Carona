@@ -25,23 +25,23 @@ function DetalhesCarona() {
   const [mostrarFormAtualizacao, setMostrarFormAtualizacao] = useState(false);
 
   const isMotorista = useMemo(() => {
-    return usuario.id === carona?.motorista?.id;
+    return Number(usuario.id) === Number(carona?.motorista?.id);
   }, [usuario.id, carona?.motorista?.id]);
 
   /*  const isPassageiro = useMemo(() => {
-         if (!carona?.passagemVendidaNessaCarona || !usuario?.id) {
+         if (!carona?.passagensVendidas || !usuario?.id) {
              return false;
          }
-         return carona.passagemVendidaNessaCarona.some(
+         return carona.passagensVendidas.some(
              (passagem) => passagem.passageiro?.id === usuario.id
          );
-     }, [usuario.id, carona?.passagemVendidaNessaCarona]); */
+     }, [usuario.id, carona?.passagensVendidas]); */
 
   const formattedDate = useMemo(() => {
-    if (!carona?.dataViagem) return "";
-    const date = new Date(carona.dataViagem);
+    if (!carona?.dataHoraPartida) return "";
+    const date = new Date(carona.dataHoraPartida);
     return date.toLocaleDateString("pt-BR");
-  }, [carona?.dataViagem]);
+  }, [carona?.dataHoraPartida]);
 
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
@@ -60,7 +60,6 @@ function DetalhesCarona() {
     setError(null);
     try {
       const dadosCarona = await buscar(`/caronas/${id}`);
-      console.log("Dados recebidos da API:", dadosCarona);
       setCarona(dadosCarona);
     } catch (error: any) {
       const axiosError = error as AxiosError;
@@ -75,7 +74,7 @@ function DetalhesCarona() {
     } finally {
       setLoading(false);
     }
-  }, [id, handleLogout]);
+  }, [id, usuario.id, handleLogout]);
 
   useEffect(() => {
     if (token === "") {
@@ -207,7 +206,7 @@ function DetalhesCarona() {
               </p>
               <p className="flex items-center space-x-2">
                 <Car className="w-5 h-5 text-blue-600" />
-                <strong>Distância:</strong>&nbsp; {carona.distancia} km
+                <strong>Distância:</strong>&nbsp; {carona.distanciaKm} km
               </p>
               <p className="flex items-center space-x-2">
                 <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
@@ -234,9 +233,7 @@ function DetalhesCarona() {
                   🎟️
                 </span>
                 <strong>Passagens Vendidas:</strong>&nbsp;
-                {carona.passagemVendidaNessaCarona
-                  ? carona.passagemVendidaNessaCarona.length
-                  : 0}
+                {carona.passagensVendidas ? carona.passagensVendidas.length : 0}
               </p>
             </div>
           </section>
@@ -244,15 +241,11 @@ function DetalhesCarona() {
           <section id="tickets_sold">
             <h2 className="text-3xl font-bold text-blue-900 mb-5 text-center">
               Passagens Vendidas (
-              {carona.passagemVendidaNessaCarona
-                ? carona.passagemVendidaNessaCarona.length
-                : 0}
-              )
+              {carona.passagensVendidas ? carona.passagensVendidas.length : 0})
             </h2>
-            {carona.passagemVendidaNessaCarona &&
-            carona.passagemVendidaNessaCarona.length > 0 ? (
+            {carona.passagensVendidas && carona.passagensVendidas.length > 0 ? (
               <ul className="space-y-4">
-                {carona.passagemVendidaNessaCarona.map((passagem) => (
+                {carona.passagensVendidas.map((passagem) => (
                   <li
                     key={passagem.id}
                     className="bg-gray-100 rounded-md p-4 shadow-sm border border-gray-200"
