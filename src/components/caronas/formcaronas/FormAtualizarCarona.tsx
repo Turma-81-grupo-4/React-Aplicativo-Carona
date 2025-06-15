@@ -58,7 +58,13 @@ function FormAtualizarCarona({
           : value,
     }));
   };
-  const hoje = new Date();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
   const dataSelecionada = new Date(`${formData.dataHoraPartida}T00:00:00`);
 
@@ -69,11 +75,6 @@ function FormAtualizarCarona({
     setLoading(false);
     return;
   }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
 
     if (
       !formData.dataHoraPartida ||
@@ -101,7 +102,6 @@ function FormAtualizarCarona({
         velocidade: formData.velocidade,
         vagas: formData.vagas,
         valorPorPassageiro: formData.valorPorPassageiro,
-        statusCarona: formData.statusCarona || "AGENDADA", 
       };
 
       await atualizar(`/caronas/${formData.id}`, payload);

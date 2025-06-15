@@ -302,8 +302,9 @@ function DetalhesCarona() {
             {isMotorista ? (
               <div className="mt-8 text-center flex flex-col sm:flex-row justify-center gap-4 p-4 m-10">
                 <button
+                disabled={carona.statusCarona !== "AGENDADA"}
                   onClick={alternarFormularioAtualizacao}
-                  className="cursor-pointer py-3 px-8 bg-blue-900 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="cursor-pointer py-3 px-8 bg-blue-900 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {mostrarFormAtualizacao ? "Cancelar Edição" : "Editar Carona"}
                 </button>
@@ -311,15 +312,16 @@ function DetalhesCarona() {
               </div>
             ) : (
               <div className="mt-8 text-center flex justify-center p-4 m-10">
-                <button
-                  className="text-white py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
-                  disabled={carona.vagas <= 0}
+                  <button
+                  className="text-white py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  disabled={carona.vagas <= 0 || carona.statusCarona !== "AGENDADA"}
                   onClick={comprarPassagem}
                 >
                   {carona.vagas <= 0 ? "Vagas Esgotadas" : "Comprar Passagem"}
                 </button>
-              </div>
-            )}
+                  </div>
+                )}
+                
             <Link
               to="/caronas"
               className=" cursor-pointer col-span-full mt-6 py-3 px-8 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
