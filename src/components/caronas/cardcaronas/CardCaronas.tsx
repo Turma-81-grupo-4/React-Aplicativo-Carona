@@ -17,7 +17,8 @@ function CardCaronas({ carona }: CardCaronasProps) {
 
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer">
+    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer
+                w-full">
       <div className="flex items-center mb-4 space-x-3">
         <User className="w-7 h-7 text-blue-600" />
         <p className="font-semibold text-lg text-blue-900">

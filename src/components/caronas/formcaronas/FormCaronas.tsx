@@ -7,6 +7,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { CalendarDays } from "lucide-react";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import { MoneyIcon } from "@phosphor-icons/react";
+import { NumericFormat } from 'react-number-format';
 
 function FormCaronas() {
   const navigate = useNavigate();
@@ -21,10 +22,8 @@ function FormCaronas() {
     Carona,
     "id" | "tempoViagem" | "motorista" | "passagensVendidas" | "dataHoraChegada" | "statusCarona"
   > & {
-    // Adicionando de volta as propriedades que você usa, mas que foram omitidas
-    // ou que precisam de um tipo diferente no formulário (como dataHoraPartida)
-    dataHoraPartida: string; // O input datetime-local lida com strings
-    valorPorPassageiro: number; // Precisamos dela como número para cálculos
+    dataHoraPartida: string; 
+    valorPorPassageiro: number; 
   };
 
 
@@ -47,24 +46,7 @@ function FormCaronas() {
       navigate("/login");
     }
   }, [token, navigate]);
-
-
-
-  const formatCurrency = (value: number | undefined | null): string => {
-    if (value === undefined || value === null) {
-      return ""; 
-    }
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
-  };
-
-
   
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -290,22 +272,25 @@ function FormCaronas() {
               </label>
               <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
                 <MoneyIcon className="w-5 h-5 mr-3 text-white" />
-                <input
-                  type="text" 
-                  id="valorPorPassageiro"
-                  name="valorPorPassageiro"
-                  value={formatCurrency(formData.valorPorPassageiro)}
-                  onChange={handleChange}
-                  onBlur={(e) => {
-                      const numericValue = parseFloat(e.target.value.replace(/[^0-9,-]/g, '').replace(',', '.'));
-                      setFormData(prevFormData => ({
-                          ...prevFormData,
-                          valorPorPassageiro: isNaN(numericValue) ? 0 : numericValue
-                      }));
-                  }}
-                  required
-                  className="flex-grow bg-transparent outline-none text-lg placeholder-white" 
-                />
+                <NumericFormat
+                    id="valorPorPassageiro"
+                    name="valorPorPassageiro"
+                    value={formData.valorPorPassageiro || ""}
+                    placeholder="R$ 0,00"
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    decimalScale={2}
+                    fixedDecimalScale
+                    prefix="R$ "
+                    allowNegative={false}
+                    allowLeadingZeros={false}
+                    onValueChange={(values) => {
+                      const { floatValue } = values;
+                      setFormData({ ...formData, valorPorPassageiro: floatValue ?? 0 });
+                    }}
+                    className="flex-grow bg-transparent outline-none text-lg placeholder-white text-white"
+                  />
+
               </div>
             </div>
             
