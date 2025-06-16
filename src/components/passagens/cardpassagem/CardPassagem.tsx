@@ -1,8 +1,5 @@
-import { CarProfileIcon } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
 import type Passagem from "../../../models/Passagem";
-import { useContext, useMemo } from "react";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useMemo, useState } from "react";
 
 interface CardPassagemProps {
   passagem: Passagem;
@@ -23,17 +20,18 @@ function CardPassagem({
     return data;
   }, []);
 
-  const dataViagem = useMemo(
-    () => new Date(`${carona?.dataViagem}T00:00:00`),
-    [carona?.dataViagem]
-  );
+  // const dataViagem = useMemo(
+  //   () => new Date(`${carona?.dataViagem}T00:00:00`),
+  //   [carona?.dataViagem]
+  // );
 
-  const isFutureRide = dataViagem >= hoje;
+  const isFutureRide =
+    carona?.dataHoraPartida && new Date(carona.dataHoraPartida) >= hoje;
 
   const outerBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const accentBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const textColorClass = isFutureRide ? "text-blue-800" : "text-slate-600";
-
+  const [buttonText, setButtonText] = useState("Finalizada");
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
       const horas = Math.floor(carona.tempoViagem);
@@ -69,14 +67,14 @@ function CardPassagem({
           {/* Seção Origem e Destino */}
           <div className="flex items-center justify-between gap-5">
             <div className="w-2/5">
-              <p className="text- text-gray-500">Origem</p>
+              <p className="text-gray-500">Origem</p>
               <p className={`text-lg font-bold ${textColorClass} break-words`}>
                 {carona?.origem}
               </p>
             </div>
             <div className="text-xl font-bold text-blue-800">→</div>
             <div className="w-2/5">
-              <p className="text-xs text-gray-500">Destino</p>
+              <p className="text-gray-500">Destino</p>
               <p className={`text-lg font-bold ${textColorClass} break-words`}>
                 {carona?.destino}
               </p>
@@ -97,10 +95,8 @@ function CardPassagem({
             <div className="flex flex-col text-sm w-24">
               <span>Data</span>
               <span className="font-semibold mt-1">
-                {carona?.dataViagem
-                  ? new Date(
-                      `${carona.dataViagem}T00:00:00`
-                    ).toLocaleDateString()
+                {carona?.dataHoraPartida
+                  ? new Date(`${carona.dataHoraPartida}`).toLocaleDateString()
                   : "N/A"}
               </span>
             </div>
@@ -110,7 +106,9 @@ function CardPassagem({
             </div>
             <div className="flex flex-col text-sm w-24">
               <span>Distância</span>
-              <span className="font-semibold mt-1">{carona?.distancia} km</span>
+              <span className="font-semibold mt-1">
+                {carona?.distanciaKm} km
+              </span>
             </div>
             <div className="flex flex-col text-sm w-24">
               <span>Tempo</span>
@@ -144,9 +142,15 @@ function CardPassagem({
                 </button>
               ) : (
                 <div className="text-center">
-                  <p className="font-semibold text-gray-600 bg-gray-200 px-3 py-2 rounded-lg">
-                    Viagem Finalizada
-                  </p>
+                  <button
+                    className="min-w-32 cursor-pointer font-semibold text-gray-600 hover:bg-gray-300
+                   bg-gray-200 px-3 py-2 rounded-lg"
+                    onMouseEnter={() => setButtonText("Veja os detalhes")}
+                    onMouseLeave={() => setButtonText("Finalizada")}
+                    onClick={() => {}}
+                  >
+                    {buttonText}
+                  </button>
                 </div>
               ))}
           </div>

@@ -1,15 +1,25 @@
-import type Passagem from "./Passagem";
+import type PassagemInfo from "./PassagemInfo";
 import type Usuario from "./Usuario";
+
+export type StatusCarona =
+  | "AGENDADA"
+  | "EM_ANDAMENTO"
+  | "FINALIZADA"
+  | "CANCELADA";
 
 export default interface Carona {
   id: number;
-  dataViagem: string;
   origem: string;
   destino: string;
-  distancia: number;
-  vagas: number;
+  dataHoraPartida: string;
+  dataHoraChegada: string;
+  distanciaKm: number;
   velocidade: number;
+  vagas: number;
   tempoViagem: number;
+  valorPorPassageiro: number;
+  statusCarona: StatusCarona;
+
   motorista: Usuario | null;
-  passagemVendidaNessaCarona: Passagem[];
+  passagensVendidas: PassagemInfo[]; // Alinhado com o CaronaResponseDTO
 }
