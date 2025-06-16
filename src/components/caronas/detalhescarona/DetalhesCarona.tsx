@@ -2,7 +2,20 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type Carona from "../../../models/Carona";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { Clock, Car, MapPin, User, Clock1, Clock10, Calendar1, Calendar1Icon, Armchair, TicketCheckIcon, RailSymbolIcon, FlashlightIcon } from "lucide-react";
+import {
+  Clock,
+  Car,
+  MapPin,
+  User,
+  Clock1,
+  Clock10,
+  Calendar1,
+  Calendar1Icon,
+  Armchair,
+  TicketCheckIcon,
+  RailSymbolIcon,
+  FlashlightIcon,
+} from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
 import FormAtualizarCarona from "../formcaronas/FormAtualizarCarona";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
@@ -10,7 +23,13 @@ import ModalDeletarCarona from "../deletarcarona/ModalDeletarCarona";
 import { buscar, cadastrar } from "../../../services/Service";
 import type { AxiosError } from "axios";
 import { formatFullDateTime } from "../../../utils/DateUtils";
-import { ChairIcon, ChalkboardIcon, MoneyIcon, SpeedometerIcon, StrategyIcon } from "@phosphor-icons/react";
+import {
+  ChairIcon,
+  ChalkboardIcon,
+  MoneyIcon,
+  SpeedometerIcon,
+  StrategyIcon,
+} from "@phosphor-icons/react";
 
 function DetalhesCarona() {
   useEffect(() => {
@@ -39,32 +58,23 @@ function DetalhesCarona() {
          );
      }, [usuario.id, carona?.passagensVendidas]); */
 
-
-     const formattedTime = useMemo(() => {
-      if (typeof carona?.tempoViagem === "number") {
-          const horas = Math.floor(carona.tempoViagem);
-          const minutos = Math.round((carona.tempoViagem - horas) * 60);
-          if (minutos > 0) {
-              return `${horas}h ${minutos}min`;
-          }
-          return `${horas}h`;
-
-  const formattedDate = useMemo(() => {
-    if (!carona?.dataHoraPartida) return "";
-    const date = new Date(carona.dataHoraPartida);
-    return date.toLocaleDateString("pt-BR");
-  }, [carona?.dataHoraPartida]);
-
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
       const horas = Math.floor(carona.tempoViagem);
       const minutos = Math.round((carona.tempoViagem - horas) * 60);
       if (minutos > 0) {
         return `${horas}h ${minutos}min`;
-
       }
-      return carona?.tempoViagem || "N/A";
+      return `${horas}h`;
+    }
+    return "";
   }, [carona?.tempoViagem]);
+
+  const formattedDate = useMemo(() => {
+    if (!carona?.dataHoraPartida) return "";
+    const date = new Date(carona.dataHoraPartida);
+    return date.toLocaleDateString("pt-BR");
+  }, [carona?.dataHoraPartida]);
 
   const formattedDateTimePartida = useMemo(() => {
     return formatFullDateTime(carona?.dataHoraPartida);
@@ -211,7 +221,7 @@ function DetalhesCarona() {
                 <strong>Motorista:</strong>&nbsp;
                 {carona.motorista ? carona.motorista.nome : "N/A"}
               </p>
-             
+
               <p className="flex items-center space-x-2">
                 <MapPin className="w-5 h-5 text-blue-600" />
                 <strong>Origem:</strong>&nbsp; {carona.origem}
@@ -225,49 +235,46 @@ function DetalhesCarona() {
                 <strong>Distância:</strong>&nbsp; {carona.distanciaKm} km
               </p>
               <p className="flex items-center space-x-2">
-              <SpeedometerIcon className="w-5 h-5 text-blue-600" />
+                <SpeedometerIcon className="w-5 h-5 text-blue-600" />
                 <strong>Velocidade média:</strong>&nbsp; {carona.velocidade}{" "}
                 km/h
               </p>
               <p className="flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-blue-600" />
+                <Clock className="w-5 h-5 text-blue-600" />
                 <strong>Tempo de viagem:</strong>&nbsp; {formattedTime}
               </p>
               <p className="flex items-center space-x-2">
                 <Calendar1 className="w-5 h-5 text-blue-600" />
-                <strong>Data de saída: </strong>&nbsp; {formattedDateTimePartida}
+                <strong>Data de saída: </strong>&nbsp;{" "}
+                {formattedDateTimePartida}
               </p>
-              
+
               <p className="flex items-center space-x-2">
                 <Calendar1 className="w-5 h-5 text-blue-600" />
-                <strong>Data de chegada: </strong>&nbsp; {formattedDateTimeChegada}
+                <strong>Data de chegada: </strong>&nbsp;{" "}
+                {formattedDateTimeChegada}
               </p>
 
               <p className="flex items-center space-x-2">
                 <MoneyIcon className="w-5 h-5 text-blue-600" />
-                <strong>Valor por passageiro: </strong>&nbsp; R$ {carona.valorPorPassageiro}
+                <strong>Valor por passageiro: </strong>&nbsp; R${" "}
+                {carona.valorPorPassageiro}
               </p>
 
               <p className="flex items-center space-x-2">
-              <Armchair className="w-5 h-5 text-blue-600" />
+                <Armchair className="w-5 h-5 text-blue-600" />
                 <strong>Vagas disponíveis:</strong>&nbsp; {carona.vagas}
               </p>
-              
-              
+
               <p className="flex items-center space-x-2">
-
-              <TicketCheckIcon className="w-5 h-5 text-blue-600" />
+                <TicketCheckIcon className="w-5 h-5 text-blue-600" />
                 <strong>Passagens vendidas:</strong>&nbsp;
-                {carona.passagensVendidas
-                  ? carona.passagensVendidas.length
-                  : 0}
-
+                {carona.passagensVendidas ? carona.passagensVendidas.length : 0}
                 <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
                   🎟️
                 </span>
                 <strong>Passagens Vendidas:</strong>&nbsp;
                 {carona.passagensVendidas ? carona.passagensVendidas.length : 0}
-
               </p>
               <p className="flex items-center space-x-2">
                 <StrategyIcon className="w-5 h-5 text-blue-600" />
@@ -279,15 +286,9 @@ function DetalhesCarona() {
           <section id="tickets_sold">
             <h2 className="text-3xl font-bold text-blue-900 mb-5 text-center">
               Passagens Vendidas (
-
-              {carona.passagensVendidas
-                ? carona.passagensVendidas.length
-                : 0}
-              )
+              {carona.passagensVendidas ? carona.passagensVendidas.length : 0})
             </h2>
-            {carona.passagensVendidas &&
-            carona.passagensVendidas.length > 0 ? (
-
+            {carona.passagensVendidas && carona.passagensVendidas.length > 0 ? (
               <ul className="space-y-4">
                 {carona.passagensVendidas.map((passagem) => (
                   <li
@@ -326,7 +327,7 @@ function DetalhesCarona() {
             {isMotorista ? (
               <div className="mt-8 text-center flex flex-col sm:flex-row justify-center gap-4 p-4 m-10">
                 <button
-                disabled={carona.statusCarona !== "AGENDADA"}
+                  disabled={carona.statusCarona !== "AGENDADA"}
                   onClick={alternarFormularioAtualizacao}
                   className="cursor-pointer py-3 px-8 bg-blue-900 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
@@ -336,16 +337,18 @@ function DetalhesCarona() {
               </div>
             ) : (
               <div className="mt-8 text-center flex justify-center p-4 m-10">
-                  <button
+                <button
                   className="text-white py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  disabled={carona.vagas <= 0 || carona.statusCarona !== "AGENDADA"}
+                  disabled={
+                    carona.vagas <= 0 || carona.statusCarona !== "AGENDADA"
+                  }
                   onClick={comprarPassagem}
                 >
                   {carona.vagas <= 0 ? "Vagas Esgotadas" : "Comprar Passagem"}
                 </button>
-                  </div>
-                )}
-                
+              </div>
+            )}
+
             <Link
               to="/caronas"
               className=" cursor-pointer col-span-full mt-6 py-3 px-8 bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
