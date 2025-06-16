@@ -17,9 +17,9 @@ export default interface Carona {
   velocidade: number;
   vagas: number;
   tempoViagem: number;
-  valorPorPassageiro: number;
+  valorPorPassageiro: string | number; 
   statusCarona: StatusCarona;
 
   motorista: Usuario | null;
-  passagensVendidas: PassagemInfo[]; // Alinhado com o CaronaResponseDTO
+  passagensVendidas: PassagemInfo[];
 }

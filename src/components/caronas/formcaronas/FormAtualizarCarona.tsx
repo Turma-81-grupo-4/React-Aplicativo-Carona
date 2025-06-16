@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { atualizar } from "../../../services/Service";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { NumericFormat } from "react-number-format";
 
 interface FormAtualizarCaronaProps {
   caronaToUpdate: Carona;
@@ -49,7 +50,7 @@ function FormAtualizarCarona({
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "distancia" ||
+        name === "distanciaKm" ||
         name === "velocidade" ||
         name === "vagas" ||
         name === "tempoViagem"
@@ -57,9 +58,15 @@ function FormAtualizarCarona({
           : value,
     }));
   };
-  const hoje = new Date();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
-  const dataSelecionada = new Date(`${formData.dataViagem}T00:00:00`);
+  const dataSelecionada = new Date(`${formData.dataHoraPartida}T00:00:00`);
 
   if (dataSelecionada < hoje) {
     setError(
@@ -69,17 +76,12 @@ function FormAtualizarCarona({
     return;
   }
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
     if (
-      !formData.dataViagem ||
+      !formData.dataHoraPartida ||
       !formData.origem ||
       !formData.destino ||
       formData.vagas <= 0 ||
-      formData.distancia <= 0 ||
+      formData.distanciaKm <= 0 ||
       (typeof formData.velocidade === "number" && formData.velocidade <= 0) ||
       formData.origem.length < 10 ||
       formData.destino.length < 10
@@ -93,12 +95,13 @@ function FormAtualizarCarona({
 
     try {
       const payload = {
-        dataViagem: formData.dataViagem,
+        dataHoraPartida: formData.dataHoraPartida,
         origem: formData.origem,
         destino: formData.destino,
-        distancia: formData.distancia,
+        distanciaKm: formData.distanciaKm,
         velocidade: formData.velocidade,
         vagas: formData.vagas,
+        valorPorPassageiro: formData.valorPorPassageiro,
       };
 
       await atualizar(`/caronas/${formData.id}`, payload);
@@ -134,18 +137,14 @@ function FormAtualizarCarona({
             Data da Viagem
           </label>
           <input
-            type="date"
-            id="dataViagem"
-            name="dataViagem"
-            value={
-              formData.dataViagem
-                ? new Date(formData.dataViagem).toISOString().split("T")[0]
-                : ""
-            }
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
-            required
-          />
+                  type="datetime-local"
+                  id="dataHoraPartida"
+                  name="dataHoraPartida"
+                  value={formData.dataHoraPartida}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
+                />
         </div>
         <div>
           <label
@@ -192,9 +191,9 @@ function FormAtualizarCarona({
           </label>
           <input
             type="number"
-            id="distancia"
-            name="distancia"
-            value={formData.distancia || 0}
+            id="distanciaKm"
+            name="distanciaKm"
+            value={formData.distanciaKm || 0}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
             min={1}
@@ -239,6 +238,35 @@ function FormAtualizarCarona({
             required
           />
         </div>
+
+        <div>
+              <label
+                htmlFor="vagas"
+                className="bllock text-sm font-medium text-gray-700"
+              > 
+              Valor por Passageiro
+              </label>
+                <NumericFormat
+                    id="valorPorPassageiro"
+                    name="valorPorPassageiro"
+                    value={formData.valorPorPassageiro || ""}
+                    placeholder="R$ 0,00"
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    decimalScale={2}
+                    fixedDecimalScale
+                    prefix="R$ "
+                    allowNegative={false}
+                    allowLeadingZeros={false}
+                    onValueChange={(values) => {
+                      const { floatValue } = values;
+                      setFormData({ ...formData, valorPorPassageiro: floatValue ?? 0 });
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
+                    min={1}
+                  />
+
+              </div>
 
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 

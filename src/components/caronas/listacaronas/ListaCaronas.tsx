@@ -14,7 +14,6 @@ function ListaCaronas() {
     window.scrollTo(0, 0);
   }, []);
   const navigate = useNavigate();
-  const [caronas, setCaronas] = useState<Carona[]>([]);
   const [caronasFuturas, setCaronasFuturas] = useState<Carona[]>([]);
   const [caronasPassadas, setCaronasPassadas] = useState<Carona[]>([]);
   const { usuario } = useContext(AuthContext);
@@ -112,8 +111,8 @@ function ListaCaronas() {
   }
 
   return (
-    <div className="py-22 min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="min-h-screen bg-gray-50 py-16 flex justify-center items-start">
+      <div className="container mx-auto px-4 max-w-6xl my-4 p-8 bg-white/5 border border-white/10 rounded-2xl shadow-2xl">
         <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
           Caronas Disponíveis
         </h2>
@@ -123,14 +122,13 @@ function ListaCaronas() {
             Nenhuma carona disponível no momento. Que tal oferecer uma?
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             {caronasFuturas.map((carona) => (
               <CardCaronas key={carona.id} carona={carona} />
             ))}
           </div>
         )}
-      </div>
-      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container mx-auto px-4 max-w-6xl m-10">
         <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
           Caronas Passadas
         </h2>
@@ -140,13 +138,15 @@ function ListaCaronas() {
             Nenhuma carona passada.
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             {caronasPassadas.map((carona) => (
               <CardCaronas key={carona.id} carona={carona} />
             ))}
           </div>
         )}
       </div>
+      </div>
+      
     </div>
   );
 }
