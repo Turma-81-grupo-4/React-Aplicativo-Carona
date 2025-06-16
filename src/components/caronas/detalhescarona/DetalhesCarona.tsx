@@ -44,19 +44,10 @@ function DetalhesCarona() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mostrarFormAtualizacao, setMostrarFormAtualizacao] = useState(false);
-
+  const [isPassageiro, setIsPassageiro] = useState(true);
   const isMotorista = useMemo(() => {
     return Number(usuario.id) === Number(carona?.motorista?.id);
   }, [usuario.id, carona?.motorista?.id]);
-
-  /*  const isPassageiro = useMemo(() => {
-         if (!carona?.passagensVendidas || !usuario?.id) {
-             return false;
-         }
-         return carona.passagensVendidas.some(
-             (passagem) => passagem.passageiro?.id === usuario.id
-         );
-     }, [usuario.id, carona?.passagensVendidas]); */
 
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
@@ -172,6 +163,12 @@ function DetalhesCarona() {
         "error"
       );
       navigate("/login");
+      return;
+    }
+    if (usuario.tipo !== "passageiro") {
+      setIsPassageiro(false);
+      ToastAlerta("Apenas passageiros podem reservar caronas!", "info");
+      navigate("/perfil");
       return;
     }
 

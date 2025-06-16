@@ -7,25 +7,30 @@ import { RotatingLines } from "react-loader-spinner";
 import { CalendarDays } from "lucide-react";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import { MoneyIcon } from "@phosphor-icons/react";
-import { NumericFormat } from 'react-number-format';
+import { NumericFormat } from "react-number-format";
 
 function FormCaronas() {
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
   const usuarioId = usuario.id;
+  const [isMotorista, setIsMotorista] = useState(true);
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   type CaronaForm = Omit<
     Carona,
-    "id" | "tempoViagem" | "motorista" | "passagensVendidas" | "dataHoraChegada" | "statusCarona"
+    | "id"
+    | "tempoViagem"
+    | "motorista"
+    | "passagensVendidas"
+    | "dataHoraChegada"
+    | "statusCarona"
   > & {
-    dataHoraPartida: string; 
-    valorPorPassageiro: number; 
+    dataHoraPartida: string;
+    valorPorPassageiro: number;
   };
-
 
   const [formData, setFormData] = useState<CaronaForm>({
     dataHoraPartida: "",
@@ -45,7 +50,12 @@ function FormCaronas() {
       );
       navigate("/login");
     }
-  }, [token, navigate]);
+    if (usuario.tipo !== "motorista") {
+      setIsMotorista(false);
+      ToastAlerta("Apenas motoristas podem cadastrar caronas!", "info");
+      navigate("/caronas");
+    }
+  }, [usuario, navigate]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -53,10 +63,13 @@ function FormCaronas() {
     const { name, value } = e.target;
 
     if (name === "valorPorPassageiro") {
-      const cleanedValue = value.replace(/[^0-9,-]/g, '').replace(',', '.');
+      const cleanedValue = value.replace(/[^0-9,-]/g, "").replace(",", ".");
       const numericValue = parseFloat(cleanedValue);
-      setFormData({ ...formData, [name]: isNaN(numericValue) ? 0 : numericValue });
-    } else if (["distanciaKm", "velocidade", "vagas"].includes(name)) { 
+      setFormData({
+        ...formData,
+        [name]: isNaN(numericValue) ? 0 : numericValue,
+      });
+    } else if (["distanciaKm", "velocidade", "vagas"].includes(name)) {
       setFormData({ ...formData, [name]: parseInt(value, 10) || 0 });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -73,16 +86,19 @@ function FormCaronas() {
       !formData.origem ||
       !formData.destino ||
       formData.vagas <= 0 ||
-      formData.distanciaKm <= 0 || 
-      formData.velocidade <= 0 || 
-      formData.valorPorPassageiro <= 0 
+      formData.distanciaKm <= 0 ||
+      formData.velocidade <= 0 ||
+      formData.valorPorPassageiro <= 0
     ) {
-      ToastAlerta("Por favor, preencha todos os campos obrigatórios corretamente!", "info");
+      ToastAlerta(
+        "Por favor, preencha todos os campos obrigatórios corretamente!",
+        "info"
+      );
       setLoading(false);
       return;
     }
 
-    const dataHoraParaBackend = formData.dataHoraPartida + ':00';
+    const dataHoraParaBackend = formData.dataHoraPartida + ":00";
 
     try {
       const caronaParaCadastrar = {
@@ -273,27 +289,28 @@ function FormCaronas() {
               <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
                 <MoneyIcon className="w-5 h-5 mr-3 text-white" />
                 <NumericFormat
-                    id="valorPorPassageiro"
-                    name="valorPorPassageiro"
-                    value={formData.valorPorPassageiro || ""}
-                    placeholder="R$ 0,00"
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    decimalScale={2}
-                    fixedDecimalScale
-                    prefix="R$ "
-                    allowNegative={false}
-                    allowLeadingZeros={false}
-                    onValueChange={(values) => {
-                      const { floatValue } = values;
-                      setFormData({ ...formData, valorPorPassageiro: floatValue ?? 0 });
-                    }}
-                    className="flex-grow bg-transparent outline-none text-lg placeholder-white text-white"
-                  />
-
+                  id="valorPorPassageiro"
+                  name="valorPorPassageiro"
+                  value={formData.valorPorPassageiro || ""}
+                  placeholder="R$ 0,00"
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  decimalScale={2}
+                  fixedDecimalScale
+                  prefix="R$ "
+                  allowNegative={false}
+                  allowLeadingZeros={false}
+                  onValueChange={(values) => {
+                    const { floatValue } = values;
+                    setFormData({
+                      ...formData,
+                      valorPorPassageiro: floatValue ?? 0,
+                    });
+                  }}
+                  className="flex-grow bg-transparent outline-none text-lg placeholder-white text-white"
+                />
               </div>
             </div>
-            
 
             <button
               type="submit"
@@ -310,4 +327,3 @@ function FormCaronas() {
 }
 
 export default FormCaronas;
-
