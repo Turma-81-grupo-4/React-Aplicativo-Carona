@@ -20,12 +20,13 @@ function CardPassagem({
     return data;
   }, []);
 
-  const dataViagem = useMemo(
-    () => new Date(`${carona?.dataViagem}T00:00:00`),
-    [carona?.dataViagem]
-  );
+  // const dataViagem = useMemo(
+  //   () => new Date(`${carona?.dataViagem}T00:00:00`),
+  //   [carona?.dataViagem]
+  // );
 
-  const isFutureRide = dataViagem >= hoje;
+  const isFutureRide =
+    carona?.dataHoraPartida && new Date(carona.dataHoraPartida) >= hoje;
 
   const outerBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
   const accentBgClass = isFutureRide ? "bg-blue-900" : "bg-slate-700";
@@ -94,10 +95,8 @@ function CardPassagem({
             <div className="flex flex-col text-sm w-24">
               <span>Data</span>
               <span className="font-semibold mt-1">
-                {carona?.dataViagem
-                  ? new Date(
-                      `${carona.dataViagem}T00:00:00`
-                    ).toLocaleDateString()
+                {carona?.dataHoraPartida
+                  ? new Date(`${carona.dataHoraPartida}`).toLocaleDateString()
                   : "N/A"}
               </span>
             </div>
@@ -107,7 +106,9 @@ function CardPassagem({
             </div>
             <div className="flex flex-col text-sm w-24">
               <span>Distância</span>
-              <span className="font-semibold mt-1">{carona?.distancia} km</span>
+              <span className="font-semibold mt-1">
+                {carona?.distanciaKm} km
+              </span>
             </div>
             <div className="flex flex-col text-sm w-24">
               <span>Tempo</span>
