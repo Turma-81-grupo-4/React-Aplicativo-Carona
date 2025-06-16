@@ -270,11 +270,6 @@ function DetalhesCarona() {
                 <TicketCheckIcon className="w-5 h-5 text-blue-600" />
                 <strong>Passagens vendidas:</strong>&nbsp;
                 {carona.passagensVendidas ? carona.passagensVendidas.length : 0}
-                <span className="w-5 h-5 flex items-center justify-center text-blue-600 font-bold">
-                  🎟️
-                </span>
-                <strong>Passagens Vendidas:</strong>&nbsp;
-                {carona.passagensVendidas ? carona.passagensVendidas.length : 0}
               </p>
               <p className="flex items-center space-x-2">
                 <StrategyIcon className="w-5 h-5 text-blue-600" />
