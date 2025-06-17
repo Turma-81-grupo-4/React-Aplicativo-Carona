@@ -129,7 +129,7 @@ function ListaCaronas() {
           </div>
         )}
         <div className="container mx-auto px-4 max-w-6xl m-10">
-        <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
+        <h2 className="text-4xl font-bold text-gray-700 mb-8  text-center">
           Caronas Passadas
         </h2>
 
