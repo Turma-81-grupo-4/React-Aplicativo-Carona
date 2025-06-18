@@ -51,7 +51,7 @@ const AjudaSuporte = () => {
         {
             categoria: 'conta',
             pergunta: 'Quero alterar minha senha, como faço?',
-            resposta: 'Acesse "Perfil" no menu do aplicativo ou em nossa plataforma e clique no botão dourado "Alterar Senha".'
+            resposta: 'Acesse "Perfil"  na parte superior de sua tela no menu do aplicativo ou em nossa plataforma e clique no botão dourado "Alterar Senha".'
         },
         {
             categoria: 'viagens',
@@ -71,7 +71,7 @@ const AjudaSuporte = () => {
         {
             categoria: 'pagamento',
             pergunta: 'Quais formas de pagamento aceitas?',
-            resposta: 'Aceitamos cartão de crédito, débito, PIX e carteira digital do aplicativo.'
+            resposta: 'Aceitamos cartão de crédito, débito, PIX e carteira digital.'
         },
         {
             categoria: 'pagamento',
