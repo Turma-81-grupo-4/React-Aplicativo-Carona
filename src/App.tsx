@@ -17,6 +17,9 @@ import ListaCaronas from "./components/caronas/listacaronas/ListaCaronas";
 import DetalhesCarona from "./components/caronas/detalhescarona/DetalhesCarona";
 import FormCaronas from "./components/caronas/formcaronas/FormCaronas";
 import ModalDeletarPassagem from "./components/passagens/deletarpassagem/ModalDeletarPassagem";
+import FaleConosco from "./pages/faleconosco/FaleConosco";
+import AjudaSuporte from "./pages/ajudasuporte/AjudaSuporte";
+import Termos from "./pages/termos/Termos";
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
               <Route path="/caronas" element={<ListaCaronas />} />
               <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="/sobre" element={<Sobre />} />
+              <Route path="/faleconosco" element={<FaleConosco />} />
+              <Route path="/ajudasuporte" element={<AjudaSuporte />} />
+              <Route path="/termos" element={<Termos />} />
               <Route path="/perfil" element={<Perfil />} />
               <Route path="/caronas" element={<ListaCaronas />} />
               <Route path="/caronas/:id" element={<DetalhesCarona />} />
