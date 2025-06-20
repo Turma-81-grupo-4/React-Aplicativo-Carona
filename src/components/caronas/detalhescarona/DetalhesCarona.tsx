@@ -165,40 +165,58 @@ function DetalhesCarona() {
   const alternarFormularioAtualizacao = () => {
     setMostrarFormAtualizacao(!mostrarFormAtualizacao);
   };
+
+
+
   async function comprarPassagem() {
     if (!usuario.token) {
-      ToastAlerta(
-        "Você precisa estar logado para comprar uma passagem.",
-        "error"
-      );
+      ToastAlerta("Você precisa estar logado para comprar uma passagem.", "error");
       navigate("/login");
       return;
     }
-
-    const passagemParaComprar = {
-      caronaId: carona?.id,
-    };
-
+  
     try {
-      await cadastrar(`/passagens/criar`, passagemParaComprar);
-
-      ToastAlerta("Passagem comprada com sucesso!", "success");
-      navigate("/passagens");
+      const pagamento = {
+        caronaId: carona?.id,
+        nomeCliente: usuario.nome,
+        emailCliente: usuario.email,
+        valorEmCentavos: carona ? Number(carona.valorPorPassageiro) * 100 : 0,
+      };
+  
+      const response = await fetch("http://localhost:8080/passagens/pagamento/abacate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: usuario.token,
+        },
+        body: JSON.stringify(pagamento),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Erro ao gerar pagamento: ${response.status}`);
+      }
+  
+      const responseJson = await response.json();
+      const linkPagamento = responseJson.data.url;
+  
+      // Redireciona o usuário para o link de pagamento
+      window.location.href = linkPagamento;
+  
     } catch (error: any) {
       if (
         error.toString().includes("401") ||
         error.toString().includes("403")
       ) {
-        ToastAlerta(
-          "Seu token expirou, por favor, faça login novamente.",
-          "error"
-        );
+        ToastAlerta("Seu token expirou, por favor, faça login novamente.", "error");
         handleLogout();
       } else {
-        ToastAlerta("Erro ao comprar a passagem. Tente novamente.", "erro");
+        ToastAlerta("Erro ao gerar pagamento.", "error");
       }
     }
   }
+  
+  
+  
 
   return (
     <>
