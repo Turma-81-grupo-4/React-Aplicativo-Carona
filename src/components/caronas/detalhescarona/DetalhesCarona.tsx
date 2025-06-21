@@ -7,25 +7,18 @@ import {
   Car,
   MapPin,
   User,
-  Clock1,
-  Clock10,
   Calendar1,
-  Calendar1Icon,
   Armchair,
   TicketCheckIcon,
-  RailSymbolIcon,
-  FlashlightIcon,
 } from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
 import FormAtualizarCarona from "../formcaronas/FormAtualizarCarona";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import ModalDeletarCarona from "../deletarcarona/ModalDeletarCarona";
-import { buscar, cadastrar } from "../../../services/Service";
+import { buscar} from "../../../services/Service";
 import type { AxiosError } from "axios";
 import { formatFullDateTime } from "../../../utils/DateUtils";
 import {
-  ChairIcon,
-  ChalkboardIcon,
   MoneyIcon,
   SpeedometerIcon,
   StrategyIcon,
@@ -193,7 +186,7 @@ function DetalhesCarona() {
       const responseJson = await response.json();
       const linkPagamento = responseJson.data.url;
   
-      // Redireciona o usuário para o link de pagamento
+      
       window.location.href = linkPagamento;
   
     } catch (error: any) {

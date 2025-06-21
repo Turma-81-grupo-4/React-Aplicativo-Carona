@@ -31,7 +31,6 @@ function ListaCaronas() {
         {
           headers: {
             Authorization: token,
-            'ngrok-skip-browser-warning': '1'
           },
         }
       );
