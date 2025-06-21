@@ -31,21 +31,31 @@ function ListaCaronas() {
         {
           headers: {
             Authorization: token,
+            'ngrok-skip-browser-warning': '1'
           },
         }
       );
+
+     
 
       const hoje = new Date();
       hoje.setHours(0, 0, 0, 0);
       const futuras: Carona[] = [];
       const passadas: Carona[] = [];
 
-      const todasAsCaronas: Carona[] = resposta.data;
+      const todasAsCaronas = Array.isArray(resposta.data)
+        ? resposta.data
+        : resposta.data.caronas || resposta.data.data || [];
+
+      if (!Array.isArray(todasAsCaronas)) {
+        console.error("Resposta inesperada da API: não veio um array de caronas.");
+        setIsLoading(false);
+        return;
+      }
 
       todasAsCaronas.forEach((carona) => {
         if (carona && carona.dataHoraPartida) {
           const dataDaCarona = new Date(carona.dataHoraPartida);
-
           if (dataDaCarona >= hoje) {
             futuras.push(carona);
           } else {
@@ -53,6 +63,7 @@ function ListaCaronas() {
           }
         }
       });
+
 
       futuras.sort(
         (a, b) =>

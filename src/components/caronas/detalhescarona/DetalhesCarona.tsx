@@ -70,12 +70,6 @@ function DetalhesCarona() {
     return "";
   }, [carona?.tempoViagem]);
 
-  const formattedDate = useMemo(() => {
-    if (!carona?.dataHoraPartida) return "";
-    const date = new Date(carona.dataHoraPartida);
-    return date.toLocaleDateString("pt-BR");
-  }, [carona?.dataHoraPartida]);
-
   const formattedDateTimePartida = useMemo(() => {
     return formatFullDateTime(carona?.dataHoraPartida);
   }, [carona?.dataHoraPartida, formatFullDateTime]);

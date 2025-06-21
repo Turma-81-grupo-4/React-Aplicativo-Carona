@@ -44,19 +44,27 @@ function ListPassagens() {
       const futuras: Passagem[] = [];
       const passadas: Passagem[] = [];
 
-      const todasAsPassagens: Passagem[] = resposta.data;
+      const todasAsPassagens = Array.isArray(resposta.data)
+        ? resposta.data
+        : resposta.data.passagens || resposta.data.data || [];
 
-      todasAsPassagens.forEach((passagem) => {
-        if (passagem.carona && passagem.carona.dataHoraPartida) {
-          const dataViagem = new Date(passagem.carona.dataHoraPartida);
+      if (!Array.isArray(todasAsPassagens)) {
+        console.error("Resposta inesperada da API: não veio um array de passagens.");
+        setIsLoading(false);
+        return;
+}
+        todasAsPassagens.forEach((passagem) => {
+          if (passagem.carona && passagem.carona.dataHoraPartida) {
+            const dataViagem = new Date(passagem.carona.dataHoraPartida);
 
-          if (dataViagem >= hoje) {
-            futuras.push(passagem);
-          } else {
-            passadas.push(passagem);
+            if (dataViagem >= hoje) {
+              futuras.push(passagem);
+            } else {
+              passadas.push(passagem);
+            }
           }
-        }
-      });
+        });
+
 
       futuras.sort(
         (a, b) =>
