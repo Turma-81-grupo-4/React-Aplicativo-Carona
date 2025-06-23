@@ -46,8 +46,8 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4 max-w-4xl">
           <h1 className="text-5xl font-extrabold mb-4">Bem-vindo ao <span className="text-yellow-400">Carona</span></h1>
           <p className="text-xl mb-8 max-w-xl mx-auto">
-            Encontre caronas seguras e práticas para sua próxima viagem.
-            Conecte-se com motoristas e passageiros próximos.
+            Encontre caronas seguras e práticas para sua próxima viagem
+            Conecte-se com motoristas e passageiros próximos
           </p>
           <div className="flex justify-center space-x-4">
             <Link to="/caronas" className="bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-semibold px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg">

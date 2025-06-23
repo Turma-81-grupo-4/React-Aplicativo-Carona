@@ -205,11 +205,15 @@ const FaleConosco = () => {
                                         placeholder="Escreva sua mensagem aqui..."
                                     ></textarea>
                                 </div>
-
                                 <button
                                     onClick={handleSubmit}
-                                    className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                                >
+                                    disabled={
+                                        !formData.nome.trim() ||
+                                        !formData.email.trim() ||
+                                        !formData.mensagem.trim()
+                                    }
+                                    className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2
+                                     ${(!formData.nome.trim() || !formData.email.trim() || !formData.mensagem.trim()) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}>
                                     <Send className="w-5 h-5" />
                                     Enviar Mensagem
                                 </button>
