@@ -1,6 +1,7 @@
 import { HelpCircle, BookOpen, Shield, User, Car, CreditCard, MessageCircle, Phone, Search, ChevronRight, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastAlerta } from '../../utils/ToastAlerta';
 
 const AjudaSuporte = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -301,7 +302,7 @@ const AjudaSuporte = () => {
                                 <a
                                     href="tel:(11)98765-4321"
                                     className="bg-white border-2 border-blue-600 hover:bg-blue-600 hover:text-white text-blue-600 px-8 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2"
-                                >
+                                    onClick={() => ToastAlerta('Ligue agora mesmo!', 'info')}>
                                     <Phone className="w-5 h-5" />
                                     (11) 98765-4321
                                 </a>

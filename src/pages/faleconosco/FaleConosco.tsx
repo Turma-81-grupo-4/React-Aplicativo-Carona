@@ -26,7 +26,7 @@ const FaleConosco = () => {
     };
 
     const handleSubmit = () => {
-        // implementar a lógica de envio do formulário
+        // implementar a lógica de envio do formulário (caso consigamos)
         console.log('Dados do formulário:', formData);
         ToastAlerta('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'sucesso');
         setFormData({
@@ -241,7 +241,7 @@ const FaleConosco = () => {
                                 </div>
                             </div>
 
-                            {/* Placeholder para o Google Maps */}
+                            {/* Google Maps */}
                             <div className="w-full h-80 bg-gray-200 rounded-lg  flex items-center justify-center">
                                 <div className="w-full h-80 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 overflow-hidden">
                                     <iframe
@@ -314,11 +314,12 @@ const FaleConosco = () => {
                         <a
                             href="tel:(11)98765-4321"
                             className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors duration-300 shadow-lg flex items-center justify-center gap-2"
-                        >
+                            onClick={() => ToastAlerta('(11) 98765-4321 - Ligue agora mesmo!', 'info')}>
                             <Phone className="w-5 h-5" />
                             Ligar Agora
                         </a>
-                        <button className="bg-blue-900 cursor-pointer border-2 border-white hover:bg-white hover:text-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300">
+                        <button className="bg-blue-900 cursor-pointer border-2 border-white hover:bg-white hover:text-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300"
+                            onClick={() => ToastAlerta('Em breve disponível para download!', 'info')}>
                             Baixar o App
                         </button>
                     </div>
