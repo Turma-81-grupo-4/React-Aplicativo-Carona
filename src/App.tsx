@@ -1,6 +1,3 @@
-import DeletarPassagem from "./components/passagens/deletarpassagem/ModalDeletarPassagem";
-import Perfil from "./pages/perfil/Perfil";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
@@ -16,10 +13,13 @@ import Sobre from "./pages/sobre/Sobre";
 import ListaCaronas from "./components/caronas/listacaronas/ListaCaronas";
 import DetalhesCarona from "./components/caronas/detalhescarona/DetalhesCarona";
 import FormCaronas from "./components/caronas/formcaronas/FormCaronas";
+
 import ModalDeletarPassagem from "./components/passagens/deletarpassagem/ModalDeletarPassagem";
 import FaleConosco from "./pages/faleconosco/FaleConosco";
 import AjudaSuporte from "./pages/ajudasuporte/AjudaSuporte";
 import Termos from "./pages/termos/Termos";
+
+import PaginaPerfil from "./pages/perfil/PaginaPerfil";
 
 function App() {
   return (
@@ -35,8 +35,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/passagens" element={<ListPassagens />} />
-              <Route path="/caronas" element={<ListaCaronas />} />
-              <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="/sobre" element={<Sobre />} />
               <Route path="/faleconosco" element={<FaleConosco />} />
               <Route path="/ajudasuporte" element={<AjudaSuporte />} />
@@ -45,6 +43,12 @@ function App() {
               <Route path="/caronas" element={<ListaCaronas />} />
               <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="cadastrarcarona" element={<FormCaronas />} />
+              <Route path="/perfil" element={<PaginaPerfil />} />
+              <Route path="/caronas">
+                <Route index element={<ListaCaronas />} />
+                <Route path="cadastrar" element={<FormCaronas />} />
+                <Route path=":id" element={<DetalhesCarona />} />
+              </Route>
             </Routes>
           </div>
           <Footer />

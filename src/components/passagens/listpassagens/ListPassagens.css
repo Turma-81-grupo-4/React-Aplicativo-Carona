@@ -1,0 +1,6 @@
+.degrade-bg {
+  background-image: url("../../../assets/degradefundo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
