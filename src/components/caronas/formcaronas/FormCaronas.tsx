@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Carona from "../../../models/Carona";
@@ -35,16 +35,13 @@ function FormCaronas() {
   const [destinationAutocomplete, setDestinationAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null);
 
-  type CaronaForm = Omit<
-    Carona,
-    | "id"
-    | "tempoViagem"
-    | "motorista"
-    | "passagensVendidas"
-    | "dataHoraChegada"
-    | "statusCarona"
-  > & {
+  type CaronaForm = {
     dataHoraPartida: string;
+    origem: string;
+    destino: string;
+    distanciaKm: number;
+    velocidade: number;
+    vagas: number;
     valorPorPassageiro: number;
   };
 
@@ -134,7 +131,7 @@ function FormCaronas() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
+    setFormData({ ...formData, [name]: value });
     if (name === "valorPorPassageiro") {
       const cleanedValue = value.replace(/[^0-9,-]/g, "").replace(",", ".");
       const numericValue = parseFloat(cleanedValue);
@@ -170,25 +167,40 @@ function FormCaronas() {
       return;
     }
 
-    const dataHoraParaBackend = formData.dataHoraPartida + ":00";
+    const caronaParaEnviar = {
+      origem: formData.origem,
+      destino: formData.destino,
+      vagas: parseInt(String(formData.vagas), 10),
+      velocidade: parseInt(String(formData.velocidade), 10),
+      distancia_km: formData.distanciaKm,
+      valor_por_passageiro: formData.valorPorPassageiro,
+      data_hora_partida: formData.dataHoraPartida + ":00",
+      motorista: {
+        id: usuarioId,
+      },
+    };
+
+    console.log(
+      "Payload final sendo enviado para o backend:",
+      caronaParaEnviar
+    );
 
     try {
-      const caronaParaCadastrar = {
-        ...formData,
-        dataHoraPartida: dataHoraParaBackend,
-        motorista: {
-          id: usuarioId,
-        },
-      };
-
-      await cadastrar("/caronas", caronaParaCadastrar);
+      await cadastrar("/caronas", caronaParaEnviar);
       ToastAlerta("Carona cadastrada com sucesso!", "sucesso");
       navigate("/caronas");
     } catch (error: any) {
-      ToastAlerta(
-        "Erro ao cadastrar carona. Verifique os dados e tente novamente.",
-        "erro"
-      );
+      if (error.response && error.response.data) {
+        console.error("Erro de validação do backend:", error.response.data);
+
+        const mensagemErro =
+          error.response.data.errors
+            ?.map((err: any) => `${err.field}: ${err.defaultMessage}`)
+            .join("\n") || JSON.stringify(error.response.data);
+        ToastAlerta(`Erro de Validação:\n${mensagemErro}`, "erro");
+      } else {
+        ToastAlerta("Erro ao cadastrar carona. Tente novamente.", "erro");
+      }
 
       if (error.response && error.response.status === 403) {
         ToastAlerta("Sessão expirada. Faça login novamente.", "info");
