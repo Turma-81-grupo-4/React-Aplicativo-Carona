@@ -172,7 +172,7 @@ function DetalhesCarona() {
         valorEmCentavos: carona ? Number(carona.valorPorPassageiro) * 100 : 0,
       };
   
-      const response = await fetch("http://localhost:8080/passagens/pagamento/abacate", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/passagens/pagamento/abacate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
