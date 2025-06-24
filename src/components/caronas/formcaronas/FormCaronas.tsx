@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Carona from "../../../models/Carona";
@@ -7,25 +7,43 @@ import { RotatingLines } from "react-loader-spinner";
 import { CalendarDays } from "lucide-react";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import { MoneyIcon } from "@phosphor-icons/react";
-import { NumericFormat } from 'react-number-format';
+import { NumericFormat } from "react-number-format";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+import "./FormCaronas.css";
+
+const libraries: ("places" | "geometry")[] = ["places", "geometry"];
 
 function FormCaronas() {
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
   const usuarioId = usuario.id;
+  const [isMotorista, setIsMotorista] = useState(true);
 
   const [loading, setLoading] = useState(false);
+
+  const browserLanguage = navigator.language || "pt-BR";
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_Maps_API_KEY,
+    libraries,
+    language: browserLanguage,
+  });
+
   const [message, setMessage] = useState<string | null>(null);
+  const [originAutocomplete, setOriginAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
+  const [destinationAutocomplete, setDestinationAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
 
-  type CaronaForm = Omit<
-    Carona,
-    "id" | "tempoViagem" | "motorista" | "passagensVendidas" | "dataHoraChegada" | "statusCarona"
-  > & {
-    dataHoraPartida: string; 
-    valorPorPassageiro: number; 
+  type CaronaForm = {
+    dataHoraPartida: string;
+    origem: string;
+    destino: string;
+    distanciaKm: number;
+    velocidade: number;
+    vagas: number;
+    valorPorPassageiro: number;
   };
-
 
   const [formData, setFormData] = useState<CaronaForm>({
     dataHoraPartida: "",
@@ -37,26 +55,91 @@ function FormCaronas() {
     valorPorPassageiro: 0,
   });
 
+  const calculateRoute = useCallback((origin: string, destination: string) => {
+    if (!origin || !destination) return;
+    const directionsService = new google.maps.DirectionsService();
+    directionsService.route(
+      { origin, destination, travelMode: google.maps.TravelMode.DRIVING },
+      (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK && result) {
+          const route = result.routes[0].legs[0];
+          if (route.distance) {
+            const distanciaEmKm = parseFloat(
+              (route.distance.value / 1000).toFixed(2)
+            );
+            setFormData((prev) => ({ ...prev, distanciaKm: distanciaEmKm }));
+          }
+        } else {
+          ToastAlerta(
+            `Não foi possível calcular a rota. Status: ${status}`,
+            "erro"
+          );
+        }
+      }
+    );
+  }, []);
+
+  const onOriginLoad = (autocomplete: google.maps.places.Autocomplete) => {
+    setOriginAutocomplete(autocomplete);
+  };
+
+  const onDestinationLoad = (autocomplete: google.maps.places.Autocomplete) => {
+    setDestinationAutocomplete(autocomplete);
+  };
+
+  const onOriginPlaceChanged = () => {
+    if (originAutocomplete !== null) {
+      const place = originAutocomplete.getPlace();
+      if (place.formatted_address) {
+        const newOrigin = place.formatted_address;
+        setFormData((prev) => ({ ...prev, origem: newOrigin }));
+      }
+    } else {
+      console.error("Erro: Autocomplete de origem não está carregado.");
+    }
+  };
+
+  const onDestinationPlaceChanged = () => {
+    if (destinationAutocomplete !== null) {
+      const place = destinationAutocomplete.getPlace();
+      if (place.formatted_address) {
+        const newDestination = place.formatted_address;
+        setFormData((prev) => ({ ...prev, destino: newDestination }));
+      }
+    } else {
+      console.error("Erro: Autocomplete de destino não está carregado.");
+    }
+  };
+
+  useEffect(() => {
+    if (formData.origem && formData.destino) {
+      calculateRoute(formData.origem, formData.destino);
+    }
+  }, [formData.origem, formData.destino, calculateRoute]);
   useEffect(() => {
     if (token === "") {
-      ToastAlerta(
-        "Você precisa estar logado para cadastrar uma carona!",
-        "info"
-      );
+      ToastAlerta("Você precisa estar logado!", "info");
       navigate("/login");
+    } else if (usuario.tipo !== "motorista") {
+      setIsMotorista(false);
+      ToastAlerta("Apenas motoristas podem cadastrar caronas!", "info");
+      navigate("/caronas");
     }
-  }, [token, navigate]);
+  }, [usuario, navigate, token]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
+    setFormData({ ...formData, [name]: value });
     if (name === "valorPorPassageiro") {
-      const cleanedValue = value.replace(/[^0-9,-]/g, '').replace(',', '.');
+      const cleanedValue = value.replace(/[^0-9,-]/g, "").replace(",", ".");
       const numericValue = parseFloat(cleanedValue);
-      setFormData({ ...formData, [name]: isNaN(numericValue) ? 0 : numericValue });
-    } else if (["distanciaKm", "velocidade", "vagas"].includes(name)) { 
+      setFormData({
+        ...formData,
+        [name]: isNaN(numericValue) ? 0 : numericValue,
+      });
+    } else if (["distanciaKm", "velocidade", "vagas"].includes(name)) {
       setFormData({ ...formData, [name]: parseInt(value, 10) || 0 });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -67,40 +150,57 @@ function FormCaronas() {
     e.preventDefault();
     setMessage(null);
     setLoading(true);
-
     if (
       !formData.dataHoraPartida ||
       !formData.origem ||
       !formData.destino ||
       formData.vagas <= 0 ||
-      formData.distanciaKm <= 0 || 
-      formData.velocidade <= 0 || 
-      formData.valorPorPassageiro <= 0 
+      formData.distanciaKm <= 0 ||
+      formData.velocidade <= 0 ||
+      formData.valorPorPassageiro <= 0
     ) {
-      ToastAlerta("Por favor, preencha todos os campos obrigatórios corretamente!", "info");
+      ToastAlerta(
+        "Por favor, preencha todos os campos obrigatórios corretamente!",
+        "info"
+      );
       setLoading(false);
       return;
     }
 
-    const dataHoraParaBackend = formData.dataHoraPartida + ':00';
+    const caronaParaEnviar = {
+      origem: formData.origem,
+      destino: formData.destino,
+      vagas: parseInt(String(formData.vagas), 10),
+      velocidade: parseInt(String(formData.velocidade), 10),
+      distancia_km: formData.distanciaKm,
+      valor_por_passageiro: formData.valorPorPassageiro,
+      data_hora_partida: formData.dataHoraPartida + ":00",
+      motorista: {
+        id: usuarioId,
+      },
+    };
+
+    console.log(
+      "Payload final sendo enviado para o backend:",
+      caronaParaEnviar
+    );
 
     try {
-      const caronaParaCadastrar = {
-        ...formData,
-        dataHoraPartida: dataHoraParaBackend,
-        motorista: {
-          id: usuarioId,
-        },
-      };
-
-      await cadastrar("/caronas", caronaParaCadastrar);
+      await cadastrar("/caronas", caronaParaEnviar);
       ToastAlerta("Carona cadastrada com sucesso!", "sucesso");
       navigate("/caronas");
     } catch (error: any) {
-      ToastAlerta(
-        "Erro ao cadastrar carona. Verifique os dados e tente novamente.",
-        "erro"
-      );
+      if (error.response && error.response.data) {
+        console.error("Erro de validação do backend:", error.response.data);
+
+        const mensagemErro =
+          error.response.data.errors
+            ?.map((err: any) => `${err.field}: ${err.defaultMessage}`)
+            .join("\n") || JSON.stringify(error.response.data);
+        ToastAlerta(`Erro de Validação:\n${mensagemErro}`, "erro");
+      } else {
+        ToastAlerta("Erro ao cadastrar carona. Tente novamente.", "erro");
+      }
 
       if (error.response && error.response.status === 403) {
         ToastAlerta("Sessão expirada. Faça login novamente.", "info");
@@ -112,7 +212,7 @@ function FormCaronas() {
     }
   };
 
-  if (loading) {
+  if (!isLoaded || loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
         <RotatingLines
@@ -123,6 +223,15 @@ function FormCaronas() {
           visible={true}
         />
         <p className="text-gray-700 text-lg mt-4">Carregando...</p>
+      </div>
+    );
+  }
+  if (loadError) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p className="text-red-500 text-lg">
+          Erro ao carregar o Google Maps. Verifique sua chave de API e conexão.
+        </p>
       </div>
     );
   }
@@ -170,42 +279,32 @@ function FormCaronas() {
             </div>
 
             <div className="flex flex-col gap-2 relative">
-              <label htmlFor="origem" className="sr-only">
-                Origem:
-              </label>
-              <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
-                <input
-                  type="text"
-                  id="origem"
-                  name="origem"
-                  placeholder="Origem"
-                  value={formData.origem}
-                  onChange={handleChange}
-                  required
-                  minLength={10}
-                  maxLength={255}
-                  className="flex-grow bg-transparent outline-none placeholder-white text-white text-lg"
-                />
+              <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner w-full">
+                <Autocomplete
+                  onLoad={onOriginLoad}
+                  onPlaceChanged={onOriginPlaceChanged}
+                >
+                  <input
+                    type="text"
+                    placeholder="Origem"
+                    className="w-full flex-grow bg-transparent outline-none placeholder-white text-white text-lg"
+                  />
+                </Autocomplete>
               </div>
             </div>
 
             <div className="flex flex-col gap-2 relative">
-              <label htmlFor="destino" className="sr-only">
-                Destino:
-              </label>
-              <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
-                <input
-                  type="text"
-                  id="destino"
-                  name="destino"
-                  placeholder="Destino"
-                  value={formData.destino}
-                  onChange={handleChange}
-                  required
-                  minLength={10}
-                  maxLength={255}
-                  className="flex-grow bg-transparent outline-none placeholder-white text-white text-lg"
-                />
+              <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner w-full">
+                <Autocomplete
+                  onLoad={onDestinationLoad}
+                  onPlaceChanged={onDestinationPlaceChanged}
+                >
+                  <input
+                    type="text"
+                    placeholder="Destino"
+                    className="w-full flex-grow bg-transparent outline-none placeholder-white text-white text-lg"
+                  />
+                </Autocomplete>
               </div>
             </div>
 
@@ -218,15 +317,16 @@ function FormCaronas() {
                   type="number"
                   id="distancia"
                   name="distanciaKm"
-                  placeholder="Distancia"
-                  value={formData.distanciaKm || ""}
-                  onChange={handleChange}
+                  placeholder="Distância (km)"
+                  value={formData.distanciaKm > 0 ? formData.distanciaKm : ""}
+                  readOnly
+                  className="flex-grow bg-transparent outline-none placeholder-white text-white text-lg cursor-not-allowed opacity-70"
                   required
                   min={1}
-                  className="flex-grow bg-transparent outline-none placeholder-white text-white text-lg"
                 />
               </div>
             </div>
+
             <div className="flex flex-col gap-2 relative">
               <label htmlFor="velocidade" className="sr-only">
                 Velocidade Média (km/h):
@@ -273,27 +373,28 @@ function FormCaronas() {
               <div className="flex items-center bg-white/30 rounded-lg p-3 shadow-inner">
                 <MoneyIcon className="w-5 h-5 mr-3 text-white" />
                 <NumericFormat
-                    id="valorPorPassageiro"
-                    name="valorPorPassageiro"
-                    value={formData.valorPorPassageiro || ""}
-                    placeholder="R$ 0,00"
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    decimalScale={2}
-                    fixedDecimalScale
-                    prefix="R$ "
-                    allowNegative={false}
-                    allowLeadingZeros={false}
-                    onValueChange={(values) => {
-                      const { floatValue } = values;
-                      setFormData({ ...formData, valorPorPassageiro: floatValue ?? 0 });
-                    }}
-                    className="flex-grow bg-transparent outline-none text-lg placeholder-white text-white"
-                  />
-
+                  id="valorPorPassageiro"
+                  name="valorPorPassageiro"
+                  value={formData.valorPorPassageiro || ""}
+                  placeholder="R$ 0,00"
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  decimalScale={2}
+                  fixedDecimalScale
+                  prefix="R$ "
+                  allowNegative={false}
+                  allowLeadingZeros={false}
+                  onValueChange={(values) => {
+                    const { floatValue } = values;
+                    setFormData({
+                      ...formData,
+                      valorPorPassageiro: floatValue ?? 0,
+                    });
+                  }}
+                  className="flex-grow bg-transparent outline-none text-lg placeholder-white text-white"
+                />
               </div>
             </div>
-            
 
             <button
               type="submit"
@@ -310,4 +411,6 @@ function FormCaronas() {
 }
 
 export default FormCaronas;
-
+function setOriginAutocomplete(autocomplete: google.maps.places.Autocomplete) {
+  throw new Error("Function not implemented.");
+}

@@ -8,6 +8,7 @@ import axios from "axios";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import ModalDeletarPassagem from "../deletarpassagem/ModalDeletarPassagem";
 import Perfil from "../../../pages/perfil/Perfil";
+import "./ListPassagens.css";
 
 function ListPassagens() {
   useEffect(() => {
@@ -44,19 +45,27 @@ function ListPassagens() {
       const futuras: Passagem[] = [];
       const passadas: Passagem[] = [];
 
-      const todasAsPassagens: Passagem[] = resposta.data;
+      const todasAsPassagens = Array.isArray(resposta.data)
+        ? resposta.data
+        : resposta.data.passagens || resposta.data.data || [];
 
-      todasAsPassagens.forEach((passagem) => {
-        if (passagem.carona && passagem.carona.dataHoraPartida) {
-          const dataViagem = new Date(passagem.carona.dataHoraPartida);
+      if (!Array.isArray(todasAsPassagens)) {
+        console.error("Resposta inesperada da API: não veio um array de passagens.");
+        setIsLoading(false);
+        return;
+}
+        todasAsPassagens.forEach((passagem) => {
+          if (passagem.carona && passagem.carona.dataHoraPartida) {
+            const dataViagem = new Date(passagem.carona.dataHoraPartida);
 
-          if (dataViagem >= hoje) {
-            futuras.push(passagem);
-          } else {
-            passadas.push(passagem);
+            if (dataViagem >= hoje) {
+              futuras.push(passagem);
+            } else {
+              passadas.push(passagem);
+            }
           }
-        }
-      });
+        });
+
 
       futuras.sort(
         (a, b) =>
@@ -143,18 +152,18 @@ function ListPassagens() {
       )}
 
       {!isLoading && (
-        <div>
-          <div className=" flex container mx-auto px-4 max-w-7xl py-24 gap-8">
-            <div className="mb-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="lg:w-4/12 xl:w-3/12">
               <Perfil variant="resumido" />
             </div>
-            <div className="mb-16 flex flex-col w-full flex-wrap items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl">
+            <div className="lg:w-8/12 xl:w-9/12 flex flex-col gap-16 mb-16  w-full flex-wrap items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl">
               <div className="mb-16 items-center py-10">
                 <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
                   Próximas Passagens
                 </h2>
                 {passagensFuturas.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                     {passagensFuturas.map((passagem) => (
                       <CardPassagem
                         key={passagem.id}
@@ -172,17 +181,17 @@ function ListPassagens() {
 
               {/* Seção de Passagens Passadas */}
               <div>
-                <h2 className="text-4xl font-bold text-gray-700 mb-8 text-center">
+                <h2 className="text-4xl font-bold text-gray-200 mb-8 text-center">
                   Passagens Anteriores
                 </h2>
                 {passagensPassadas.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                     {passagensPassadas.map((passagem) => (
                       <CardPassagem key={passagem.id} passagem={passagem} />
                     ))}
                   </div>
                 ) : (
-                  <p className=" py-6 text-center text-xl text-gray-600">
+                  <p className=" py-6 text-center text-xl text-gray-100 mb-16">
                     Nenhuma carona anterior encontrada.
                   </p>
                 )}
