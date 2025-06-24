@@ -1,6 +1,27 @@
 .fundoCadastro {
-    background-image: url("../../assets/img/estradapaginafundo.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-image: url("../../assets/img/estradapaginafundo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+gmp-place-autocomplete {
+  width: 100%;
+  background-color: transparent;
+}
+
+gmp-place-autocomplete::part(input) {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 0;
+  color: white;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+gmp-place-autocomplete::part(input)::placeholder {
+  color: white;
+  opacity: 0.8;
 }
