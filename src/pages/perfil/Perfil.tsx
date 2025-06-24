@@ -30,6 +30,10 @@ function Perfil({ variant = "completo" }: PerfilProps) {
   };
 
   useEffect(() => {
+          window.scrollTo(0, 0);
+      }, []);
+
+  useEffect(() => {
     setFormData({ ...usuario });
   }, [usuario]);
 

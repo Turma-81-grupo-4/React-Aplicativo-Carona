@@ -13,6 +13,12 @@ import Sobre from "./pages/sobre/Sobre";
 import ListaCaronas from "./components/caronas/listacaronas/ListaCaronas";
 import DetalhesCarona from "./components/caronas/detalhescarona/DetalhesCarona";
 import FormCaronas from "./components/caronas/formcaronas/FormCaronas";
+
+import ModalDeletarPassagem from "./components/passagens/deletarpassagem/ModalDeletarPassagem";
+import FaleConosco from "./pages/faleconosco/FaleConosco";
+import AjudaSuporte from "./pages/ajudasuporte/AjudaSuporte";
+import Termos from "./pages/termos/Termos";
+
 import PaginaPerfil from "./pages/perfil/PaginaPerfil";
 
 function App() {
@@ -30,6 +36,13 @@ function App() {
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/passagens" element={<ListPassagens />} />
               <Route path="/sobre" element={<Sobre />} />
+              <Route path="/faleconosco" element={<FaleConosco />} />
+              <Route path="/ajudasuporte" element={<AjudaSuporte />} />
+              <Route path="/termos" element={<Termos />} />
+              <Route path="/perfil" element={<Perfil />} />
+              <Route path="/caronas" element={<ListaCaronas />} />
+              <Route path="/caronas/:id" element={<DetalhesCarona />} />
+              <Route path="cadastrarcarona" element={<FormCaronas />} />
               <Route path="/perfil" element={<PaginaPerfil />} />
               <Route path="/caronas">
                 <Route index element={<ListaCaronas />} />

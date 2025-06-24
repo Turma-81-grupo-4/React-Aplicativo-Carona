@@ -22,6 +22,10 @@ function ListaCaronas() {
   const [loading, setIsLoading] = useState(true);
   const [error] = useState<string | null>(null);
 
+  useEffect(() => {
+          window.scrollTo(0, 0);
+      }, []);
+
   async function buscarCaronas() {
     setIsLoading(true);
 

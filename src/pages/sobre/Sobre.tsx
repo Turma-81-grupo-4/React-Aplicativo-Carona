@@ -11,7 +11,7 @@ const Sobre = () => {
         papel: "Desenvolvedora",
         github: "https://github.com/CahTarine",
         linkedin: "https://www.linkedin.com/in/camille-tarine/",
-        img: "../src/assets/cam.jpeg",
+        img: "/cam.jpeg",
     }
 
         ,
@@ -20,7 +20,7 @@ const Sobre = () => {
         papel: "Product Owner",
         github: "https://github.com/Henrykeeh",
         linkedin: "https://www.linkedin.com/in/carlos-henrique-da-silva-barbosa-no-linked-in/",
-        img: "../src/assets/car.jpeg",
+        img: "/car.jpeg",
     }
 
         ,
@@ -29,7 +29,7 @@ const Sobre = () => {
         papel: "Desenvolvedor",
         github: "https://github.com/scottineo",
         linkedin: "https://www.linkedin.com/in/luiz-henrique-machado/",
-        img: "../src/assets/Hen.jpeg",
+        img: "/hen.jpeg",
     }
 
         ,
@@ -38,7 +38,7 @@ const Sobre = () => {
         papel: "Desenvolvedor",
         github: "https://github.com/BeaKaylanee",
         linkedin: "https://www.linkedin.com/in/beatriz-kailane-3513b5248/",
-        img: "../src/assets/bea.jpeg",
+        img: "/bea.jpeg",
     }
 
         ,
@@ -47,7 +47,7 @@ const Sobre = () => {
         papel: "Tester",
         github: "https://github.com/meDinoo",
         linkedin: "https://www.linkedin.com/in/guilherme-dino-pereira/",
-        img: "./src/assets/gui.jpeg",
+        img: "/gui.jpeg",
     }]
     const values = [
         {
@@ -86,7 +86,7 @@ const Sobre = () => {
                     <div className="text-center">
                         <div className="flex justify-center mb-6">
                             <div className="rounded-full">
-                                <img src='./src/assets/logocarona.png' className="w-50 h-50" />
+                                <img src='/logocarona.png' className="w-50 h-50" />
                             </div>
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -250,7 +250,7 @@ const Sobre = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="flex justify-center mb-6">
                         <div className="rounded-full">
-                            <img src='./src/assets/logocarona.png' className="w-50 h-50" />
+                            <img src='/logocarona.png' className="w-50 h-50" />
                         </div>
                     </div>
                     <p className="text-lg font-semibold text-white mb-2">Carona Mobilidade</p>

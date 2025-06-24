@@ -51,8 +51,8 @@ const Home: React.FC = () => {
             Bem-vindo ao <span className="text-yellow-400">Carona</span>
           </h1>
           <p className="text-xl mb-8 max-w-xl mx-auto">
-            Encontre caronas seguras e práticas para sua próxima viagem.
-            Conecte-se com motoristas e passageiros próximos.
+            Encontre caronas seguras e práticas para sua próxima viagem
+            Conecte-se com motoristas e passageiros próximos
           </p>
           <div className="flex justify-center space-x-4">
             <Link
