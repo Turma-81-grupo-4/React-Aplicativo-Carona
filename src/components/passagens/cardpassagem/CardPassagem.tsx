@@ -16,7 +16,6 @@ function CardPassagem({
 
   const hoje = useMemo(() => {
     const data = new Date();
-    data.setHours(0, 0, 0, 0);
     return data;
   }, []);
 
