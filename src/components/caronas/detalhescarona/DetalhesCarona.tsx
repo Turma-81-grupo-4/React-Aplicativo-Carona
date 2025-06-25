@@ -42,6 +42,15 @@ function DetalhesCarona() {
     return Number(usuario.id) === Number(carona?.motorista?.id);
   }, [usuario.id, carona?.motorista?.id]);
 
+  const usuarioJaComprou = useMemo(() => {
+    if (!carona?.passagensVendidas) {
+      return false;
+    }
+    return carona.passagensVendidas.some(
+      (passagem) => passagem.passageiro?.id === usuario.id
+    );
+  }, [carona?.passagensVendidas, usuario.id]);
+
   const formattedTime = useMemo(() => {
     if (typeof carona?.tempoViagem === "number") {
       const horas = Math.floor(carona.tempoViagem);
@@ -159,12 +168,8 @@ function DetalhesCarona() {
       navigate("/perfil");
       return;
     }
-    if (
-      usuario.id ===
-      carona.passagensVendidas
-        ?.map((p) => p.passageiro?.id)
-        .find((id) => id === usuario.id)
-    ) {
+    if (usuarioJaComprou) {
+      ToastAlerta("Você já comprou uma passagem para esta carona.", "info");
       return;
     }
 
@@ -353,7 +358,7 @@ function DetalhesCarona() {
                   disabled={
                     carona.vagas <= 0 ||
                     carona.statusCarona !== "AGENDADA" ||
-                    !isPassageiro
+                    usuarioJaComprou
                   }
                   onClick={comprarPassagem}
                 >

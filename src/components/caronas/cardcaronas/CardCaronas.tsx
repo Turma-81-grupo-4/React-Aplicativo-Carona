@@ -14,15 +14,16 @@ function CardCaronas({ carona }: CardCaronasProps) {
     carona?.dataHoraPartida && new Date(carona.dataHoraPartida) >= hoje;
   const iconsColor = isFutureRide ? "text-blue-600" : "text-slate-700";
   const textColor = isFutureRide ? "text-blue-900" : "text-slate-600";
-  
-  const formattedDateTimePartida = useMemo(() => {
-      return formatFullDateTime(carona?.dataHoraPartida);
-    }, [carona?.dataHoraPartida, formatFullDateTime]);
 
+  const formattedDateTimePartida = useMemo(() => {
+    return formatFullDateTime(carona?.dataHoraPartida);
+  }, [carona?.dataHoraPartida, formatFullDateTime]);
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer
-                w-full">
+    <div
+      className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition cursor-pointer
+                w-full"
+    >
       <div className="flex items-center mb-4 space-x-3">
         <User className={`w-7 h-7 ${iconsColor}`} />
         <p className={`font-semibold text-lg ${textColor}`}>
@@ -40,20 +41,20 @@ function CardCaronas({ carona }: CardCaronasProps) {
       <div className="mb-2 text-sm text-gray-600">
         <p className="flex items-center space-x-2">
           <Calendar1 className={`w-5 h-5 ${iconsColor}`} />
-          <strong>Data:</strong>{" "}&nbsp;
+          <strong>Data:</strong> &nbsp;
           {formattedDateTimePartida}
         </p>
         <p className="flex items-center space-x-2">
-           <MoneyIcon className={`w-5 h-5 ${iconsColor}`}  />
+          <MoneyIcon className={`w-5 h-5 ${iconsColor}`} />
           <strong>Valor: </strong>&nbsp; R$ {carona.valorPorPassageiro}
         </p>
         <p className="flex items-center space-x-2">
-          <Armchair className={`w-5 h-5 ${iconsColor}`}  />
+          <Armchair className={`w-5 h-5 ${iconsColor}`} />
           <strong>Vagas disponíveis:</strong>&nbsp; {carona.vagas}
         </p>
         <p className="flex items-center space-x-2">
-            <StrategyIcon className={`w-5 h-5 ${iconsColor}`}  />
-            <strong>Status da carona: </strong>&nbsp; {carona.statusCarona}
+          <StrategyIcon className={`w-5 h-5 ${iconsColor}`} />
+          <strong>Status da carona: </strong>&nbsp; {carona.statusCarona}
         </p>
       </div>
       {isFutureRide ? (
@@ -64,15 +65,10 @@ function CardCaronas({ carona }: CardCaronasProps) {
           Ver Detalhes
         </Link>
       ) : (
-        <Link
-          to=""
-          className="mt-4 block text-center w-full bg-slate-700 text-white rounded-md py-2 font-semibold"
-        >
-          Ver Detalhes
-        </Link>
+        <button className="mt-4 block text-center w-full bg-slate-700 text-white rounded-md py-2 font-semibold">
+          Carona finalizada
+        </button>
       )}
-
-      
     </div>
   );
 }

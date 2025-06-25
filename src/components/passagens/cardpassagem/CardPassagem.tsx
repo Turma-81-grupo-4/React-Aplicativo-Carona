@@ -147,11 +147,8 @@ function CardPassagem({
                 ) : (
                   <div className="text-center">
                     <button
-                      className="min-w-32 cursor-pointer font-semibold text-gray-600 hover:bg-gray-300
+                      className="min-w-32 font-semibold text-gray-600 hover:bg-gray-300
                    bg-gray-200 px-3 py-2 rounded-lg"
-                      onMouseEnter={() => setButtonText("Veja os detalhes")}
-                      onMouseLeave={() => setButtonText("Finalizada")}
-                      onClick={() => {}}
                     >
                       {buttonText}
                     </button>
