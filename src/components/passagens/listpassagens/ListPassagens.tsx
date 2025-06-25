@@ -45,7 +45,6 @@ function ListPassagens() {
       );
 
       const hoje = new Date();
-      hoje.setHours(0, 0, 0, 0);
       const futuras: Passagem[] = [];
       const passadas: Passagem[] = [];
 
