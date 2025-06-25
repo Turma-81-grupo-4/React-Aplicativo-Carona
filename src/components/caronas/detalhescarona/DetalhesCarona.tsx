@@ -89,6 +89,15 @@ function DetalhesCarona() {
       navigate("/login");
       return;
     }
+    if (id) {
+      buscarCaronas();
+    } else {
+      setError("ID da carona não fornecido na URL.");
+      setLoading(false);
+    }
+  }, [id, token, navigate, buscarCaronas]);
+
+  useEffect(() => {
     if (
       usuario.id ===
       carona.passagensVendidas
@@ -98,14 +107,7 @@ function DetalhesCarona() {
       ToastAlerta("Você já comprou uma passagem para esta carona.", "info");
       return;
     }
-
-    if (id) {
-      buscarCaronas();
-    } else {
-      setError("ID da carona não fornecido na URL.");
-      setLoading(false);
-    }
-  }, [id, token, navigate, buscarCaronas]);
+  }, [carona, usuario.tipo]);
 
   if (loading) {
     return (
