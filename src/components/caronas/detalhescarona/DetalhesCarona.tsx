@@ -104,10 +104,9 @@ function DetalhesCarona() {
         ?.map((p) => p.passageiro?.id)
         .find((id) => id === usuario.id)
     ) {
-      ToastAlerta("Você já comprou uma passagem para esta carona.", "info");
-      return;
+      setIsPassageiro(true);
     }
-  }, [carona, usuario.tipo]);
+  }, [usuario.id, carona.passagensVendidas]);
 
   if (loading) {
     return (
@@ -355,7 +354,9 @@ function DetalhesCarona() {
                 <button
                   className="text-white py-3 px-8 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed disabled:hover:scale-100"
                   disabled={
-                    carona.vagas <= 0 || carona.statusCarona !== "AGENDADA"
+                    carona.vagas <= 0 ||
+                    carona.statusCarona !== "AGENDADA" ||
+                    !isPassageiro
                   }
                   onClick={comprarPassagem}
                 >
