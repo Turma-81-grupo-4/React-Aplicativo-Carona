@@ -1,7 +1,8 @@
-import { Users, Target, Heart, Sparkles, Leaf, Shield, Lightbulb, HandHeart, Link } from 'lucide-react';
+import { Users, Target, Heart, Sparkles, Leaf, Shield, Lightbulb, HandHeart} from 'lucide-react';
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import { ToastAlerta } from '../../utils/ToastAlerta';
+import { Link } from 'react-router-dom';
 
 const Sobre = () => {
     useEffect(() => {
