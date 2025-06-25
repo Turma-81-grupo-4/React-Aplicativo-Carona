@@ -1,6 +1,7 @@
-import { Users, Target, Heart, Sparkles, Leaf, Shield, Lightbulb, HandHeart } from 'lucide-react';
+import { Users, Target, Heart, Sparkles, Leaf, Shield, Lightbulb, HandHeart, Link } from 'lucide-react';
 import { GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react';
 import { useEffect } from 'react';
+import { ToastAlerta } from '../../utils/ToastAlerta';
 
 const Sobre = () => {
     useEffect(() => {
@@ -235,12 +236,15 @@ const Sobre = () => {
                         Juntos, podemos transformar a mobilidade urbana e construir cidades mais sustentáveis para as próximas gerações.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors duration-300 shadow-lg">
+                        <button className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors duration-300 shadow-lg"
+                            onClick={() => ToastAlerta('Em breve disponível para download!', 'info')}>
                             Baixar o App
                         </button>
-                        <button className="cursor-pointer bg-blue-900 border-2 border-white hover:bg-white hover:text-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300">
-                            Saiba Mais
-                        </button>
+                        <Link to="/">
+                            <button className="cursor-pointer bg-blue-900 border-2 border-white hover:bg-white hover:text-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300">
+                                Voltar
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </section>
