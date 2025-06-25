@@ -9,10 +9,34 @@ function Navbar() {
   const isSobrePage = window.location.pathname.includes("/sobre");
   const isLogin = window.location.pathname.includes("/login");
   const isCadastrar = window.location.pathname.includes("/cadastro");
-  const isCadastrarCarona = window.location.pathname.includes("/cadastrarcarona");
-  const navTextColor = isSobrePage || isCadastrar || isLogin || isCadastrarCarona? "text-blue-600" : "text-blue-900";
-  const linkHoverColor = isSobrePage || isCadastrar || isLogin || isCadastrarCarona? "hover:text-yellow-400" : "hover:text-yellow-400";
+  const isCadastrarCarona = window.location.pathname.includes("/cadastrar");
+  const isPerfil = window.location.pathname.includes("/perfil");
+  const isFaleConosco = window.location.pathname.includes("/faleconosco");
+  const isAjuda = window.location.pathname.includes("/ajuda");
+  const isTermos = window.location.pathname.includes("/termos");
 
+  const navTextColor =
+    isSobrePage ||
+    isCadastrar ||
+    isLogin ||
+    isCadastrarCarona ||
+    isPerfil ||
+    isFaleConosco ||
+    isAjuda ||
+    isTermos
+      ? "text-blue-400"
+      : "text-blue-900";
+  const linkHoverColor =
+    isSobrePage ||
+    isCadastrar ||
+    isLogin ||
+    isCadastrarCarona ||
+    isPerfil ||
+    isFaleConosco ||
+    isAjuda ||
+    isTermos
+      ? "hover:text-yellow-400"
+      : "hover:text-yellow-400";
 
   function logout() {
     handleLogout();
@@ -23,11 +47,13 @@ function Navbar() {
   let component: ReactNode;
 
   if (usuario.token !== "") {
-    component =
-      (<header className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/5 border border-white/10 rounded-b-2xl shadow-2xl
+    component = (
+      <header
+        className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/5 border border-white/10 rounded-b-2xl shadow-2xl
                                before:absolute before:inset-0 before:rounded-b-2xl before:bg-gradient-to-br 
                                before:from-white/10 before:to-transparent before:pointer-events-none
-                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
+                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500"
+      >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             to="/home"
@@ -61,13 +87,15 @@ function Navbar() {
           </nav>
         </div>
       </header>
-      );
+    );
   } else {
     component = (
-      <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/5 border border-white/10 rounded-b-2xl shadow-2xl
+      <header
+        className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/5 border border-white/10 rounded-b-2xl shadow-2xl
                                before:absolute before:inset-0 before:rounded-b-2xl before:bg-gradient-to-br 
                                before:from-white/10 before:to-transparent before:pointer-events-none
-                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500">
+                               hover:shadow-orange-500/10 hover:shadow-3xl transition-all duration-500"
+      >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             to="/"
@@ -75,7 +103,9 @@ function Navbar() {
           >
             Carona
           </Link>
-          <nav className={`flex gap-4 items-center ${navTextColor} font-semibold`}>
+          <nav
+            className={`flex gap-4 items-center ${navTextColor} font-semibold`}
+          >
             <Link
               to="/login"
               className="px-3 py-2 rounded-md hover:text-yellow-400 transition duration-200"

@@ -1,6 +1,4 @@
-
 import api from "./api";
-
 
 export const cadastrarUsuario = async (
   url: string,
@@ -11,7 +9,6 @@ export const cadastrarUsuario = async (
   setDados(resposta.data);
 };
 
-
 export const login = async (url: string, dados: Object) => {
   const resposta = await api.post(url, dados);
   if (resposta.data.token) {
@@ -19,7 +16,6 @@ export const login = async (url: string, dados: Object) => {
   }
   return resposta.data;
 };
-
 
 export const buscar = async (url: string) => {
   const resposta = await api.get(url);
@@ -42,4 +38,3 @@ export const atualizar = async (url: string, dados: Object) => {
 export const deletar = async (url: string) => {
   await api.delete(url);
 };
-

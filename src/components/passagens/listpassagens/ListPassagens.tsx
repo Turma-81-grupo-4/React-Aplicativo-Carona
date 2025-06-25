@@ -7,8 +7,13 @@ import { RotatingLines } from "react-loader-spinner";
 import axios from "axios";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import ModalDeletarPassagem from "../deletarpassagem/ModalDeletarPassagem";
+import Perfil from "../../../pages/perfil/Perfil";
+import "./ListPassagens.css";
 
 function ListPassagens() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,8 +28,8 @@ function ListPassagens() {
   const token = usuario.token;
 
   useEffect(() => {
-          window.scrollTo(0, 0);
-      }, []);
+    window.scrollTo(0, 0);
+  }, []);
 
   async function buscarPassagens() {
     setIsLoading(true);
@@ -44,11 +49,20 @@ function ListPassagens() {
       const futuras: Passagem[] = [];
       const passadas: Passagem[] = [];
 
-      const todasAsPassagens: Passagem[] = resposta.data;
+      const todasAsPassagens = Array.isArray(resposta.data)
+        ? resposta.data
+        : resposta.data.passagens || resposta.data.data || [];
 
+      if (!Array.isArray(todasAsPassagens)) {
+        console.error(
+          "Resposta inesperada da API: não veio um array de passagens."
+        );
+        setIsLoading(false);
+        return;
+      }
       todasAsPassagens.forEach((passagem) => {
-        if (passagem.carona && passagem.carona.dataViagem) {
-          const dataViagem = new Date(`${passagem.carona.dataViagem}T00:00:00`);
+        if (passagem.carona && passagem.carona.dataHoraPartida) {
+          const dataViagem = new Date(passagem.carona.dataHoraPartida);
 
           if (dataViagem >= hoje) {
             futuras.push(passagem);
@@ -58,25 +72,17 @@ function ListPassagens() {
         }
       });
 
-      futuras.sort((a, b) => {
-        const aDataViagem = new Date(
-          `${a.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        const bDataViagem = new Date(
-          `${b.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        return aDataViagem - bDataViagem;
-      });
+      futuras.sort(
+        (a, b) =>
+          new Date(a.carona?.dataHoraPartida ?? "").getTime() -
+          new Date(b.carona?.dataHoraPartida ?? "").getTime()
+      );
 
-      passadas.sort((a, b) => {
-        const aDataViagem = new Date(
-          `${a.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        const bDataViagem = new Date(
-          `${b.carona?.dataViagem}T00:00:00`
-        ).getTime();
-        return bDataViagem - aDataViagem;
-      });
+      passadas.sort(
+        (a, b) =>
+          new Date(b.carona?.dataHoraPartida ?? "").getTime() -
+          new Date(a.carona?.dataHoraPartida ?? "").getTime()
+      );
 
       setPassagensFuturas(futuras);
       setPassagensPassadas(passadas);
@@ -151,44 +157,51 @@ function ListPassagens() {
       )}
 
       {!isLoading && (
-        <div className="bg-gray-50 container mx-auto px-4 max-w-6xl py-24">
-          <div className="mb-16">
-            <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
-              Próximas Caronas
-            </h2>
-            {passagensFuturas.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {passagensFuturas.map((passagem) => (
-                  <CardPassagem
-                    key={passagem.id}
-                    passagem={passagem}
-                    onDeleteClick={() => handleOpenModal(passagem)}
-                  />
-                ))}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="lg:w-4/12 xl:w-3/12">
+              <Perfil variant="resumido" />
+            </div>
+            <div className="lg:w-8/12 xl:w-9/12 flex flex-col gap-16 mb-16  w-full flex-wrap items-center backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl">
+              <div className="mb-16 items-center py-10">
+                <h2 className="text-4xl font-bold text-blue-900 mb-8 text-center">
+                  Próximas Passagens
+                </h2>
+                {passagensFuturas.length > 0 ? (
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    {passagensFuturas.map((passagem) => (
+                      <CardPassagem
+                        key={passagem.id}
+                        passagem={passagem}
+                        onDeleteClick={() => handleOpenModal(passagem)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-xl text-gray-600">
+                    Você não possui nenhuma carona futura agendada.
+                  </p>
+                )}
               </div>
-            ) : (
-              <p className="text-center text-xl text-gray-600">
-                Você não possui nenhuma carona futura agendada.
-              </p>
-            )}
-          </div>
 
-          {/* Seção de Passagens Passadas */}
-          <div>
-            <h2 className="text-4xl font-bold text-gray-700 mb-8 text-center">
-              Caronas Anteriores
-            </h2>
-            {passagensPassadas.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {passagensPassadas.map((passagem) => (
-                  <CardPassagem key={passagem.id} passagem={passagem} />
-                ))}
+              {/* Seção de Passagens Passadas */}
+              <div>
+                <h2 className="text-4xl font-bold text-slate-700 mb-8 text-center">
+                  Passagens Anteriores
+                </h2>
+                {passagensPassadas.length > 0 ? (
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    {passagensPassadas.map((passagem) => (
+                      <CardPassagem key={passagem.id} passagem={passagem} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className=" py-6 text-center text-xl text-gray-100 mb-16">
+                    Nenhuma carona anterior encontrada.
+                  </p>
+                )}
               </div>
-            ) : (
-              <p className=" py-6 text-center text-xl text-gray-600">
-                Nenhuma carona anterior encontrada.
-              </p>
-            )}
+            </div>
           </div>
         </div>
       )}
