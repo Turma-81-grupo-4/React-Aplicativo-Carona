@@ -28,8 +28,8 @@ function ListPassagens() {
   const token = usuario.token;
 
   useEffect(() => {
-          window.scrollTo(0, 0);
-      }, []);
+    window.scrollTo(0, 0);
+  }, []);
 
   async function buscarPassagens() {
     setIsLoading(true);
@@ -54,22 +54,23 @@ function ListPassagens() {
         : resposta.data.passagens || resposta.data.data || [];
 
       if (!Array.isArray(todasAsPassagens)) {
-        console.error("Resposta inesperada da API: não veio um array de passagens.");
+        console.error(
+          "Resposta inesperada da API: não veio um array de passagens."
+        );
         setIsLoading(false);
         return;
-}
-        todasAsPassagens.forEach((passagem) => {
-          if (passagem.carona && passagem.carona.dataHoraPartida) {
-            const dataViagem = new Date(passagem.carona.dataHoraPartida);
+      }
+      todasAsPassagens.forEach((passagem) => {
+        if (passagem.carona && passagem.carona.dataHoraPartida) {
+          const dataViagem = new Date(passagem.carona.dataHoraPartida);
 
-            if (dataViagem >= hoje) {
-              futuras.push(passagem);
-            } else {
-              passadas.push(passagem);
-            }
+          if (dataViagem >= hoje) {
+            futuras.push(passagem);
+          } else {
+            passadas.push(passagem);
           }
-        });
-
+        }
+      });
 
       futuras.sort(
         (a, b) =>
@@ -185,7 +186,7 @@ function ListPassagens() {
 
               {/* Seção de Passagens Passadas */}
               <div>
-                <h2 className="text-4xl font-bold text-gray-200 mb-8 text-center">
+                <h2 className="text-4xl font-bold text-slate-700 mb-8 text-center">
                   Passagens Anteriores
                 </h2>
                 {passagensPassadas.length > 0 ? (

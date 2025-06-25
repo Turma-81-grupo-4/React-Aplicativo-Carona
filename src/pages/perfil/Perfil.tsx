@@ -9,6 +9,7 @@ import "./Perfil.css";
 import { PencilSimpleLineIcon } from "@phosphor-icons/react";
 import { ToastAlerta } from "../../utils/ToastAlerta";
 import ModalConfirmacao from "../../components/modalconfirmacao/ModalConfimacao";
+import ModalAlterarSenha from "../../components/modalAlterarSenha/ModalAlterarSenha";
 interface PerfilProps {
   variant: "completo" | "resumido";
 }
@@ -22,6 +23,13 @@ function Perfil({ variant = "completo" }: PerfilProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isSenhaModalOpen, setIsSenhaModalOpen] = useState(false);
+  const [senhaData, setSenhaData] = useState({
+    senhaAtual: "",
+    novaSenha: "",
+    confirmarSenha: "",
+  });
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -30,8 +38,8 @@ function Perfil({ variant = "completo" }: PerfilProps) {
   };
 
   useEffect(() => {
-          window.scrollTo(0, 0);
-      }, []);
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     setFormData({ ...usuario });
@@ -94,6 +102,43 @@ function Perfil({ variant = "completo" }: PerfilProps) {
     } finally {
       setIsLoading(false);
       handleCloseModal();
+    }
+  }
+
+  async function handleConfirmPasswordChange(passwordFormData: any) {
+    setIsLoading(true);
+
+    if (passwordFormData.novaSenha !== passwordFormData.confirmarSenha) {
+      ToastAlerta("A nova senha e a confirmação não coincidem!", "erro");
+      setIsLoading(false);
+      return;
+    }
+
+    if (passwordFormData.novaSenha.length < 8) {
+      ToastAlerta("A nova senha deve ter no mínimo 8 caracteres.", "erro");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const dadosParaEnviar = {
+        senhaAtual: passwordFormData.senhaAtual,
+        novaSenha: passwordFormData.novaSenha,
+      };
+
+      await atualizar("/usuarios/senha", dadosParaEnviar);
+
+      ToastAlerta("Senha alterada com sucesso!", "sucesso");
+      handleCloseModal();
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        ToastAlerta("A senha atual está incorreta. Tente novamente.", "erro");
+      } else {
+        ToastAlerta("Erro ao alterar a senha. Verifique o console.", "erro");
+        console.error("Erro ao alterar senha:", error);
+      }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -202,7 +247,10 @@ function Perfil({ variant = "completo" }: PerfilProps) {
                       ? "Mudar para perfil Passageiro"
                       : "Quero ser Motorista!"}
                   </button>
-                  <button className="cursor-pointer text-md w-full bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-950 transition-colors">
+                  <button
+                    onClick={() => setIsSenhaModalOpen(true)}
+                    className="cursor-pointer text-md w-full bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-950 transition-colors"
+                  >
                     Alterar senha
                   </button>
                 </div>
@@ -219,6 +267,12 @@ function Perfil({ variant = "completo" }: PerfilProps) {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleTipoChange}
+        isLoading={isLoading}
+      />
+      <ModalAlterarSenha
+        isOpen={isSenhaModalOpen}
+        onClose={() => setIsSenhaModalOpen(false)}
+        onConfirm={handleConfirmPasswordChange}
         isLoading={isLoading}
       />
     </>

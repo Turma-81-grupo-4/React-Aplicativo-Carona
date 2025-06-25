@@ -9,14 +9,32 @@ function Navbar() {
   const isSobrePage = window.location.pathname.includes("/sobre");
   const isLogin = window.location.pathname.includes("/login");
   const isCadastrar = window.location.pathname.includes("/cadastro");
-  const isCadastrarCarona =
-    window.location.pathname.includes("/cadastrarcarona");
+  const isCadastrarCarona = window.location.pathname.includes("/cadastrar");
+  const isPerfil = window.location.pathname.includes("/perfil");
+  const isFaleConosco = window.location.pathname.includes("/faleconosco");
+  const isAjuda = window.location.pathname.includes("/ajuda");
+  const isTermos = window.location.pathname.includes("/termos");
+
   const navTextColor =
-    isSobrePage || isCadastrar || isLogin || isCadastrarCarona
-      ? "text-blue-600"
+    isSobrePage ||
+    isCadastrar ||
+    isLogin ||
+    isCadastrarCarona ||
+    isPerfil ||
+    isFaleConosco ||
+    isAjuda ||
+    isTermos
+      ? "text-blue-400"
       : "text-blue-900";
   const linkHoverColor =
-    isSobrePage || isCadastrar || isLogin || isCadastrarCarona
+    isSobrePage ||
+    isCadastrar ||
+    isLogin ||
+    isCadastrarCarona ||
+    isPerfil ||
+    isFaleConosco ||
+    isAjuda ||
+    isTermos
       ? "hover:text-yellow-400"
       : "hover:text-yellow-400";
 

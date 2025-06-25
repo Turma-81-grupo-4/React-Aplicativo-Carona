@@ -39,7 +39,6 @@ function App() {
               <Route path="/faleconosco" element={<FaleConosco />} />
               <Route path="/ajudasuporte" element={<AjudaSuporte />} />
               <Route path="/termos" element={<Termos />} />
-              <Route path="/perfil" element={<Perfil />} />
               <Route path="/caronas" element={<ListaCaronas />} />
               <Route path="/caronas/:id" element={<DetalhesCarona />} />
               <Route path="cadastrarcarona" element={<FormCaronas />} />

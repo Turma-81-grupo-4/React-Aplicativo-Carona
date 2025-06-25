@@ -23,8 +23,8 @@ function ListaCaronas() {
   const [error] = useState<string | null>(null);
 
   useEffect(() => {
-          window.scrollTo(0, 0);
-      }, []);
+    window.scrollTo(0, 0);
+  }, []);
 
   async function buscarCaronas() {
     setIsLoading(true);
@@ -39,10 +39,7 @@ function ListaCaronas() {
         }
       );
 
-     
-
       const hoje = new Date();
-      hoje.setHours(0, 0, 0, 0);
       const futuras: Carona[] = [];
       const passadas: Carona[] = [];
 
@@ -51,7 +48,9 @@ function ListaCaronas() {
         : resposta.data.caronas || resposta.data.data || [];
 
       if (!Array.isArray(todasAsCaronas)) {
-        console.error("Resposta inesperada da API: não veio um array de caronas.");
+        console.error(
+          "Resposta inesperada da API: não veio um array de caronas."
+        );
         setIsLoading(false);
         return;
       }
@@ -66,7 +65,6 @@ function ListaCaronas() {
           }
         }
       });
-
 
       futuras.sort(
         (a, b) =>
@@ -143,24 +141,23 @@ function ListaCaronas() {
           </div>
         )}
         <div className="container mx-auto px-4 max-w-6xl m-10">
-        <h2 className="text-4xl font-bold text-gray-700 mb-8  text-center">
-          Caronas Passadas
-        </h2>
+          <h2 className="text-4xl font-bold text-gray-700 mb-8  text-center">
+            Caronas Passadas
+          </h2>
 
-        {caronasPassadas.length === 0 ? (
-          <p className="text-center text-gray-600 text-xl">
-            Nenhuma carona passada.
-          </p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-            {caronasPassadas.map((carona) => (
-              <CardCaronas key={carona.id} carona={carona} />
-            ))}
-          </div>
-        )}
+          {caronasPassadas.length === 0 ? (
+            <p className="text-center text-gray-600 text-xl">
+              Nenhuma carona passada.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+              {caronasPassadas.map((carona) => (
+                <CardCaronas key={carona.id} carona={carona} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-      </div>
-      
     </div>
   );
 }
