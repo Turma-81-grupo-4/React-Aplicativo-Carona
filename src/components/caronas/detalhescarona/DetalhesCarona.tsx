@@ -15,7 +15,7 @@ import { RotatingLines } from "react-loader-spinner";
 import FormAtualizarCarona from "../formcaronas/FormAtualizarCarona";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import ModalDeletarCarona from "../deletarcarona/ModalDeletarCarona";
-import { buscar} from "../../../services/Service";
+import { buscar } from "../../../services/Service";
 import type { AxiosError } from "axios";
 import { formatFullDateTime } from "../../../utils/DateUtils";
 import {
@@ -89,6 +89,15 @@ function DetalhesCarona() {
       navigate("/login");
       return;
     }
+    if (
+      usuario.id ===
+      carona.passagensVendidas
+        ?.map((p) => p.passageiro?.id)
+        .find((id) => id === usuario.id)
+    ) {
+      ToastAlerta("Você já comprou uma passagem para esta carona.", "info");
+      return;
+    }
 
     if (id) {
       buscarCaronas();
@@ -144,11 +153,12 @@ function DetalhesCarona() {
     setMostrarFormAtualizacao(!mostrarFormAtualizacao);
   };
 
-
-
   async function comprarPassagem() {
     if (!usuario.token) {
-      ToastAlerta("Você precisa estar logado para comprar uma passagem.", "error");
+      ToastAlerta(
+        "Você precisa estar logado para comprar uma passagem.",
+        "error"
+      );
       navigate("/login");
       return;
     }
@@ -171,41 +181,42 @@ function DetalhesCarona() {
         emailCliente: usuario.email,
         valorEmCentavos: carona ? Number(carona.valorPorPassageiro) * 100 : 0,
       };
-  
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/passagens/pagamento/abacate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: usuario.token,
-        },
-        body: JSON.stringify(pagamento),
-      });
-  
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/passagens/pagamento/abacate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: usuario.token,
+          },
+          body: JSON.stringify(pagamento),
+        }
+      );
+
       if (!response.ok) {
         throw new Error(`Erro ao gerar pagamento: ${response.status}`);
       }
-  
+
       const responseJson = await response.json();
       const linkPagamento = responseJson.data.url;
-  
-      
+
       window.location.href = linkPagamento;
-  
     } catch (error: any) {
       if (
         error.toString().includes("401") ||
         error.toString().includes("403")
       ) {
-        ToastAlerta("Seu token expirou, por favor, faça login novamente.", "error");
+        ToastAlerta(
+          "Seu token expirou, por favor, faça login novamente.",
+          "error"
+        );
         handleLogout();
       } else {
         ToastAlerta("Erro ao gerar pagamento.", "error");
       }
     }
   }
-  
-  
-  
 
   return (
     <>
