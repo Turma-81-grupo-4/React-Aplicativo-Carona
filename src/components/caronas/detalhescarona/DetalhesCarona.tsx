@@ -97,17 +97,6 @@ function DetalhesCarona() {
     }
   }, [id, token, navigate, buscarCaronas]);
 
-  useEffect(() => {
-    if (
-      usuario.id ===
-      carona.passagensVendidas
-        ?.map((p) => p.passageiro?.id)
-        .find((id) => id === usuario.id)
-    ) {
-      setIsPassageiro(true);
-    }
-  }, [usuario.id, carona.passagensVendidas]);
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
@@ -168,6 +157,14 @@ function DetalhesCarona() {
       setIsPassageiro(false);
       ToastAlerta("Apenas passageiros podem reservar caronas!", "info");
       navigate("/perfil");
+      return;
+    }
+    if (
+      usuario.id ===
+      carona.passagensVendidas
+        ?.map((p) => p.passageiro?.id)
+        .find((id) => id === usuario.id)
+    ) {
       return;
     }
 
